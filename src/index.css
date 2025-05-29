@@ -1,21 +1,25 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @plugin "daisyui";
+
 @plugin "daisyui/theme" {
   name: "caramellatte";
   default: false;
   prefersdark: false;
   color-scheme: "light";
-  --color-base-100: oklch(98% 0 0);
-  --color-base-200: oklch(96% 0.001 286.375);
-  --color-base-300: oklch(92% 0.004 286.32);
+  --color-base-100: oklch(98% 0.003 247.858);
+  --color-base-200: oklch(0.9632 0.0152 83.05);
+  --color-base-300: oklch(0.709 0.084 176.7 / 0.5);
   --color-base-content: oklch(21% 0.006 285.885);
   --color-primary: oklch(0.6789 0.1477 35.23);
   --color-primary-content: oklch(26% 0.079 36.259);
   --color-secondary: oklch(0.7036 0.0814 186.26);
   --color-secondary-content: oklch(27% 0.046 192.524);
-  --color-accent: oklch(0.9632 0.0152 83.05);
+  --color-accent: oklch(0.7036 0.0814 186.26);
   --color-accent-content: oklch(29% 0.136 325.661);
   --color-neutral: oklch(0.4607 0.0611 264.88);
   --color-neutral-content: oklch(98% 0 0);
@@ -27,12 +31,13 @@
   --color-warning-content: oklch(98% 0.022 95.277);
   --color-error: oklch(59% 0.249 0.584);
   --color-error-content: oklch(97% 0.014 343.198);
-  --radius-selector: 0.5rem;
+  /* --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 0.5rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
   --depth: 0;
-  --noise: 0;
+  --noise: 0; */
 }
+

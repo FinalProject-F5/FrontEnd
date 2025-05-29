@@ -1,30 +1,30 @@
+import "../../index.css";
+
 import Buttons from "../Buttons/Buttons";
-import React from "react";
 
 function Header() {
   return (
     <div className="navbar bg-secondary shadow-sm">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Travel4Real</a>
+        <a className="btn btn-ghost text-3xl text-white font-sans normal-case ml-4">
+          Travel4Real
+        </a>
       </div>
-      <div className="flex-none">
-        {/* <ul className="menu menu-horizontal px-1">
-          <li><a>Link</a></li>
-          <li><a>Register</a></li>
-        </ul> */}
-        <Buttons
-          className="border-none"
-          style={{
-            backgroundColor: "oklch(0.9632 0.0152 83.05 / 0.5)",
-            color: "var(--color-base-content)",
-          }}
-        >
-          {"Link"}
-        </Buttons>
-        <Buttons color="btn-primary">{"Register"}</Buttons>
-        {/* Menú desplegable de categorías al final */}
+      <div className="flex-none flex items-center">
+        <div className="hidden md:flex items-center gap-5 mr-5">
+          <Buttons
+            className="border-none"
+            style={{
+              backgroundColor: "oklch(0.9632 0.0152 83.05 / 0.5)",
+              color: "var(--color-base-content)",
+            }}
+          >
+            {"Login"}
+          </Buttons>
+          <Buttons color="btn-primary">{"Register"}</Buttons>
+        </div>
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="buttons" className="btn btn-square btn-ghost">
+          <div tabIndex={0} role="button" className="btn btn-square btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="inline-block h-5 w-5 stroke-current"
@@ -41,25 +41,29 @@ function Header() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow min-w-max"
           >
             <li>
-              <a>Category 1</a>
+              <a>Home</a>
             </li>
             <li>
-              <a>Category 2</a>
+              <a>Add Experience</a>
             </li>
             <li>
-              <a>Category 3</a>
+              <a>Logout</a>
             </li>
             <li>
-              <a>Category 4</a>
+              <a>Link</a>
             </li>
             <li>
-              <a>Category 5</a>
+              <a>Link</a>
             </li>
-            <li>
-              <a>Category 6</a>
+
+            <li className="md:hidden">
+              <a>Login</a>
+            </li>
+            <li className="md:hidden">
+              <a>Register</a>
             </li>
           </ul>
         </div>
