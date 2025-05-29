@@ -1,3 +1,4 @@
+
 import imageTemporal from "../../assets/imageTemporal.png";
 import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
@@ -7,6 +8,7 @@ import React from "react";
 import cardImage1 from "../../assets/imageTemporal2.png";
 import cardImage2 from "../../assets/imageTemporal.png";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
+import Maps from "../../components/Maps/Maps"; 
 
 const allCardData = [
   {
@@ -57,22 +59,8 @@ export default function HomePage() {
   return (
     <>
       <HeaderLogged />
-      <div
-        className="hero min-h-screen"
-        style={{
-          backgroundImage:
-            "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
-        }}
-      >
-        <div className="hero-overlay"></div>
-        <div className="hero-content text-neutral-content justify-start w-full">
-          <div className="max-w-md text-left">
-            <h1 className="mb-5 text-5xl font-bold">
-              Find your next Experience and get inspired by locals
-            </h1>
-          </div>
-        </div>
-      </div>
+      
+      <Maps />
 
       <div className="hero bg-base-200 py-16">
         <div className="hero-content flex-col lg:flex-row items-center">
