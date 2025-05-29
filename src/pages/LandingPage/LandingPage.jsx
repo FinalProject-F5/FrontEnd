@@ -2,7 +2,7 @@ import Header from "../../components/header/header";
 import imageTemporal from "../../assets/imageTemporal.png";
 import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
-import React from "react"; 
+import React from "react";
 
 export default function LandingPage() {
   return (
@@ -16,18 +16,15 @@ export default function LandingPage() {
         }}
       >
         <div className="hero-overlay"></div>
-        <div className="hero-content text-neutral-content text-center">
+        <div className="hero-content text-neutral-content justify-start w-full ">
           <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">Welcome to LandingPage</h1>
-            <p className="mb-5">
-              Find your next Experience and get inspired by locals
-            </p>
-            <button className="btn btn-primary">Get Started</button>
+            <h1 className="mb-5 text-5xl font-bold">Find your next Experience and get inspired by locals</h1>
+           
           </div>
         </div>
       </div>
 
-      <div className="hero bg-base-200 min-h-screen">
+      <div className="hero bg-base-200 py-16">
         <div className="hero-content flex-col lg:flex-row items-center">
           <img
             src={imageTemporal}
@@ -35,7 +32,7 @@ export default function LandingPage() {
             alt="Viaje temporal"
           />
           <div className="lg:ml-8 flex flex-col items-start">
-            <h1 className="text-5xl font-bold">Your Journey Starts Here!</h1>
+            <h1 className="text-5xl font-bold text-secondary">Your Journey Starts Here!</h1>
             <p className="py-6">
               We are a platform dedicated to unlocking unique and authentic
               travel experiences, curated and led entirely by the people who
@@ -51,15 +48,20 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-    
+
+ 
+      <div className="text-left py-8 max-w-6xl mx-auto px-4"> 
+        <h2 className="text-5xl font-bold text-primary mb-4">Beyond the Usual</h2>
+        <p className="text-xl text-neutral">Local Inspiration Awaits, here our latest experiencies</p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4">
-        <Cards  />
-         <Cards  />
-          <Cards  />
-           <Cards  />
-            <Cards  />
-             <Cards  />
-      
+        <Cards />
+        <Cards />
+        <Cards />
+        <Cards />
+        <Cards />
+        <Cards />
       </div>
 
       <Footer />
