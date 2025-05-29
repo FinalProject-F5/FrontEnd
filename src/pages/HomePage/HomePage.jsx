@@ -59,8 +59,7 @@ export default function HomePage() {
   return (
     <>
       <HeaderLogged />
-
-      {/* Reemplazado el componente hero con tu MapComponent */}
+      
       <Maps />
 
       <div className="hero bg-base-200 py-16">
