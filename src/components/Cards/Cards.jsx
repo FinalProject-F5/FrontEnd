@@ -5,32 +5,7 @@ const cards = [
     title: "Arte",
     description: "Descubre experiencias artísticas únicas y creativas.",
     img: imageTemporal2,
-  },
-  {
-    title: "Gastronomía auténtica",
-    description: "Saborea la cocina local y recetas tradicionales.",
-    img: imageTemporal2,
-  },
-  {
-    title: "Música con alma",
-    description: "Vive la música local y conciertos íntimos.",
-    img: imageTemporal2,
-  },
-  {
-    title: "Rutas con mirada local",
-    description: "Explora caminos y rincones guiados por locales.",
-    img: imageTemporal2,
-  },
-  {
-    title: "Historias personales",
-    description: "Conoce relatos y vivencias de la comunidad.",
-    img: imageTemporal2,
-  },
-  {
-    title: "Proyectos locales con impacto",
-    description: "Participa en iniciativas que transforman el entorno.",
-    img: imageTemporal2,
-  },
+  }
 ];
 
 export default function Cards() {
