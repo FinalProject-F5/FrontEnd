@@ -1,6 +1,5 @@
 
 import Router from "./config/router/Router";
-// import LandingPage from "./pages/LandingPage/LandingPage";
 
 
 function App() {
