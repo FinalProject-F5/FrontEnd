@@ -1,6 +1,6 @@
 import React from "react";
 import imageTemporal2 from "../../assets/imageTemporal2.png";
-const categories = [
+const cards = [
   {
     title: "Arte",
     description: "Descubre experiencias artísticas únicas y creativas.",
@@ -33,10 +33,10 @@ const categories = [
   },
 ];
 
-export default function Categories() {
+export default function Cards() {
   return (
     <div className="flex flex-wrap gap-6 justify-center py-8">
-      {categories.map((cat) => (
+      {cards.map((cat) => (
         <div key={cat.title} className="card bg-base-100 w-96 shadow-sm">
           <figure>
             <img src={cat.img} alt={cat.title} />

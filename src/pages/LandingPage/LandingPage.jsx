@@ -1,11 +1,12 @@
-import React from "react";
 import Header from "../../components/header/header";
 import imageTemporal from "../../assets/imageTemporal.png";
 import Buttons from "../../components/Buttons/Buttons";
 import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
 
-export default function HomePage() {
+export default function LandingPage() {
+
+  
   return (
     <>
       <Header />
@@ -19,7 +20,7 @@ export default function HomePage() {
         <div className="hero-overlay"></div>
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">Welcome HomePage</h1>
+            <h1 className="mb-5 text-5xl font-bold">Welcome to LandingPage</h1>
             <p className="mb-5">
               Find your next Experience and get inspired by locals
             </p>
