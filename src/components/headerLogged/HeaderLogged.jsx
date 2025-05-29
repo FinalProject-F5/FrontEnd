@@ -12,7 +12,6 @@ export default function HeaderLogged() {
 
       <div className="flex-none flex items-center md:order-last">
   
-        {/* MODIFICACIÓN AQUÍ: Se eliminan las clases 'hidden' y 'md:flex' */}
         <div className="flex items-center mr-4"> 
           <div className="btn btn-ghost btn-circle avatar"> 
             <div className="w-10 rounded-full">
