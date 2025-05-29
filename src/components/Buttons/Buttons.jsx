@@ -1,20 +1,20 @@
 import React from "react";
 
-export default function Button({
+export default function Buttons({
   children,
   text,
   onClick,
   className = "",
+  color = "btn-primary",
   ...props
 }) {
   return (
-    <button className="btn">primary</button>
-    // <button
-    //   className={`btn-yellow ${className}`}
-    //   onClick={onClick}
-    //   {...props}
-    // >
-    //   {children || text}
-    // </button>
+    <button
+      className={`btn ${color} ${className}`}
+      onClick={onClick}
+      {...props}
+    >
+      {children || text}
+    </button>
   );
 }

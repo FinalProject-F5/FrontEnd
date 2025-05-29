@@ -1,24 +1,55 @@
 import React from "react";
+import imageTemporal2 from "../../assets/imageTemporal2.png";
+const categories = [
+  {
+    title: "Arte",
+    description: "Descubre experiencias artísticas únicas y creativas.",
+    img: imageTemporal2,
+  },
+  {
+    title: "Gastronomía auténtica",
+    description: "Saborea la cocina local y recetas tradicionales.",
+    img: imageTemporal2,
+  },
+  {
+    title: "Música con alma",
+    description: "Vive la música local y conciertos íntimos.",
+    img: imageTemporal2,
+  },
+  {
+    title: "Rutas con mirada local",
+    description: "Explora caminos y rincones guiados por locales.",
+    img: imageTemporal2,
+  },
+  {
+    title: "Historias personales",
+    description: "Conoce relatos y vivencias de la comunidad.",
+    img: imageTemporal2,
+  },
+  {
+    title: "Proyectos locales con impacto",
+    description: "Participa en iniciativas que transforman el entorno.",
+    img: imageTemporal2,
+  },
+];
 
 export default function Categories() {
   return (
-    <div className="card bg-base-100 w-96 shadow-sm">
-      <figure>
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
-        </p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
+    <div className="flex flex-wrap gap-6 justify-center py-8">
+      {categories.map((cat) => (
+        <div key={cat.title} className="card bg-base-100 w-96 shadow-sm">
+          <figure>
+            <img src={cat.img} alt={cat.title} />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{cat.title}</h2>
+            <p>{cat.description}</p>
+            <div className="card-actions justify-end">
+              <button className="btn btn-primary">Ver más</button>
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
