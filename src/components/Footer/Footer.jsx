@@ -13,8 +13,8 @@ export default function Footer() {
           Home
         </Link>
         <a className="link link-hover">Search</a>
-        <Link to="/AddExperiences" className="link link-hover">
-          Add Experiences
+        <Link to="/AddExperience" className="link link-hover">
+          Add Experience
         </Link>
       </nav>
 

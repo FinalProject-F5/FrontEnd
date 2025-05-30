@@ -1,6 +1,7 @@
 
 import React from "react";
 
+import { Link } from "react-router-dom";
 
 export default function Cards({ title, category, location, img }) {
   return (
@@ -16,7 +17,10 @@ export default function Cards({ title, category, location, img }) {
        
         <p className="text-primary font-semibold text-sm mt-2">{location}</p> 
         <div className="card-actions justify-end mt-4"> 
-          <button className="btn btn-primary">Read more</button>
+           <Link to={"/ExperienceDetails"} className="btn btn-primary">
+            read more
+          </Link>
+        
         </div>
       </div>
     </div>
