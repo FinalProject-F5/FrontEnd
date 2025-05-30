@@ -51,10 +51,10 @@ function Header() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow min-w-max"
           >
             <li>
-              <a>Home</a>
+              <Link to="/HomePage">Home</Link>
             </li>
             <li>
-              <a>Add Experience</a>
+              <Link to="/AddExperience">Add Experience</Link>
             </li>
             <li>
               <a>Logout</a>
