@@ -1,4 +1,5 @@
 import "../../index.css";
+import { Link } from "react-router-dom";
 
 import Buttons from "../Buttons/Buttons";
 
@@ -6,13 +7,17 @@ function Header() {
   return (
     <div className="navbar bg-secondary shadow-sm">
       <div className="flex-1">
-        <a className="btn btn-ghost text-3xl text-white font-sans normal-case ml-4">
+        <Link
+          to="/"
+          className="btn btn-ghost text-3xl text-white font-sans normal-case ml-4"
+        >
           Travel4Real
-        </a>
+        </Link>
       </div>
       <div className="flex-none flex items-center">
         <div className="hidden md:flex items-center gap-5 mr-5">
           <Buttons
+            to="/Login"
             className="border-none"
             style={{
               backgroundColor: "oklch(0.9632 0.0152 83.05 / 0.5)",
@@ -21,7 +26,9 @@ function Header() {
           >
             {"Login"}
           </Buttons>
-          <Buttons color="btn-primary">{"Register"}</Buttons>
+          <Buttons to="/Register" color="btn-primary">
+            {"Register"}
+          </Buttons>
         </div>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-square btn-ghost">
@@ -44,10 +51,10 @@ function Header() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow min-w-max"
           >
             <li>
-              <a>Home</a>
+              <Link to="/HomePage">Home</Link>
             </li>
             <li>
-              <a>Add Experience</a>
+              <Link to="/AddExperience">Add Experience</Link>
             </li>
             <li>
               <a>Logout</a>
