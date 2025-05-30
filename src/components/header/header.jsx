@@ -1,4 +1,5 @@
 import "../../index.css";
+import { Link } from "react-router-dom";
 
 import Buttons from "../Buttons/Buttons";
 
@@ -13,6 +14,7 @@ function Header() {
       <div className="flex-none flex items-center">
         <div className="hidden md:flex items-center gap-5 mr-5">
           <Buttons
+            to="/Login"
             className="border-none"
             style={{
               backgroundColor: "oklch(0.9632 0.0152 83.05 / 0.5)",
@@ -21,7 +23,9 @@ function Header() {
           >
             {"Login"}
           </Buttons>
-          <Buttons color="btn-primary">{"Register"}</Buttons>
+          <Buttons 
+          to="/Register"
+          color="btn-primary">{"Register"}</Buttons>
         </div>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-square btn-ghost">
