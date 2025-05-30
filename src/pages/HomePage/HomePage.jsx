@@ -5,10 +5,10 @@ import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import React from "react";
 
-import cardImage1 from "../../assets/imageTemporal2.png";
+import cardImage1 from "../../assets/imageTemporal.png";
 import cardImage2 from "../../assets/imageTemporal.png";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
-import Maps from "../../components/Maps/Maps"; 
+import Maps from "../../components/Map/Map"; 
 
 const allCardData = [
   {
