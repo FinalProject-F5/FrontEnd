@@ -7,9 +7,12 @@ function Header() {
   return (
     <div className="navbar bg-secondary shadow-sm">
       <div className="flex-1">
-        <a className="btn btn-ghost text-3xl text-white font-sans normal-case ml-4">
+        <Link
+          to="/"
+          className="btn btn-ghost text-3xl text-white font-sans normal-case ml-4"
+        >
           Travel4Real
-        </a>
+        </Link>
       </div>
       <div className="flex-none flex items-center">
         <div className="hidden md:flex items-center gap-5 mr-5">
@@ -23,9 +26,9 @@ function Header() {
           >
             {"Login"}
           </Buttons>
-          <Buttons 
-          to="/Register"
-          color="btn-primary">{"Register"}</Buttons>
+          <Buttons to="/Register" color="btn-primary">
+            {"Register"}
+          </Buttons>
         </div>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-square btn-ghost">
