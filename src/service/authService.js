@@ -18,10 +18,17 @@ export class AuthService {
 
   async register(userData) {
     try {
-      const response = await axios.post(`${this.baseUrl}/register`, userData);
+      const requestData = {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        countryCode: userData.countryCode || 'ES'
+      };
+
+      const response = await axios.post(`${this.baseUrl}/register`, requestData);
       return response.data;
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during registration:", error.response?.data || error.message);
       throw error;
     }
   }

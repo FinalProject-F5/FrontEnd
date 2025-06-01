@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import {useForm} from "react-hook-form";
+import{useNavigate} from "react-router-dom";
+import { AuthService } from "../../service/authService";
 import Header from "../../components/header/header";
 import Footer from "../../components/Footer/Footer";
 
 export default function Register() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const authService = new AuthService();
+
+  const onSubmit = async (data) => {
+    try {
+      await authService.register(data);
+      navigate('/login');
+    } catch (error) {
+      setError('Error during registration. Please try again.');
+    }
+  };
+
   return (
     <>
       <Header />
@@ -14,8 +31,10 @@ export default function Register() {
     >
      
       <div className="card w-96 bg-base-100 shadow-xl p-4">
+        <form onSubmit={handleSubmit(onSubmit)}>
         <div className="card-body items-center text-left">
-          <h2 className="card-title text-4xl font-bold text-primary mb-6">Register</h2> 
+          <h2 className="card-title text-4xl font-bold text-primary mb-6">Register</h2>
+          {error && <div className="text-error mb-4">{error}</div>}
 
        <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -23,9 +42,15 @@ export default function Register() {
             </label>
             <input
               type="text"
+              {...register('name', { 
+                required: 'Name is required',
+                minLength: { value: 2, message: 'Name must be at least 2 characters long' },
+                maxLength: { value: 50, message: 'Name must be at most 50 characters long' }
+              })}
               placeholder="Name"
               className="input input-bordered w-full"
             />
+            {errors.name && <span className="text-error text-sm mt-1 text-primary">{errors.name.message}</span  >}
           </div>
 
           <div className="form-control w-full max-w-xs">
@@ -34,9 +59,17 @@ export default function Register() {
             </label>
             <input
               type="email"
+              {...register('email', { 
+                required: 'Email is required',
+                pattern: { 
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 
+                  message: 'Invalid email address' 
+                }
+              })}
               placeholder="Email"
               className="input input-bordered w-full"
             />
+            {errors.email && <span className="text-error text-sm mt-1 text-primary">{errors.email.message}</span  >}
           </div>
 
           <div className="form-control w-full max-w-xs mb-4">
@@ -45,12 +78,20 @@ export default function Register() {
             </label>
             <input
               type="password"
+              {...register('password', { 
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters. 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+                }
+              })}
               placeholder="Password"
               className="input input-bordered w-full"
             />
+            {errors.password && <span className="text-error text-sm mt-1 text-primary">{errors.password.message}</span  >}  
           </div>
        
-          <button className="btn btn-primary w-full text-lg py-3 rounded-lg mb-4">Register</button>
+          <button type="submit" className="btn btn-primary w-full text-lg py-3 rounded-lg mb-4">Register</button>
           
          
           <div className="text-sm">
@@ -60,6 +101,7 @@ export default function Register() {
             <a href="#" className="link link-hover text-neutral-content">Forgot password?</a>
           </div>
         </div>
+        </form>
       </div>
     </div>
           <Footer />
