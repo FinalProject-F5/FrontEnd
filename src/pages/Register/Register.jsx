@@ -8,15 +8,19 @@ import Footer from "../../components/Footer/Footer";
 export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const authService = new AuthService();
 
   const onSubmit = async (data) => {
     try {
       await authService.register(data);
-      navigate('/login');
+      setSuccess('Registration successful!');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (error) {
-      setError('Error during registration. Please try again.');
+      setError(error.response?.data?.message || 'Error during registration. Please try again.');
     }
   };
 
@@ -34,7 +38,22 @@ export default function Register() {
         <form onSubmit={handleSubmit(onSubmit)}>
         <div className="card-body items-center text-left">
           <h2 className="card-title text-4xl font-bold text-primary mb-6">Register</h2>
-          {error && <div className="text-error mb-4">{error}</div>}
+          {error && (
+            <div role="alert" className="alert alert-error">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{error}</span>
+            </div>
+          )}
+          {success && (
+            <div role="alert" className="alert alert-success">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{success}</span>
+            </div>
+          )}
 
        <div className="form-control w-full max-w-xs">
             <label className="label">
