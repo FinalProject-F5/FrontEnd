@@ -19,14 +19,8 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await authService.login(data);
-      console.log("Login response:", response); // Para debugging
-      
-      if (response && response.token) {
-        navigate('/');
-      } else {
-        setError("Login failed. Invalid response from server.");
-      }
+      await authService.login(data);
+      navigate('/');
     } catch (error) {
       setError(
         error.response?.data?.message || 
