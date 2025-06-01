@@ -1,5 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { AuthService } from "../../service/authService";
+import { useState } from "react";
 import Header from "../../components/header/header";
 import Footer from "../../components/Footer/Footer";
 
@@ -10,8 +13,26 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [error, setError] = useState("");
+  const navigate   = useNavigate();
+  const authService = new AuthService();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await authService.login(data);
+      console.log("Login response:", response); // Para debugging
+      
+      if (response && response.token) {
+        navigate('/');
+      } else {
+        setError("Login failed. Invalid response from server.");
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message || 
+        "Login failed. Please check your credentials."
+      );
+    }
   };
 
   return (
@@ -29,6 +50,24 @@ export default function Login() {
             <h2 className="card-title text-4xl font-bold text-primary mb-6">
               Login
             </h2>
+            {error && (
+              <div role="alert" className="alert alert-error mb-4 w-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-control w-full max-w-xs">

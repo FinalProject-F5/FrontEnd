@@ -8,8 +8,9 @@ export class AuthService {
       const response = await axios.post(`${this.baseUrl}/login`, credentials);
       if (response.data.token) {
         localStorage.setItem('user', JSON.stringify(response.data));
+        return response.data;
       }
-      return response.data;
+      return null;
     } catch (error) {
       console.error("Error during login:", error);
       throw error;
