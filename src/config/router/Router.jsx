@@ -5,7 +5,7 @@ import Login from "../../pages/Login/Login";
 import Register from "../../pages/Register/Register";
 import MyExperiences from "../../pages/MyExperiences/MyExperiences";
 import AddExperience from "../../pages/addExperience/AddExperience";
-import ExperienceDetails from "../../pages/experienceDetails/ExperienceDetails";
+import ExperienceDetails from "../../pages/ExperienceDetails/ExperienceDetails";
 
 export default function Router() {
   return (
