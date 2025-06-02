@@ -63,7 +63,7 @@ export default function LandingPage() {
         <p className="text-xl text-neutral">Local Inspiration Awaits, here our latest experiences</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
        
         {allCardData.map((card) => (
           <Cards

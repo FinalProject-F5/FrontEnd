@@ -8,7 +8,7 @@ import React from "react";
 import cardImage1 from "../../assets/imageTemporal.png";
 import cardImage2 from "../../assets/imageTemporal.png";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
-import Maps from "../../components/Map/Map"; 
+
 
 const allCardData = [
   {
