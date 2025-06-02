@@ -60,7 +60,21 @@ export default function HomePage() {
     <>
       <HeaderLogged />
       
-      <Maps />
+      <div
+        className="hero min-h-screen"
+        style={{
+          backgroundImage:
+            "url(https://media.istockphoto.com/id/624183176/es/foto/arroz-campo-terraplenado-en-mu-cang-chai-vietnam.jpg?s=1024x1024&w=is&k=20&c=avWIfgrGKtPaskn1YY3sGjMTw2H8OjP0GQlRzaPeHPY=)",
+        }}
+      >
+        <div className="hero-overlay"></div>
+        <div className="hero-content text-neutral-content justify-start w-full">
+          <div className="max-w-md text-left">
+            <h1 className="mb-5 text-5xl font-bold">Find your next Experience and get inspired by locals</h1>
+          
+          </div>
+        </div>
+      </div>
 
       <div className="hero bg-base-200 py-16">
         <div className="hero-content flex-col lg:flex-row items-center">
@@ -97,7 +111,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
         {allCardData.map((card) => (
           <Cards
             key={card.id}

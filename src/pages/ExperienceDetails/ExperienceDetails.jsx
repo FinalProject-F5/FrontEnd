@@ -20,7 +20,7 @@ export default function ExperienceDetails() {
             <p className="text-xl text-primary text-content mb-4">Java, Indonesia</p>
           </div>
          
-          <div className="carousel w-full mb-8 relative">
+          <div className="carousel w-full mb-8 relative [filter:sepia(40%)]">
             <div id="slide1" className="carousel-item w-full">
               <img
                 src="https://placehold.co/1000x600/aabbcc/ffffff?text=Experience+Image+1"
@@ -104,7 +104,7 @@ export default function ExperienceDetails() {
                 </div>
               </div>
              
-              <div className="bg-base-300 pt-8 pb-6">
+              <div className="bg-base-300 pt-8 pb-6 [filter:sepia(40%)]">
                 <h3 className="text-2xl font-semibold text-primary mb-4 ml-5">
                   Contact the local guide
                 </h3>
@@ -127,9 +127,9 @@ export default function ExperienceDetails() {
               </div>
             </div>
            
-            <div className="flex flex-col gap-4 w-11/12 mx-auto lg:w-64 flex-shrink-0 self-start order-1 lg:order-2">
+            <div className="flex flex-col gap-4 w-11/12 mx-auto lg:w-64 flex-shrink-0 self-start order-1 lg:order-2 ">
            
-              <div className="card bg-secondary shadow-md rounded-lg p-6 text-center">
+              <div className="card bg-secondary shadow-md rounded-lg p-6 text-center [filter:sepia(40%)]">
                 <div className="text-xl font-bold text-neutral-content mb-2">Average Price</div>
                 <div className="text-3xl font-extrabold text-neutral-content">EUR 30</div>
               </div>

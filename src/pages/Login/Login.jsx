@@ -33,13 +33,15 @@ export default function Login() {
     <>
       <Header />
       <div
-        className="min-h-screen flex items-center justify-center bg-cover bg-center"
+        className="min-h-screen flex items-center justify-center bg-cover bg-center [filter:sepia(40%)]"
         style={{
           backgroundImage:
-            "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
+            "url(https://media.istockphoto.com/id/1705694439/es/foto/mujeres-vietnamitas-vendiendo-frutas-en-el-mercado-flotante-delta-del-r%C3%ADo-mekong-vietnam.jpg?s=2048x2048&w=is&k=20&c=mQQPY7t7R8Jhdjoj8wwgZByXY73kYI0yglYieGrJWJ4=",
         }}
       >
+       
         <div className="card w-96 bg-base-100 shadow-xl p-4">
+          
           <div className="card-body items-center text-left">
             <h2 className="card-title text-4xl font-bold text-primary mb-6">
               Login
@@ -120,15 +122,13 @@ export default function Login() {
               <p className="mb-1">
                 Not registered yet?{" "}
                 <a
-                  href="#"
+                  href="./Register"
                   className="link link-hover text-primary font-semibold"
                 >
                   Sign up here
                 </a>
               </p>
-              <a href="#" className="link link-hover text-neutral-content">
-                Forgot password?
-              </a>
+             
             </div>
           </div>
         </div>
