@@ -133,8 +133,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
     <td align="center" style="border: none;">
       <br><b> Mariuxi Olaya </b>
       <br>
-      <a href="https://www.linkedin.com/in/larissasaud/">LinkedIn</a> |
-      <a href="https://github.com/saudlari/">GitHub</a>
+      <a href="https://www.linkedin.com/in/molaya">LinkedIn</a> |
+      <a href="https://github.com/catmaluci">GitHub</a>
     <td align="center" style="border: none;">
       <br><b>Milena Ocoro</b>
       <br>
@@ -145,7 +145,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
       <br><b>Paola Morales</b>
       <br>
       <a href="https://www.linkedin.com/in/paola-morales-/"/>LinkedIn</a> |
-      <a href="https://github.com/Marpro24">GitHub</a>
+      <a href="https://github.com/PaolaAMoralesP">GitHub</a>
     </td>    </td>
       <td align="center" style="border: none;">
       <br><b>Tetiana Vashchenko </b>
