@@ -83,7 +83,7 @@ export default function Login() {
                   })}
                 />
                 {errors.email && (
-                  <span className="text-error text-sm mt-1 text-primary">
+                  <span className="text-error text-sm mt-1 ">
                     {errors.email.message}
                   </span>
                 )}
@@ -106,7 +106,7 @@ export default function Login() {
                   })}
                 />
                 {errors.password && (
-                  <span className="text-error text-sm mt-1 text-primary">
+                  <span className="text-error text-sm mt-1 ">
                     {errors.password.message}
                   </span>
                 )}
