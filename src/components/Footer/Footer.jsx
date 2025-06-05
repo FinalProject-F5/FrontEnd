@@ -29,6 +29,7 @@ export default function Footer() {
           href="https://www.youtube.com/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="YouTube"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -44,6 +45,7 @@ export default function Footer() {
           href="https://www.instagram.com/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Instagram"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -59,6 +61,7 @@ export default function Footer() {
           href="https://www.facebook.com/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Facebook"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
