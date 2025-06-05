@@ -126,9 +126,6 @@ export default function Login() {
                   Sign up here
                 </a>
               </p>
-              <a href="#" className="link link-hover text-neutral-content">
-                Forgot password?
-              </a>
             </div>
           </div>
         </div>
