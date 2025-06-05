@@ -147,7 +147,7 @@ export default function FormAddExperience() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center p-4 [filter:sepia(40%)]"
+      className="min-h-screen flex items-center justify-center bg-cover bg-center p-4 [filter:sepia(20%)]"
       style={{
         backgroundImage:
           "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
@@ -159,7 +159,7 @@ export default function FormAddExperience() {
             Add a New Experience
           </h2>
 
-          <ul className="steps steps-vertical lg:steps-horizontal w-full mb-8">
+          <ul className="steps steps-vertical lg:steps-horizontal w-full mb-8 font-semibold">
             <li className={`step ${currentStep >= 1 ? 'step-primary' : ''}`}>Experience Details</li>
             <li className={`step ${currentStep >= 2 ? 'step-primary' : ''}`}>Additional Information</li>
             <li className={`step ${currentStep >= 3 ? 'step-primary' : ''}`}>Planning & Scheduling</li>
@@ -168,13 +168,13 @@ export default function FormAddExperience() {
 
           <form onSubmit={handleSubmit} className="w-full">
             {currentStep === 1 && (
-              <div className="flex flex-col items-center">
-                <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">
+              <div className="flex flex-col items-center  ">
+                <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Experience Details
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text">
+                  <label className="label ">
+                    <span className="label-text font-semibold   ">
                       Experience Name <span className="text-error">*</span>
                     </span>
                   </label>
@@ -191,7 +191,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Location (City, Country){" "}
                       <span className="text-error">*</span>
                     </span>
@@ -209,7 +209,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Category <span className="text-error">*</span>
                     </span>
                   </label>
@@ -233,7 +233,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Add Images (minimum 3){" "}
                       <span className="text-error">*</span>
                     </span>
@@ -258,7 +258,7 @@ export default function FormAddExperience() {
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Description of the Experience (min. 200 characters){" "}
                       <span className="text-error">*</span>
                     </span>
@@ -275,7 +275,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Duration <span className="text-error">*</span>
                     </span>
                   </label>
@@ -292,7 +292,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text">Estimated Cost (optional)</span>
+                    <span className="label-text font-semibold">Estimated Cost (optional)</span>
                   </label>
                   <input
                     type="number"
@@ -313,7 +313,7 @@ export default function FormAddExperience() {
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">Itinerary (optional)</span>
+                    <span className="label-text font-semibold">Itinerary (optional)</span>
                   </label>
                   <textarea
                     name="itinerary"
@@ -326,7 +326,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text">Observations (optional)</span>
+                    <span className="label-text font-semibold">Observations (optional)</span>
                   </label>
                   <textarea
                     name="observations"
@@ -346,14 +346,14 @@ export default function FormAddExperience() {
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Host Name <span className="text-error">*</span>
                     </span>
                   </label>
                   <input
                     type="text"
                     name="hostName"
-                    placeholder="e.g., Jane Doe"
+                    placeholder="e.g., Angelina Jolie"
                     className="input input-bordered w-full"
                     value={formData.hostName}
                     onChange={handleChange}
@@ -363,7 +363,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">Host Email (optional)</span>
+                    <span className="label-text font-semibold">Host Email (optional)</span>
                   </label>
                   <input
                     type="email"
@@ -378,7 +378,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Phone <span className="text-error">*</span>
                     </span>
                   </label>
@@ -395,7 +395,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">Social Media (optional)</span>
+                    <span className="label-text font-semibold">Social Media (optional)</span>
                   </label>
                   <input
                     type="text"
@@ -409,7 +409,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text">Address (optional)</span>
+                    <span className="label-text font-semibold">Address (optional)</span>
                   </label>
                   <input
                     type="text"
@@ -423,7 +423,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text">
+                    <span className="label-text font-semibold">
                       Host Profile Photo <span className="text-error">*</span>
                     </span>
                   </label>

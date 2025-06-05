@@ -7,7 +7,7 @@ import React from "react";
 
 import cardImage1 from "../../assets/imageTemporal.png";
 import cardImage2 from "../../assets/imageTemporal.png";
-import HeaderLogged from "../../components/headerLogged/HeaderLogged";
+import HeaderLogged2 from "../../components/headerLogged2/HeaderLogged2";
 
 
 const allCardData = [
@@ -58,7 +58,7 @@ const allCardData = [
 export default function HomePage() {
   return (
     <>
-      <HeaderLogged />
+      <HeaderLogged2 />
       
       <div
         className="hero min-h-screen"
