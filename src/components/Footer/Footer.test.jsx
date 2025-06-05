@@ -3,14 +3,14 @@ import { MemoryRouter } from 'react-router-dom';
 import Footer from './Footer';
 
 describe('Footer integration', () => {
-  test('muestra los enlaces de navegación', () => {
+  test('renders navigation links', () => {
     render(<Footer />, { wrapper: MemoryRouter });
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Search')).toBeInTheDocument();
     expect(screen.getByText('Add Experience')).toBeInTheDocument();
   });
 
-  test('muestra el texto de copyright con el año actual', () => {
+  test('renders copyright text with current year', () => {
     render(<Footer />, { wrapper: MemoryRouter });
     const year = new Date().getFullYear();
     expect(
@@ -18,7 +18,7 @@ describe('Footer integration', () => {
     ).toBeInTheDocument();
   });
 
-  test('muestra los íconos sociales con los enlaces correctos', () => {
+  test('renders social icons with correct links', () => {
     render(<Footer />, { wrapper: MemoryRouter });
     expect(screen.getByRole('link', { name: /youtube/i })).toHaveAttribute(
       'href',
