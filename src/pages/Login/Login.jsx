@@ -20,7 +20,7 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       await authService.login(data);
-      navigate('/');
+      navigate('/homepage');
     } catch (error) {
       setError(
         error.response?.data?.message || 
