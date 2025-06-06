@@ -37,5 +37,5 @@ describe("Experiences service (unit)", () => {
     expect(result).toEqual({ success: true });
   });
 
-  // Puedes agregar más tests unitarios para otros métodos aquí...
+
 });
