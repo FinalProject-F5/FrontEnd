@@ -6,8 +6,8 @@ describe("Footer unit", () => {
   test("renders navigation links", () => {
     render(<Footer />, { wrapper: MemoryRouter });
     expect(screen.getByText("Home")).toBeInTheDocument();
-    expect(screen.getByText("Search")).toBeInTheDocument();
-    expect(screen.getByText("Add Experience")).toBeInTheDocument();
+    expect(screen.getByText("About Us")).toBeInTheDocument();
+    expect(screen.getByText("Contact")).toBeInTheDocument();
   });
 
   test("renders copyright text with current year", () => {
