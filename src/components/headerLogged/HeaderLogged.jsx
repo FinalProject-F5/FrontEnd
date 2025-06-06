@@ -13,7 +13,7 @@ export default function HeaderLogged() {
         </Link>
       </div>
 
-      <div className="flex-none flex items-center md:order-last">
+      <div className="flex-none flex items-center md:order-last [filter:sepia(40%)]">
         <div className="flex items-center mr-4">
           <div className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
@@ -48,17 +48,15 @@ export default function HeaderLogged() {
             <li>
           <Link to="/AddExperience">Add Experience</Link>
             </li>
-            <li className="md:hidden">
-              <a>Profile</a>
+            <li>
+             <Link to="/HomePage">Logout</Link>
             </li>
-            <li className="md:hidden">
-              <a>Logout</a>
-            </li>
+           
           </ul>
         </div>
       </div>
 
-      <div className="flex items-center mx-4 flex-grow w-full my-2 md:w-auto md:my-0 md:order-none">
+      <div className="flex items-center mx-4 flex-grow w-full my-2 md:w-auto md:my-0 md:order-none [filter:sepia(40%)]">
         <label className="input input-bordered flex-grow rounded-r-none border-r-0">
           <svg
             className="h-5 w-5 opacity-50"

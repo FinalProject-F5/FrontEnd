@@ -35,10 +35,10 @@ export default function Register() {
     <>
       <Header />
       <div
-        className="min-h-screen flex items-center justify-center bg-cover bg-center"
+        className="min-h-screen flex items-center justify-center bg-cover bg-center [filter:sepia(40%)]"
         style={{
           backgroundImage:
-            "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
+            "url(https://media.istockphoto.com/id/860594926/es/foto/casa-de-china.jpg?s=1024x1024&w=is&k=20&c=K6qYXr8XlxNEN7KGcRibYJMN2xA4mub7Mlunc2zgiHE=)",
         }}
       >
         <div className="card w-96 bg-base-100 shadow-xl p-4">
@@ -48,7 +48,7 @@ export default function Register() {
                 Register
               </h2>
               {error && (
-                <div role="alert" className="alert alert-error">
+                <div role="alert" className="alert alert-warning text-neutral">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 shrink-0 stroke-current"
@@ -169,15 +169,13 @@ export default function Register() {
                 <p className="mb-1">
                   Already registered?{" "}
                   <a
-                    href="#"
+                    href="./Login"
                     className="link link-hover text-primary font-semibold"
                   >
                     Log in here
                   </a>
                 </p>
-                <a href="#" className="link link-hover text-neutral-content">
-                  Forgot password?
-                </a>
+               
               </div>
             </div>
           </form>

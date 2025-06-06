@@ -12,10 +12,8 @@ export default function Footer() {
         <Link to="/HomePage" className="link link-hover">
           Home
         </Link>
-        <a className="link link-hover">Search</a>
-        <Link to="/AddExperience" className="link link-hover">
-          Add Experience
-        </Link>
+        <a className="link link-hover">About Us</a>
+        <a className="link link-hover">Contact</a>
       </nav>
 
       <aside className="flex items-center gap-2 w-full md:w-auto justify-center md:justify-start">
