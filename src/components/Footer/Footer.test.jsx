@@ -1,16 +1,16 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import Footer from './Footer';
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import Footer from "./Footer";
 
-describe('Footer integration', () => {
-  test('renders navigation links', () => {
+describe("Footer unit", () => {
+  test("renders navigation links", () => {
     render(<Footer />, { wrapper: MemoryRouter });
-    expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('Search')).toBeInTheDocument();
-    expect(screen.getByText('Add Experience')).toBeInTheDocument();
+    expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("Search")).toBeInTheDocument();
+    expect(screen.getByText("Add Experience")).toBeInTheDocument();
   });
 
-  test('renders copyright text with current year', () => {
+  test("renders copyright text with current year", () => {
     render(<Footer />, { wrapper: MemoryRouter });
     const year = new Date().getFullYear();
     expect(
@@ -18,19 +18,19 @@ describe('Footer integration', () => {
     ).toBeInTheDocument();
   });
 
-  test('renders social icons with correct links', () => {
+  test("renders social icons with correct links", () => {
     render(<Footer />, { wrapper: MemoryRouter });
-    expect(screen.getByRole('link', { name: /youtube/i })).toHaveAttribute(
-      'href',
-      'https://www.youtube.com/'
+    expect(screen.getByRole("link", { name: /youtube/i })).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/"
     );
-    expect(screen.getByRole('link', { name: /instagram/i })).toHaveAttribute(
-      'href',
-      'https://www.instagram.com/'
+    expect(screen.getByRole("link", { name: /instagram/i })).toHaveAttribute(
+      "href",
+      "https://www.instagram.com/"
     );
-    expect(screen.getByRole('link', { name: /facebook/i })).toHaveAttribute(
-      'href',
-      'https://www.facebook.com/'
+    expect(screen.getByRole("link", { name: /facebook/i })).toHaveAttribute(
+      "href",
+      "https://www.facebook.com/"
     );
   });
 });
