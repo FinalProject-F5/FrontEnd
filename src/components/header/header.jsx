@@ -27,7 +27,7 @@ function Header() {
           >
             {"Login"}
           </Buttons>
-          <Buttons to="/Register" color="btn-primary">
+          <Buttons to="/Register" color="btn-primary [filter:sepia(40%)]">
             {"Register"}
           </Buttons>
         </div>

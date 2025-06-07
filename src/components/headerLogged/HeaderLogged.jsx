@@ -1,7 +1,16 @@
+import { useAuth } from "../../context/AuthContext";
 import "../../index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function HeaderLogged() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+   const onClick=  () => {
+    logout();
+    navigate("/")
+  };
+
   return (
     <div className="navbar bg-secondary shadow-sm flex-wrap">
       <div className="flex-1 md:order-first">
@@ -49,7 +58,7 @@ export default function HeaderLogged() {
           <Link to="/AddExperience">Add Experience</Link>
             </li>
             <li>
-             <Link to="/HomePage">Logout</Link>
+             <button onClick={onClick}>Logout</button>
             </li>
            
           </ul>
@@ -57,7 +66,7 @@ export default function HeaderLogged() {
       </div>
 
       <div className="flex items-center mx-4 flex-grow w-full my-2 md:w-auto md:my-0 md:order-none [filter:sepia(40%)]">
-        <label className="input input-bordered flex-grow rounded-r-none border-r-0">
+        <label className="input input-bordered flex-grow border-r-0">
           <svg
             className="h-5 w-5 opacity-50"
             xmlns="http://www.w3.org/2000/svg"
@@ -81,13 +90,7 @@ export default function HeaderLogged() {
             className="w-full"
           />
         </label>
-        <select className="select select-bordered rounded-l-none">
-          <option disabled selected>
-            Filter
-          </option>
-          <option>Location</option>
-          <option>Category</option>
-        </select>
+       
       </div>
     </div>
   );

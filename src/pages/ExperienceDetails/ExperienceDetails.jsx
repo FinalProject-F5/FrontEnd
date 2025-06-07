@@ -118,10 +118,9 @@ export default function ExperienceDetails() {
                     </div>
                   </div>
                   <div className="text-base text-base-content leading-relaxed flex flex-col gap-1">
+                    <p>Name: Nguyen Hai</p>
                     <p>Email: mrsumatra@hotmail.com</p>
                     <p>Phone/whatsapp: +62 812-3456-7890</p>
-                    <p>Instagram: @JavaFlavorTrails</p>
-                    <p>Address: Jl. Raya Kopi No. 12, Desa Hutan, Jawa Tengah, Indonesia</p>
                   </div>
                 </div>
               </div>
