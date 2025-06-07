@@ -28,9 +28,7 @@ export default function FormAddExperience() {
     hostName: "",
     hostEmail: "",
     phone: "",
-    socialMedia: "",
-    address: "",
-    hostPhoto: null,  
+   
   });
 
   const [errors, setErrors] = useState({});
@@ -97,11 +95,7 @@ export default function FormAddExperience() {
     if (!formData.hostName) newErrors.hostName = "Host Name is required.";
     if (!formData.phone) newErrors.phone = "Phone is required.";
     
-    if (!formData.hostPhoto) {
-      newErrors.hostPhoto = "Host Profile Photo is required.";
-    } else if (formData.hostPhoto.type !== "image/png" && formData.hostPhoto.type !== "image/jpeg") {
-      newErrors.hostPhoto = "Only PNG or JPG image formats are allowed.";
-    }
+  
 
     if (formData.hostEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.hostEmail)) {
       newErrors.hostEmail = "Invalid email format.";
@@ -192,7 +186,7 @@ export default function FormAddExperience() {
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Location (City, Country){" "}
+                      Location (Country){" "}
                       <span className="text-error">*</span>
                     </span>
                   </label>
@@ -276,13 +270,13 @@ export default function FormAddExperience() {
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Duration <span className="text-error">*</span>
+                      Duration in Hours<span className="text-error">*</span>
                     </span>
                   </label>
                   <input
                     type="text"
                     name="duration"
-                    placeholder="e.g., 3 hours, Full-day, 2 nights"
+                    placeholder="e.g., 3 hours"
                     className="input input-bordered w-full"
                     value={formData.duration}
                     onChange={handleChange}
@@ -292,7 +286,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold">Estimated Cost (optional)</span>
+                    <span className="label-text font-semibold">Price EUR (optional)</span>
                   </label>
                   <input
                     type="number"
@@ -392,50 +386,7 @@ export default function FormAddExperience() {
                   />
                   {errors.phone && <span className="text-error text-sm mt-1">{errors.phone}</span>}
                 </div>
-
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">Social Media (optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="socialMedia"
-                    placeholder="e.g., Instagram, Facebook profile link"
-                    className="input input-bordered w-full"
-                    value={formData.socialMedia}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">Address (optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    placeholder="e.g., 742 Evergreen Terrace"
-                    className="input input-bordered w-full"
-                    value={formData.address}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-control w-full max-w-md mb-6 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Host Profile Photo <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="file"
-                    name="hostPhoto"
-                    className="file-input file-input-bordered w-full"
-                    onChange={handleChange}
-                    accept=".png, .jpg, .jpeg"
-                  />
-                  {errors.hostPhoto && <span className="text-error text-sm mt-1">{errors.hostPhoto}</span>}
-                </div>
+              
               </div>
             )}
              
