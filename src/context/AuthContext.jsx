@@ -1,7 +1,8 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
-
+const baseUrl = "http://localhost:8080/api/auth";
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -15,14 +16,35 @@ export const AuthProvider = ({ children }) => {
         setUser(decodedUser);
       } catch (error) {
         localStorage.removeItem('token');
-      } finally {
-        setLoading(false);
       }
     }
+    setLoading(false);
   }, []);
 
+  const login = async (credentials) => {
+    try {
+      const response = await axios.post(`${baseUrl}/login`, credentials);
+      if (response.data.token) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        const decodedUser = jwtDecode(response.data.token);
+        setUser(decodedUser);
+        
+        return response.data;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error during login:", error);
+      throw error;
+    }
+  }
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, logout, login }}>
       {children}
     </AuthContext.Provider>
   );

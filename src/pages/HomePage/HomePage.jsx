@@ -139,7 +139,7 @@ import React, { useState } from "react";
 import imageTemporal from "../../assets/imageTemporal.png";
 import cardImage1 from "../../assets/imageTemporal.png";
 import cardImage2 from "../../assets/imageTemporal.png";
-import HeaderLogged2 from "../../components/headerLogged2/HeaderLogged2";
+import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 
 const allCardData = [
   {
@@ -220,7 +220,7 @@ export default function HomePage() {
 
   return (
     <>
-      <HeaderLogged2 />
+      <HeaderLogged />
 
       <div
         className="hero min-h-screen"

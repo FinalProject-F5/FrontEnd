@@ -3,20 +3,6 @@ import axios from "axios";
 export class AuthService {
   baseUrl = "http://localhost:8080/api/auth";
 
-  async login(credentials) {
-    try {
-      const response = await axios.post(`${this.baseUrl}/login`, credentials);
-      if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-        return response.data;
-      }
-      return null;
-    } catch (error) {
-      console.error("Error during login:", error);
-      throw error;
-    }
-  }
-
   async register(userData) {
     try {
       const requestData = {
@@ -32,9 +18,5 @@ export class AuthService {
       console.error("Error during registration:", error.response?.data || error.message);
       throw error;
     }
-  }
-
-  logout() {
-    localStorage.removeItem('user');
   }
 }

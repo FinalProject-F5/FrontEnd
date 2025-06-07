@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../service/authService";
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import Header from "../../components/header/header";
 import Footer from "../../components/Footer/Footer";
 
@@ -15,11 +16,11 @@ export default function Login() {
 
   const [error, setError] = useState("");
   const navigate   = useNavigate();
-  const authService = new AuthService();
+  const { login } = useAuth();
 
   const onSubmit = async (data) => {
     try {
-      await authService.login(data);
+      await login(data);
       navigate('/homepage');
     } catch (error) {
       setError(
