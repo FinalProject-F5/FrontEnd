@@ -24,6 +24,6 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("user");
+    localStorage.removeItem("user", JSON.stringify(response.data)); // response.data.token
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Experiences } from "../../../service/apiService";
 
 export default function FormAddExperience() {
   const categories = [
@@ -14,12 +15,11 @@ export default function FormAddExperience() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
- 
   const [formData, setFormData] = useState({
     experienceName: "",
     location: "",
     category: "",
-    images: null, 
+    // images: null, // Desactivado temporalmente
     description: "",
     duration: "",
     cost: "",
@@ -28,7 +28,6 @@ export default function FormAddExperience() {
     hostName: "",
     hostEmail: "",
     phone: "",
-   
   });
 
   const [errors, setErrors] = useState({});
@@ -36,11 +35,10 @@ export default function FormAddExperience() {
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
-  
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: name === "images" ? files : files[0],  
-      }));
+      // setFormData((prevData) => ({
+      //   ...prevData,
+      //   [name]: name === "images" ? files : files[0],
+      // }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
@@ -51,7 +49,7 @@ export default function FormAddExperience() {
 
   const sanitizeInput = (input) => {
     if (typeof input !== 'string') {
-        return input;
+      return input;
     }
     return input.replace(/[<>"'/]/g, "");
   };
@@ -61,21 +59,7 @@ export default function FormAddExperience() {
     if (!formData.experienceName) newErrors.experienceName = "Experience Name is required.";
     if (!formData.location) newErrors.location = "Location is required.";
     if (!formData.category) newErrors.category = "Category is required.";
-    
-    if (!formData.images || formData.images.length === 0) {
-      newErrors.images = "At least 3 images are required.";
-    } else if (formData.images.length < 3) {
-      newErrors.images = "At least 3 images are required.";
-    } else {
-      for (let i = 0; i < formData.images.length; i++) {
-        const file = formData.images[i];
-        if (file.type !== "image/png" && file.type !== "image/jpeg") {
-          newErrors.images = "Only PNG or JPG image formats are allowed.";
-          break;
-        }
-      }
-    }
-    
+    // Validación de imágenes desactivada temporalmente
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -85,7 +69,6 @@ export default function FormAddExperience() {
     if (!formData.description) newErrors.description = "Description is required.";
     if (formData.description.length < 200) newErrors.description = "Description must be at least 200 characters long.";
     if (!formData.duration) newErrors.duration = "Duration is required.";
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -94,13 +77,9 @@ export default function FormAddExperience() {
     let newErrors = {};
     if (!formData.hostName) newErrors.hostName = "Host Name is required.";
     if (!formData.phone) newErrors.phone = "Phone is required.";
-    
-  
-
     if (formData.hostEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.hostEmail)) {
       newErrors.hostEmail = "Invalid email format.";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -114,7 +93,6 @@ export default function FormAddExperience() {
     } else if (currentStep === 3) {
       isValid = true;
     }
-
     if (isValid) {
       setCurrentStep((prevStep) => Math.min(prevStep + 1, totalSteps));
       setErrors({});
@@ -126,13 +104,33 @@ export default function FormAddExperience() {
     setErrors({});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentStep === totalSteps) {
       const isValid = validateStep4();
       if (isValid) {
-        console.log("Form Data:", formData);
-        alert("Form submitted successfully!");
+        try {
+          // Usar Experiences y axios para enviar los datos al backend
+          const { /* images, */ ...dataToSend } = formData;
+          const service = new Experiences();
+          if (service.createExperiences) {
+            await service.createExperiences(dataToSend);
+            alert("Form submitted successfully!");
+          } else {
+            // Fallback a fetch si el método no existe
+            await fetch("http://localhost:8080/api/v1/Experiences", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                // Authorization: `Bearer ${token}`, // Si usas JWT
+              },
+              body: JSON.stringify(dataToSend),
+            });
+            alert("Form submitted successfully!");
+          }
+        } catch (err) {
+          alert("Error submitting form");
+        }
       } else {
         alert("Please correct the errors in the form.");
       }
@@ -161,14 +159,15 @@ export default function FormAddExperience() {
           </ul>
 
           <form onSubmit={handleSubmit} className="w-full">
+            {/* Paso 1 */}
             {currentStep === 1 && (
-              <div className="flex flex-col items-center  ">
+              <div className="flex flex-col items-center">
                 <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Experience Details
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label ">
-                    <span className="label-text font-semibold   ">
+                    <span className="label-text font-semibold">
                       Experience Name <span className="text-error">*</span>
                     </span>
                   </label>
@@ -182,12 +181,10 @@ export default function FormAddExperience() {
                   />
                   {errors.experienceName && <span className="text-error text-sm mt-1">{errors.experienceName}</span>}
                 </div>
-
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Location (Country){" "}
-                      <span className="text-error">*</span>
+                      Location (Country) <span className="text-error">*</span>
                     </span>
                   </label>
                   <input
@@ -200,7 +197,6 @@ export default function FormAddExperience() {
                   />
                   {errors.location && <span className="text-error text-sm mt-1">{errors.location}</span>}
                 </div>
-
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
@@ -224,8 +220,8 @@ export default function FormAddExperience() {
                   </select>
                   {errors.category && <span className="text-error text-sm mt-1">{errors.category}</span>}
                 </div>
-
-                <div className="form-control w-full max-w-md mb-6 text-left">
+                {/* Desactivado temporalmente el input de imágenes */}
+                {/* <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
                       Add Images (minimum 3){" "}
@@ -241,36 +237,35 @@ export default function FormAddExperience() {
                     accept=".png, .jpg, .jpeg"
                   />
                   {errors.images && <span className="text-error text-sm mt-1">{errors.images}</span>}
-                </div>
+                </div> */}
               </div>
             )}
 
+            {/* Paso 2 */}
             {currentStep === 2 && (
               <div className="flex flex-col items-center">
-                <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">
+                <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Additional Information
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Description of the Experience (min. 200 characters){" "}
-                      <span className="text-error">*</span>
+                      Description <span className="text-error">*</span>
                     </span>
                   </label>
                   <textarea
                     name="description"
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Provide a detailed description of the experience..."
+                    placeholder="Describe your experience (min 200 characters)"
+                    className="textarea textarea-bordered w-full"
                     value={formData.description}
                     onChange={handleChange}
-                  ></textarea>
+                  />
                   {errors.description && <span className="text-error text-sm mt-1">{errors.description}</span>}
                 </div>
-
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Duration in Hours<span className="text-error">*</span>
+                      Duration <span className="text-error">*</span>
                     </span>
                   </label>
                   <input
@@ -283,15 +278,16 @@ export default function FormAddExperience() {
                   />
                   {errors.duration && <span className="text-error text-sm mt-1">{errors.duration}</span>}
                 </div>
-
-                <div className="form-control w-full max-w-md mb-6 text-left">
+                <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold">Price EUR (optional)</span>
+                    <span className="label-text font-semibold">
+                      Cost
+                    </span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="cost"
-                    placeholder="e.g., 150"
+                    placeholder="e.g., 50€"
                     className="input input-bordered w-full"
                     value={formData.cost}
                     onChange={handleChange}
@@ -300,42 +296,47 @@ export default function FormAddExperience() {
               </div>
             )}
 
+            {/* Paso 3 */}
             {currentStep === 3 && (
               <div className="flex flex-col items-center">
-                <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">
+                <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Planning & Scheduling
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold">Itinerary (optional)</span>
+                    <span className="label-text font-semibold">
+                      Itinerary
+                    </span>
                   </label>
                   <textarea
                     name="itinerary"
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Outline the daily itinerary, if applicable."
+                    placeholder="Describe the itinerary"
+                    className="textarea textarea-bordered w-full"
                     value={formData.itinerary}
                     onChange={handleChange}
-                  ></textarea>
+                  />
                 </div>
-
-                <div className="form-control w-full max-w-md mb-6 text-left">
+                <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold">Observations (optional)</span>
+                    <span className="label-text font-semibold">
+                      Observations
+                    </span>
                   </label>
                   <textarea
                     name="observations"
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Any additional notes or observations."
+                    placeholder="Any additional observations"
+                    className="textarea textarea-bordered w-full"
                     value={formData.observations}
                     onChange={handleChange}
-                  ></textarea>
+                  />
                 </div>
               </div>
             )}
 
+            {/* Paso 4 */}
             {currentStep === 4 && (
               <div className="flex flex-col items-center">
-                <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">
+                <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Host Contact
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
@@ -347,29 +348,29 @@ export default function FormAddExperience() {
                   <input
                     type="text"
                     name="hostName"
-                    placeholder="e.g., Angelina Jolie"
+                    placeholder="Host Name"
                     className="input input-bordered w-full"
                     value={formData.hostName}
                     onChange={handleChange}
                   />
                   {errors.hostName && <span className="text-error text-sm mt-1">{errors.hostName}</span>}
                 </div>
-
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold">Host Email (optional)</span>
+                    <span className="label-text font-semibold">
+                      Host Email
+                    </span>
                   </label>
                   <input
                     type="email"
                     name="hostEmail"
-                    placeholder="e.g., host@example.com"
+                    placeholder="Host Email"
                     className="input input-bordered w-full"
                     value={formData.hostEmail}
                     onChange={handleChange}
                   />
                   {errors.hostEmail && <span className="text-error text-sm mt-1">{errors.hostEmail}</span>}
                 </div>
-
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
@@ -377,19 +378,19 @@ export default function FormAddExperience() {
                     </span>
                   </label>
                   <input
-                    type="tel"
+                    type="text"
                     name="phone"
-                    placeholder="e.g., +34 123 456 7890"
+                    placeholder="Phone"
                     className="input input-bordered w-full"
                     value={formData.phone}
                     onChange={handleChange}
                   />
                   {errors.phone && <span className="text-error text-sm mt-1">{errors.phone}</span>}
                 </div>
-              
               </div>
             )}
-             
+
+            {/* Botones de navegación */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md mt-6 mx-auto">
               {currentStep > 1 && (
                 <button

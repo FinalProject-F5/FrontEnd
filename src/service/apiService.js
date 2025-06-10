@@ -8,7 +8,8 @@ export class Experiences {
     return {
       headers: {
         Experiences: "experiences/json",
-        ...(user && user.id ? { "X-User-ID": user.id } : {}),
+      ...(user && user.id ? { "X-User-ID": user.id } : {}),
+      ...(user && user.token ? { Authorization: `Bearer ${user.token}` } : {}),
       },
     };
   }
