@@ -10,7 +10,6 @@ export class Experiences {
         ...(user && user.token
           ? { Authorization: `Bearer ${user.token}` }
           : {}),
-        Experiences: "experiences/json",
         ...(user && user.id ? { "X-User-ID": user.id } : {}),
       },
     };
@@ -43,7 +42,7 @@ export class Experiences {
       .post(this.baseUrl, experienceData, {
         headers: {
           ...this.getRequestOptions().headers,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       })
       .then((response) => response.data)

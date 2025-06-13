@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Experiences } from "../../../service/apiService";
 
 const experiencesService = new Experiences();
@@ -17,159 +18,124 @@ export default function FormAddExperience() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
-  const [formData, setFormData] = useState({
-    experienceName: "",
-    location: "",
-    category: "",
-    images: null,
-    description: "",
-    duration: "",
-    cost: "",
-    itinerary: "",
-    observations: "",
-    hostName: "",
-    hostEmail: "",
-    phone: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+    getValues,
+  } = useForm({
+    defaultValues: {
+      title: "",
+      location: "",
+      category: "",
+      //images: null,
+      description: "",
+      duration: "",
+      price: "",
+     // itinerary: "",
+     // observations: "",
+      host: "",
+      email: "",
+      mobile: "",
+      addInfo: "",
+    },
   });
 
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === "file") {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: name === "images" ? files : files[0],
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: sanitizeInput(value),
-      }));
+  const validateStep1 = (data) => {
+    let valid = true;
+    clearErrors();
+    if (!data.title) {
+      setError("title", { type: "manual", message: "Experience Name is required." });
+      valid = false;
     }
-  };
-
-  const sanitizeInput = (input) => {
-    if (typeof input !== "string") {
-      return input;
+    if (!data.location) {
+      setError("location", { type: "manual", message: "Location is required." });
+      valid = false;
     }
-    return input.replace(/[<>"'/]/g, "");
-  };
-
-  const validateStep1 = () => {
-    let newErrors = {};
-    if (!formData.experienceName)
-      newErrors.experienceName = "Experience Name is required.";
-    if (!formData.location) newErrors.location = "Location is required.";
-    if (!formData.category) newErrors.category = "Category is required.";
-
-    if (!formData.images || formData.images.length === 0) {
-      newErrors.images = "At least 3 images are required.";
-    } else if (formData.images.length < 3) {
-      newErrors.images = "At least 3 images are required.";
+    if (!data.category) {
+      setError("category", { type: "manual", message: "Category is required." });
+      valid = false;
+    }
+    const files = data.images;
+    if (!files || files.length < 3) {
+      setError("images", { type: "manual", message: "At least 3 images are required." });
+      valid = false;
     } else {
-      for (let i = 0; i < formData.images.length; i++) {
-        const file = formData.images[i];
-        if (file.type !== "image/png" && file.type !== "image/jpeg") {
-          newErrors.images = "Only PNG or JPG image formats are allowed.";
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].type !== "image/png" && files[i].type !== "image/jpeg") {
+          setError("images", { type: "manual", message: "Only PNG or JPG image formats are allowed." });
+          valid = false;
           break;
         }
       }
     }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return valid;
   };
 
-  const validateStep2 = () => {
-    let newErrors = {};
-    if (!formData.description)
-      newErrors.description = "Description is required.";
-    if (formData.description.length < 200)
-      newErrors.description =
-        "Description must be at least 200 characters long.";
-    if (!formData.duration) newErrors.duration = "Duration is required.";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const validateStep4 = () => {
-    let newErrors = {};
-    if (!formData.hostName) newErrors.hostName = "Host Name is required.";
-    if (!formData.phone) newErrors.phone = "Phone is required.";
-
-    if (
-      formData.hostEmail &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.hostEmail)
-    ) {
-      newErrors.hostEmail = "Invalid email format.";
+  const validateStep2 = (data) => {
+    let valid = true;
+    clearErrors();
+    if (!data.description) {
+      setError("description", { type: "manual", message: "Description is required." });
+      valid = false;
+    } else if (data.description.length < 200) {
+      setError("description", { type: "manual", message: "Description must be at least 200 characters long." });
+      valid = false;
     }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!data.duration) {
+      setError("duration", { type: "manual", message: "Duration is required." });
+      valid = false;
+    }
+    return valid;
   };
 
-  const handleNext = () => {
+  const validateStep4 = (data) => {
+    let valid = true;
+    clearErrors();
+    if (!data.host) {
+      setError("host", { type: "manual", message: "Host Name is required." });
+      valid = false;
+    }
+    if (!data.mobile) {
+      setError("mobile", { type: "manual", message: "Phone is required." });
+      valid = false;
+    }
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      setError("email", { type: "manual", message: "Invalid email format." });
+      valid = false;
+    }
+    return valid;
+  };
+
+  const onNext = (data) => {
     let isValid = false;
-    if (currentStep === 1) {
-      isValid = validateStep1();
-    } else if (currentStep === 2) {
-      isValid = validateStep2();
-    } else if (currentStep === 3) {
-      isValid = true;
-    }
-
-    if (isValid) {
-      setCurrentStep((prevStep) => Math.min(prevStep + 1, totalSteps));
-      setErrors({});
-    }
+    if (currentStep === 1) isValid = validateStep1(data);
+    else if (currentStep === 2) isValid = validateStep2(data);
+    else if (currentStep === 3) isValid = true;
+    if (isValid) setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
 
-  const handlePrevious = () => {
-    setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
-    setErrors({});
-  };
+  const onPrevious = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (currentStep === totalSteps) {
-      const isValid = validateStep4();
-      if (isValid) {
-        const data = new FormData();
-        data.append("experienceName", formData.experienceName);
-        data.append("location", formData.location);
-        data.append("category", formData.category);
-        data.append("description", formData.description);
-        data.append("duration", formData.duration);
-        data.append("cost", formData.cost);
-        data.append("itinerary", formData.itinerary);
-        data.append("observations", formData.observations);
-        data.append("hostName", formData.hostName);
-        data.append("hostEmail", formData.hostEmail);
-        data.append("phone", formData.phone);
-
-        if (formData.images && formData.images.length > 0) {
-          for (let i = 0; i < formData.images.length; i++) {
-            data.append("images", formData.images[i]);
-          }
-        }
-
-        try {
-          await experiencesService.createExperiences(data);
-          alert("Experience created successfully!");
-          // limpiar o redirigir
-        } catch (error) {
-          alert(
-            "Error: " +
-              (error.response?.data?.message || "Could not create experience")
-          );
-        }
-      } else {
-        alert("Please correct the errors in the form.");
-      }
+  const onSubmit = async (data) => {
+    if (!validateStep4(data)) return;
+    const payload = {
+      ...data,
+      price: data.price || 0,
+      addInfo: data.addInfo || "",
+    };
+    try {
+      await experiencesService.createExperiences(payload);
+      alert("Experience created successfully!");
+    } catch (error) {
+      alert("Error: " + (error.response?.data?.message || "Could not create experience"));
     }
   };
+
+  const images = watch("images");
 
   return (
     <div
@@ -200,7 +166,7 @@ export default function FormAddExperience() {
             </li>
           </ul>
 
-          <form onSubmit={handleSubmit} className="w-full">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             {currentStep === 1 && (
               <div className="flex flex-col items-center  ">
                 <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
@@ -214,15 +180,13 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="text"
-                    name="experienceName"
                     placeholder="e.g., Guided Hiking Tour in the Alps"
                     className="input input-bordered w-full"
-                    value={formData.experienceName}
-                    onChange={handleChange}
+                    {...register("title")}
                   />
-                  {errors.experienceName && (
+                  {errors.title && (
                     <span className="text-error text-sm mt-1">
-                      {errors.experienceName}
+                      {errors.title.message}
                     </span>
                   )}
                 </div>
@@ -235,15 +199,13 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="text"
-                    name="location"
                     placeholder="e.g., Kyoto, Japan"
                     className="input input-bordered w-full"
-                    value={formData.location}
-                    onChange={handleChange}
+                    {...register("location")}
                   />
                   {errors.location && (
                     <span className="text-error text-sm mt-1">
-                      {errors.location}
+                      {errors.location.message}
                     </span>
                   )}
                 </div>
@@ -255,10 +217,8 @@ export default function FormAddExperience() {
                     </span>
                   </label>
                   <select
-                    name="category"
                     className="select select-bordered w-full"
-                    value={formData.category}
-                    onChange={handleChange}
+                    {...register("category")}
                   >
                     <option value="" disabled>
                       Select a category
@@ -271,7 +231,7 @@ export default function FormAddExperience() {
                   </select>
                   {errors.category && (
                     <span className="text-error text-sm mt-1">
-                      {errors.category}
+                      {errors.category.message}
                     </span>
                   )}
                 </div>
@@ -279,21 +239,19 @@ export default function FormAddExperience() {
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Add Images (minimum 3){" "}
-                      <span className="text-error">*</span>
+                      Add Images (minimum 3) <span className="text-error">*</span>
                     </span>
                   </label>
                   <input
                     type="file"
-                    name="images"
                     className="file-input file-input-bordered w-full"
                     multiple
-                    onChange={handleChange}
                     accept=".png, .jpg, .jpeg"
+                    {...register("images")}
                   />
                   {errors.images && (
                     <span className="text-error text-sm mt-1">
-                      {errors.images}
+                      {errors.images.message}
                     </span>
                   )}
                 </div>
@@ -308,20 +266,17 @@ export default function FormAddExperience() {
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Description of the Experience (min. 200 characters){" "}
-                      <span className="text-error">*</span>
+                      Description of the Experience (min. 200 characters) <span className="text-error">*</span>
                     </span>
                   </label>
                   <textarea
-                    name="description"
                     className="textarea textarea-bordered h-24 w-full"
                     placeholder="Provide a detailed description of the experience..."
-                    value={formData.description}
-                    onChange={handleChange}
+                    {...register("description")}
                   ></textarea>
                   {errors.description && (
                     <span className="text-error text-sm mt-1">
-                      {errors.description}
+                      {errors.description.message}
                     </span>
                   )}
                 </div>
@@ -334,15 +289,13 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="text"
-                    name="duration"
                     placeholder="e.g., 3 hours"
                     className="input input-bordered w-full"
-                    value={formData.duration}
-                    onChange={handleChange}
+                    {...register("duration")}
                   />
                   {errors.duration && (
                     <span className="text-error text-sm mt-1">
-                      {errors.duration}
+                      {errors.duration.message}
                     </span>
                   )}
                 </div>
@@ -355,11 +308,9 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="number"
-                    name="cost"
                     placeholder="e.g., 150"
                     className="input input-bordered w-full"
-                    value={formData.cost}
-                    onChange={handleChange}
+                    {...register("price")}
                   />
                 </div>
               </div>
@@ -377,11 +328,9 @@ export default function FormAddExperience() {
                     </span>
                   </label>
                   <textarea
-                    name="itinerary"
                     className="textarea textarea-bordered h-24 w-full"
                     placeholder="Outline the daily itinerary, if applicable."
-                    value={formData.itinerary}
-                    onChange={handleChange}
+                    {...register("itinerary")}
                   ></textarea>
                 </div>
 
@@ -392,11 +341,9 @@ export default function FormAddExperience() {
                     </span>
                   </label>
                   <textarea
-                    name="observations"
                     className="textarea textarea-bordered h-24 w-full"
                     placeholder="Any additional notes or observations."
-                    value={formData.observations}
-                    onChange={handleChange}
+                    {...register("observations")}
                   ></textarea>
                 </div>
               </div>
@@ -415,15 +362,13 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="text"
-                    name="hostName"
                     placeholder="e.g., Angelina Jolie"
                     className="input input-bordered w-full"
-                    value={formData.hostName}
-                    onChange={handleChange}
+                    {...register("host")}
                   />
-                  {errors.hostName && (
+                  {errors.host && (
                     <span className="text-error text-sm mt-1">
-                      {errors.hostName}
+                      {errors.host.message}
                     </span>
                   )}
                 </div>
@@ -436,15 +381,13 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="email"
-                    name="hostEmail"
                     placeholder="e.g., host@example.com"
                     className="input input-bordered w-full"
-                    value={formData.hostEmail}
-                    onChange={handleChange}
+                    {...register("email")}
                   />
-                  {errors.hostEmail && (
+                  {errors.email && (
                     <span className="text-error text-sm mt-1">
-                      {errors.hostEmail}
+                      {errors.email.message}
                     </span>
                   )}
                 </div>
@@ -457,15 +400,13 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="tel"
-                    name="phone"
                     placeholder="e.g., +34 123 456 7890"
                     className="input input-bordered w-full"
-                    value={formData.phone}
-                    onChange={handleChange}
+                    {...register("mobile")}
                   />
-                  {errors.phone && (
+                  {errors.mobile && (
                     <span className="text-error text-sm mt-1">
-                      {errors.phone}
+                      {errors.mobile.message}
                     </span>
                   )}
                 </div>
@@ -476,7 +417,7 @@ export default function FormAddExperience() {
               {currentStep > 1 && (
                 <button
                   type="button"
-                  onClick={handlePrevious}
+                  onClick={() => onPrevious()}
                   className="btn btn-secondary w-full sm:w-auto flex-grow"
                 >
                   Previous
@@ -485,7 +426,7 @@ export default function FormAddExperience() {
               {currentStep < totalSteps && (
                 <button
                   type="button"
-                  onClick={handleNext}
+                  onClick={handleSubmit(onNext)}
                   className="btn btn-primary w-full sm:w-auto flex-grow"
                 >
                   Next
