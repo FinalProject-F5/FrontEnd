@@ -105,7 +105,7 @@ export default function Register() {
                   className="input input-bordered w-full"
                 />
                 {errors.name && (
-                  <span className="text-error text-sm mt-1 text-primary">
+                  <span className="text-error text-sm mt-1 ">
                     {errors.name.message}
                   </span>
                 )}
@@ -128,7 +128,7 @@ export default function Register() {
                   className="input input-bordered w-full"
                 />
                 {errors.email && (
-                  <span className="text-error text-sm mt-1 text-primary">
+                  <span className="text-error text-sm mt-1 ">
                     {errors.email.message}
                   </span>
                 )}
@@ -152,7 +152,7 @@ export default function Register() {
                   className="input input-bordered w-full"
                 />
                 {errors.password && (
-                  <span className="text-error text-sm mt-1 text-primary">
+                  <span className="text-error text-sm mt-1 ">
                     {errors.password.message}
                   </span>
                 )}

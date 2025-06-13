@@ -1,13 +1,15 @@
 import axios from "axios";
 
 export class Experiences {
-  baseUrl = "http://localhost:8080/api/v1/Experiences";
+  baseUrl = "http://localhost:8080/api/experiences";
 
   getRequestOptions() {
     const user = JSON.parse(localStorage.getItem("user"));
     return {
       headers: {
-        Experiences: "experiences/json",
+        ...(user && user.token
+          ? { Authorization: `Bearer ${user.token}` }
+          : {}),
         ...(user && user.id ? { "X-User-ID": user.id } : {}),
       },
     };
@@ -35,9 +37,14 @@ export class Experiences {
       });
   }
 
-  createExperiences(Experiences) {
+  createExperiences(experienceData) {
     return axios
-      .post(this.baseUrl, Experiences, this.getRequestOptions())
+      .post(this.baseUrl, experienceData, {
+        headers: {
+          ...this.getRequestOptions().headers,
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error creating Experiences:", error);
