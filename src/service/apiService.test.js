@@ -26,7 +26,7 @@ describe("Experiences service (unit)", () => {
     const result = await service.updateExperiences(id, updatedData);
 
     expect(axios.put).toHaveBeenCalledWith(
-      "http://localhost:8080/api/v1/Experiences/1",
+      "http://localhost:8080/api/experiences/1",
       updatedData,
       expect.objectContaining({
         headers: expect.objectContaining({
