@@ -120,6 +120,23 @@ export default function FormAddExperience() {
 
   const onPrevious = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        const base64 = reader.result.split(',')[1];
+        resolve(base64);
+      };
+  
+      reader.onerror = (error) => {
+        reject(error);
+      };
+  
+      reader.readAsDataURL(file);
+    });
+  };
+
   const onSubmit = async (data) => {
     if (!validateStep4(data)) return;
     const payload = {
@@ -127,7 +144,23 @@ export default function FormAddExperience() {
       price: data.price || 0,
       addInfo: data.addInfo || "",
     };
-    try {
+    try {  
+      const filesTemp = data.images;
+
+      payload.images = [];
+
+      for (const file of filesTemp) {
+        const base64 = await convertFileToBase64(file);  
+      
+        const imageObject = {
+          base64: base64,
+          name: file.name,
+          type: file.type,
+          size: file.size
+        };
+      
+        payload.images.push(imageObject);
+      }
       await experiencesService.createExperiences(payload);
       alert("Experience created successfully!");
     } catch (error) {
