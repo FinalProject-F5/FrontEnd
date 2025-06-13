@@ -1,12 +1,15 @@
 import axios from "axios";
 
 export class Experiences {
-  baseUrl = "http://localhost:8080/api/v1/Experiences";
+  baseUrl = "http://localhost:8080/api/experiences";
 
   getRequestOptions() {
     const user = JSON.parse(localStorage.getItem("user"));
     return {
       headers: {
+        ...(user && user.token
+          ? { Authorization: `Bearer ${user.token}` }
+          : {}),
         Experiences: "experiences/json",
         ...(user && user.id ? { "X-User-ID": user.id } : {}),
       },
