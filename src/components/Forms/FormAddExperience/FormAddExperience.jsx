@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Experiences } from "../../service/apiService";
+
+const experiencesService = new Experiences();
 
 export default function FormAddExperience() {
   const categories = [
@@ -126,13 +129,37 @@ export default function FormAddExperience() {
     setErrors({});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentStep === totalSteps) {
       const isValid = validateStep4();
       if (isValid) {
-        console.log("Form Data:", formData);
-        alert("Form submitted successfully!");
+        const data = new FormData();
+        data.append("experienceName", formData.experienceName);
+        data.append("location", formData.location);
+        data.append("category", formData.category);
+        data.append("description", formData.description);
+        data.append("duration", formData.duration);
+        data.append("cost", formData.cost);
+        data.append("itinerary", formData.itinerary);
+        data.append("observations", formData.observations);
+        data.append("hostName", formData.hostName);
+        data.append("hostEmail", formData.hostEmail);
+        data.append("phone", formData.phone);
+
+        if (formData.images && formData.images.length > 0) {
+          for (let i = 0; i < formData.images.length; i++) {
+            data.append("images", formData.images[i]);
+          }
+        }
+
+        try {
+          await experiencesService.createExperiences(data);
+          alert("Experience created successfully!");
+          // limpiar o redirigir
+        } catch (error) {
+          alert("Error: " + (error.response?.data?.message || "Could not create experience"));
+        }
       } else {
         alert("Please correct the errors in the form.");
       }

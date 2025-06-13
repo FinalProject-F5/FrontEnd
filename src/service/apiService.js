@@ -35,9 +35,14 @@ export class Experiences {
       });
   }
 
-  createExperiences(Experiences) {
+  createExperiences(experienceData) {
     return axios
-      .post(this.baseUrl, Experiences, this.getRequestOptions())
+      .post(this.baseUrl, experienceData, {
+        headers: {
+          ...this.getRequestOptions().headers,
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error creating Experiences:", error);
