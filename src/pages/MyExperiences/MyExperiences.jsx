@@ -51,7 +51,9 @@ export default function MyExperiences() {
 
       <div className="hero bg-base-200 py-16">
         <p>
-          A definir: si tenemos Pagina Perfil del usario (en la fase 4), ahi se agrega la seccion de "Mis experiencias, si NO hacemos el perfil del usuario hacemos una pagina solo para mis experiencias
+          A definir: si tenemos Pagina Perfil del usario (en la fase 4), ahi se
+          agrega la seccion de "Mis experiencias, si NO hacemos el perfil del
+          usuario hacemos una pagina solo para mis experiencias
         </p>
       </div>
 
@@ -59,9 +61,7 @@ export default function MyExperiences() {
         <h2 className="text-5xl font-bold text-primary mb-4">
           My Created Experiences
         </h2>
-        <p className="text-xl text-neutral">
-          Because sharing is caring
-        </p>
+        <p className="text-xl text-neutral">Because sharing is caring</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4">
@@ -71,7 +71,11 @@ export default function MyExperiences() {
             title={exp.title}
             category={exp.category}
             location={exp.location}
-            img={exp.img || imageTemporal}
+            img={
+              Array.isArray(exp.imageUrls) && exp.imageUrls.length > 0
+                ? exp.imageUrls[0]
+                : imageTemporal
+            }
           />
         ))}
       </div>
