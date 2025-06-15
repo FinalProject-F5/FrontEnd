@@ -119,6 +119,10 @@ export default function Register() {
                   type="email"
                   {...register("email", {
                     required: "Email is required",
+                    maxLength: {
+                      value: 120,
+                      message: "Email must be at most 120 characters long",
+                    },
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: "Invalid email address",
@@ -145,7 +149,11 @@ export default function Register() {
                     minLength: {
                       value: 8,
                       message:
-                        "Password must be at least 8 characters. 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character",
+                        "Password must be at least 8 characters.",
+                    },
+                    maxLength: {
+                      value: 120,
+                      message: "Password must be at most 120 characters long",
                     },
                   })}
                   placeholder="Password"
@@ -154,6 +162,29 @@ export default function Register() {
                 {errors.password && (
                   <span className="text-error text-sm mt-1 ">
                     {errors.password.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="form-control w-full max-w-xs mb-4">
+                <label className="label">
+                  <span className="label-text">Country Code</span>
+                </label>
+                <input
+                  type="text"
+                  {...register("countryCode", {
+                    required: "Country code is required",
+                    maxLength: {
+                      value: 20,
+                      message: "Country code must be at most 20 characters long",
+                    },
+                  })}
+                  placeholder="Country Code"
+                  className="input input-bordered w-full"
+                />
+                {errors.countryCode && (
+                  <span className="text-error text-sm mt-1 ">
+                    {errors.countryCode.message}
                   </span>
                 )}
               </div>

@@ -50,9 +50,15 @@ export default function FormAddExperience() {
     if (!data.title) {
       setError("title", { type: "manual", message: "Experience Name is required." });
       valid = false;
+    } else if (data.title.length > 100) {
+      setError("title", { type: "manual", message: "Title must be at most 100 characters." });
+      valid = false;
     }
     if (!data.location) {
       setError("location", { type: "manual", message: "Location is required." });
+      valid = false;
+    } else if (data.location.length > 100) {
+      setError("location", { type: "manual", message: "Location must be at most 100 characters." });
       valid = false;
     }
     if (!data.category) {
@@ -81,12 +87,19 @@ export default function FormAddExperience() {
     if (!data.description) {
       setError("description", { type: "manual", message: "Description is required." });
       valid = false;
-    } else if (data.description.length < 200) {
-      setError("description", { type: "manual", message: "Description must be at least 200 characters long." });
+    } else if (data.description.length < 100) {
+      setError("description", { type: "manual", message: "Description must be at least 100 characters long." });
       valid = false;
     }
     if (!data.duration) {
       setError("duration", { type: "manual", message: "Duration is required." });
+      valid = false;
+    }
+    if (!data.price && data.price !== 0) {
+      setError("price", { type: "manual", message: "Price is required." });
+      valid = false;
+    } else if (Number(data.price) < 0) {
+      setError("price", { type: "manual", message: "Price must be 0 or greater." });
       valid = false;
     }
     return valid;
@@ -98,13 +111,25 @@ export default function FormAddExperience() {
     if (!data.host) {
       setError("host", { type: "manual", message: "Host Name is required." });
       valid = false;
+    } else if (data.host.length > 100) {
+      setError("host", { type: "manual", message: "Host name must be at most 100 characters." });
+      valid = false;
     }
     if (!data.mobile) {
       setError("mobile", { type: "manual", message: "Phone is required." });
       valid = false;
+    } else if (data.mobile.length > 20) {
+      setError("mobile", { type: "manual", message: "Phone must be at most 20 characters." });
+      valid = false;
     }
-    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    if (!data.email) {
+      setError("email", { type: "manual", message: "Email is required." });
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       setError("email", { type: "manual", message: "Invalid email format." });
+      valid = false;
+    } else if (data.email.length > 100) {
+      setError("email", { type: "manual", message: "Email must be at most 100 characters." });
       valid = false;
     }
     return valid;
@@ -299,7 +324,7 @@ export default function FormAddExperience() {
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Description of the Experience (min. 200 characters) <span className="text-error">*</span>
+                      Description of the Experience (min. 100 characters) <span className="text-error">*</span>
                     </span>
                   </label>
                   <textarea
