@@ -131,73 +131,60 @@
 //   );
 // }
 
-import Footer from "../../components/Footer/Footer";
+
+import React, { useEffect,useState } from "react";
+import { Experiences } from "../../service/apiService";
+import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
-import React, { useState } from "react";
-
+import Footer from "../../components/Footer/Footer";
 import imageTemporal from "../../assets/imageTemporal.png";
-import cardImage1 from "../../assets/imageTemporal.png";
-import cardImage2 from "../../assets/imageTemporal.png";
-import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 
-const allCardData = [
-  {
-    id: 1,
-    title: "Forest Brews & Village Flavours",
-    category: "Route with a local perspective",
-    location: "Java, Indonesia",
-    img: cardImage1,
-  },
-  {
-    id: 2,
-    title: "Painting with locals",
-    category: "Art",
-    location: "Lima, Peru",
-    img: cardImage2,
-  },
-  {
-    id: 3,
-    title: "Cooking in the desert",
-    category: "Authentic Gastronomy.",
-    location: "Patagonia, Chile",
-    img: cardImage1,
-  },
-  {
-    id: 4,
-    title: "Playing the arp as a Geisha",
-    category: "Music with Soul",
-    location: "Kioto, Japan",
-    img: cardImage2,
-  },
-  {
-    id: 5,
-    title: "Nguyen Family Journey",
-    category: "Personal Stories",
-    location: "HoiAn, Vietnam",
-    img: cardImage1,
-  },
-  {
-    id: 6,
-    title: "Italian Volunteering ",
-    category: "Local Projects with Impact",
-    location: "Rome, Italy",
-    img: cardImage2,
-  },
-];
+
+const experiencesService = new Experiences();
 
 export default function HomePage() {
+  const [experiences, setExperiences] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
 
+  // Traer experiencias reales del backend
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const data = await experiencesService.getAllExperiences();
+        setExperiences(data);
+      } catch (error) {
+        // Puedes mostrar un mensaje de error si quieres
+      }
+    };
+    fetchExperiences();
+  }, []);
+
+  // Calcular categorías y países a partir de los datos reales
   const categories = [
-    "", 
-    ...new Set(allCardData.map((card) => card.category)),
+    "",
+    ...new Set(experiences.map((exp) => exp.category)),
   ].sort();
+
   const countries = [
     "",
-    ...new Set(allCardData.map((card) => card.location.split(", ")[1])), 
+    ...new Set(
+      experiences
+        .map((exp) => exp.location && exp.location.split(", ")[1])
+        .filter(Boolean)
+    ),
   ].sort();
+
+  // Filtrar experiencias según los selects
+  const filteredExperiences = experiences.filter((exp) => {
+    const expCountry = exp.location && exp.location.split(", ")[1];
+    const matchesCategory =
+      selectedCategory === "" || exp.category === selectedCategory;
+    const matchesCountry =
+      selectedCountry === "" || expCountry === selectedCountry;
+    return matchesCategory && matchesCountry;
+  });
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
@@ -206,17 +193,6 @@ export default function HomePage() {
   const handleCountryChange = (e) => {
     setSelectedCountry(e.target.value);
   };
-
-  const filteredCards = allCardData.filter((card) => {
-    const cardCountry = card.location.split(", ")[1];
-
-    const matchesCategory =
-      selectedCategory === "" || card.category === selectedCategory;
-    const matchesCountry =
-      selectedCountry === "" || cardCountry === selectedCountry;
-
-    return matchesCategory && matchesCountry;
-  });
 
   return (
     <>
@@ -274,7 +250,6 @@ export default function HomePage() {
         </p>
 
         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
-        
           <div className="form-control w-full md:w-auto">
             <label htmlFor="categoryFilter" className="label sr-only">
               <span className="label-text">Filter by Category</span>
@@ -286,15 +261,17 @@ export default function HomePage() {
               onChange={handleCategoryChange}
             >
               <option value="">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
+              {categories.map(
+                (cat) =>
+                  cat && (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  )
+              )}
             </select>
           </div>
 
-         
           <div className="form-control w-full md:w-auto">
             <label htmlFor="countryFilter" className="label sr-only">
               <span className="label-text">Filter by Country</span>
@@ -306,25 +283,27 @@ export default function HomePage() {
               onChange={handleCountryChange}
             >
               <option value="">All Countries</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
+              {countries.map(
+                (country) =>
+                  country && (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  )
+              )}
             </select>
           </div>
         </div>
-       
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
-        {filteredCards.map((card) => (
+        {filteredExperiences.map((exp) => (
           <Cards
-            key={card.id}
-            title={card.title}
-            category={card.category}
-            location={card.location}
-            img={card.img}
+            key={exp.id}
+            title={exp.title}
+            category={exp.category}
+            location={exp.location}
+            img={exp.img || imageTemporal}
           />
         ))}
       </div>
