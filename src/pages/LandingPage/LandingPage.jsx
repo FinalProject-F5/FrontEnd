@@ -103,7 +103,11 @@ export default function LandingPage() {
             title={exp.title}
             category={exp.category}
             location={exp.location}
-            img={exp.img || imageTemporal}
+            img={
+              Array.isArray(exp.imageUrls) && exp.imageUrls.length > 0
+                ? exp.imageUrls[0]
+                : imageTemporal
+            }
           />
         ))}
       </div>
