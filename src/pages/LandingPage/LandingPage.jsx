@@ -2,75 +2,43 @@ import Header from "../../components/header/header";
 import imageTemporal from "../../assets/imageTemporal.png";
 import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
-import React, { useEffect } from "react";
-
-import cardImage1 from "../../assets/imageTemporal2.png";
-import cardImage2 from "../../assets/imageTemporal.png";
+import React, { useEffect, useState } from "react";
+import { Experiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
-import { Navigate, useNavigate } from "react-router-dom";
-import loading from "daisyui/components/loading";
+import { useNavigate } from "react-router-dom";
 
-const allCardData = [
-  {
-    id: 1,
-    title: "Forest Brews & Village Flavours",
-    category: "Route with a local perspective",
-    location: "Java, Indonesia",
-    img: cardImage1,
-  },
-  {
-    id: 2,
-    title: "Painting with locals",
-    category: "Art",
-    location: "Lima, Peru",
-    img: cardImage2,
-  },
-  {
-    id: 3,
-    title: "Cooking in the desert",
-    category: "Authentic Gastronomy.",
-    location: "Patagonia, Chile",
-    img: cardImage1,
-  },
-  {
-    id: 4,
-    title: "Playing the arp as a Geisha",
-    category: "Music with Soul",
-    location: "Kioto, Japan",
-    img: cardImage2,
-  },
-  {
-    id: 5,
-    title: "Nguyen Family Journey",
-    category: "Personal Stories",
-    location: "HoiAn, Vietnam",
-    img: cardImage1,
-  },
-  {
-    id: 6,
-    title: "Italian Volunteering ",
-    category: "Local Projects with Impact",
-    location: "Rome, Italy",
-    img: cardImage2,
-  },
-];
+const experiencesService = new Experiences();
 
 export default function LandingPage() {
   const { user, loading } = useAuth();
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [experiences, setExperiences] = useState([]);
 
+  // Redirige a homepage si el usuario ya está autenticado
   useEffect(() => {
     if (loading) {
       return;
     }
-
     if (user) {
-      navigate("/homepage")
+      navigate("/homepage");
     }
-  },[user,loading,navigate]);
+  }, [user, loading, navigate]);
+
+  // Trae experiencias reales del backend
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const data = await experiencesService.getAllExperiences();
+        setExperiences(data);
+      } catch (error) {
+        // Puedes mostrar un mensaje de error si quieres
+      }
+    };
+    fetchExperiences();
+  }, []);
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
@@ -129,13 +97,13 @@ export default function LandingPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
-        {allCardData.map((card) => (
+        {experiences.map((exp) => (
           <Cards
-            key={card.id}
-            title={card.title}
-            category={card.category}
-            location={card.location}
-            img={card.img}
+            key={exp.id}
+            title={exp.title}
+            category={exp.category}
+            location={exp.location}
+            img={exp.img || imageTemporal}
           />
         ))}
       </div>
