@@ -1,4 +1,3 @@
-
 // import imageTemporal from "../../assets/imageTemporal.png";
 // import Footer from "../../components/Footer/Footer";
 // import Cards from "../../components/Cards/Cards";
@@ -8,7 +7,6 @@
 // import cardImage1 from "../../assets/imageTemporal.png";
 // import cardImage2 from "../../assets/imageTemporal.png";
 // import HeaderLogged2 from "../../components/headerLogged2/HeaderLogged2";
-
 
 // const allCardData = [
 //   {
@@ -59,7 +57,7 @@
 //   return (
 //     <>
 //       <HeaderLogged2 />
-      
+
 //       <div
 //         className="hero min-h-screen"
 //         style={{
@@ -71,7 +69,7 @@
 //         <div className="hero-content text-neutral-content justify-start w-full">
 //           <div className="max-w-md text-left">
 //             <h1 className="mb-5 text-5xl font-bold">Find your next Experience and get inspired by locals</h1>
-          
+
 //           </div>
 //         </div>
 //       </div>
@@ -131,15 +129,13 @@
 //   );
 // }
 
-
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Experiences } from "../../service/apiService";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import Footer from "../../components/Footer/Footer";
 import imageTemporal from "../../assets/imageTemporal.png";
-
 
 const experiencesService = new Experiences();
 
@@ -303,7 +299,11 @@ export default function HomePage() {
             title={exp.title}
             category={exp.category}
             location={exp.location}
-            img={exp.img || imageTemporal}
+            img={
+              Array.isArray(exp.imageUrls) && exp.imageUrls.length > 0
+                ? exp.imageUrls[0]
+                : imageTemporal
+            }
           />
         ))}
       </div>
