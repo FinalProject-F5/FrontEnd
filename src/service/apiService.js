@@ -28,6 +28,20 @@ export class Experiences {
       });
   }
 
+
+  searchExperiences(searchTerm) {
+    return axios
+      .get(`${this.baseUrl}/search`, {
+        ...this.getRequestOptions(),
+        params: { title: searchTerm.trim()},
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error searching Experiences:", error);
+        throw error;
+      });
+  }
+
   getExperiencesById(id) {
     const url = `${this.baseUrl}/${id}`;
     return axios
