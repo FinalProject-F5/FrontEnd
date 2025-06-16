@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Experiences } from "../../../service/apiService";
+import { useNavigate } from "react-router-dom";
 
 const experiencesService = new Experiences();
 
 export default function FormAddExperience() {
-  
+  const navigate = useNavigate();
+
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [categoriesError, setCategoriesError] = useState(null);
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
@@ -22,17 +25,15 @@ export default function FormAddExperience() {
     clearErrors,
     formState: { errors },
     getValues,
+    reset,
   } = useForm({
     defaultValues: {
       title: "",
       location: "",
       category: "",
-      //images: null,
       description: "",
       duration: "",
       price: "",
-     // itinerary: "",
-     // observations: "",
       host: "",
       email: "",
       mobile: "",
@@ -56,7 +57,7 @@ export default function FormAddExperience() {
     };
 
     fetchCategories();
-  }, []); 
+  }, []);
 
   const validateStep1 = (data) => {
     let valid = true;
@@ -183,31 +184,42 @@ export default function FormAddExperience() {
       price: data.price || 0,
       addInfo: data.addInfo || "",
     };
+
     try {
       const filesTemp = data.images;
-
       payload.images = [];
 
       for (const file of filesTemp) {
         const base64 = await convertFileToBase64(file);
-
         const imageObject = {
           base64: base64,
           name: file.name,
           type: file.type,
           size: file.size
         };
-
         payload.images.push(imageObject);
       }
+
       await experiencesService.createExperiences(payload);
-      alert("Experience created successfully!");
+      setShowSuccessModal(true);
+      reset();
+      setCurrentStep(1);
     } catch (error) {
-      alert("Error: " + (error.response?.data?.message || "Could not create experience"));
+      if (error.response && error.response.status === 400 && error.response.data.message.includes('category')) {
+        alert("Error: " + error.response.data.message);
+      } else {
+        alert("Error: " + (error.response?.data?.message || "Could not create experience"));
+      }
     }
   };
 
   const images = watch("images");
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    navigate("/");
+  };
+
 
   return (
     <div
@@ -295,18 +307,17 @@ export default function FormAddExperience() {
                     <option value="" disabled>
                       Select a category
                     </option>
-                    {loadingCategories ? ( 
+                    {loadingCategories ? (
                       <option>Loading categories...</option>
-                    ) : categoriesError ? ( 
+                    ) : categoriesError ? (
                       <option className="text-error">{categoriesError}</option>
                     ) : (
-                     
                       categories.map((category) => (
                         <option
-                          key={category.id || category.name} 
-                          value={category.name} 
+                          key={category.id || category.name}
+                          value={category.id}
                         >
-                          {category.name} {}
+                          {category.name}
                         </option>
                       ))
                     )}
@@ -526,6 +537,21 @@ export default function FormAddExperience() {
           </form>
         </div>
       </div>
+
+      <dialog id="success_modal" className={`modal ${showSuccessModal ? 'modal-open' : ''}`}>
+        <div className="modal-box bg-warning text-black text-center p-8 rounded-lg shadow-lg">
+          <h3 className="font-bold text-2xl">Experience Created Successfully!</h3>
+          <p className="py-4 text-lg">Your experience has been created successfully.</p>
+          <div className="modal-action">
+            <button
+              className="btn btn-success text-white px-6 py-2 rounded-lg"
+              onClick={handleCloseSuccessModal}
+            >
+              Go to Homepage
+            </button>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }
