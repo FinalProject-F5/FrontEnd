@@ -315,7 +315,7 @@ export default function FormAddExperience() {
                       categories.map((category) => (
                         <option
                           key={category.id || category.name}
-                          value={category.id}
+                          value={category.name}
                         >
                           {category.name}
                         </option>
