@@ -2,6 +2,7 @@ import axios from "axios";
 
 export class Experiences {
   baseUrl = "http://localhost:8080/api/experiences";
+  categoriesUrl = "http://localhost:8080/api/categories/all";
 
   getRequestOptions() {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -73,4 +74,17 @@ export class Experiences {
         throw error;
       });
   }
+
+getCategories() {
+    console.log("Fetching all Categories from:", this.categoriesUrl);
+    
+    return axios
+      .get(this.categoriesUrl, this.getRequestOptions())
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+        throw error;
+      });
+  }
+
 }

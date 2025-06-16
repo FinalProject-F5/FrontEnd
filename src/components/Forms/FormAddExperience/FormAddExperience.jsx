@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import { useForm } from "react-hook-form";
 import { Experiences } from "../../../service/apiService";
 
 const experiencesService = new Experiences();
 
 export default function FormAddExperience() {
-  const categories = [
-    "Art",
-    "Authentic Gastronomy",
-    "Music with Soul",
-    "Routes with a Local Perspective",
-    "Personal stories",
-    "Local projects with impact",
-    "Homestays and everyday life",
-  ];
+  
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [categoriesError, setCategoriesError] = useState(null);
+
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
@@ -43,6 +39,24 @@ export default function FormAddExperience() {
       addInfo: "",
     },
   });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        setCategoriesError(null);
+        const data = await experiencesService.getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setCategoriesError("Failed to load categories. Please try again later.");
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []); 
 
   const validateStep1 = (data) => {
     let valid = true;
@@ -148,16 +162,16 @@ export default function FormAddExperience() {
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         const base64 = reader.result.split(',')[1];
         resolve(base64);
       };
-  
+
       reader.onerror = (error) => {
         reject(error);
       };
-  
+
       reader.readAsDataURL(file);
     });
   };
@@ -169,21 +183,21 @@ export default function FormAddExperience() {
       price: data.price || 0,
       addInfo: data.addInfo || "",
     };
-    try {  
+    try {
       const filesTemp = data.images;
 
       payload.images = [];
 
       for (const file of filesTemp) {
-        const base64 = await convertFileToBase64(file);  
-      
+        const base64 = await convertFileToBase64(file);
+
         const imageObject = {
           base64: base64,
           name: file.name,
           type: file.type,
           size: file.size
         };
-      
+
         payload.images.push(imageObject);
       }
       await experiencesService.createExperiences(payload);
@@ -281,11 +295,21 @@ export default function FormAddExperience() {
                     <option value="" disabled>
                       Select a category
                     </option>
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
+                    {loadingCategories ? ( 
+                      <option>Loading categories...</option>
+                    ) : categoriesError ? ( 
+                      <option className="text-error">{categoriesError}</option>
+                    ) : (
+                     
+                      categories.map((category) => (
+                        <option
+                          key={category.id || category.name} 
+                          value={category.name} 
+                        >
+                          {category.name} {}
+                        </option>
+                      ))
+                    )}
                   </select>
                   {errors.category && (
                     <span className="text-error text-sm mt-1">
