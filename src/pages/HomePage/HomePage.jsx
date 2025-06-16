@@ -13,6 +13,8 @@ export default function HomePage() {
   const [categoriesData, setCategoriesData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [countriesForFilter, setCountriesForFilter] = useState([]);
+
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -22,6 +24,9 @@ export default function HomePage() {
 
         const categoriesResponse = await experiencesService.getCategories();
         setCategoriesData(categoriesResponse);
+
+        const countriesResponse = await experiencesService.getCountries();
+        setCountriesForFilter(countriesResponse.map(country => country.name));
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,18 +40,8 @@ export default function HomePage() {
     ...new Set(categoriesData.map((cat) => cat.name)),
   ].sort();
 
-
-  const countries = [
-    "",
-    ...new Set(
-      experiences
-        .map((exp) => exp.location && exp.location.split(", ")[1])
-        .filter(Boolean)
-    ),
-  ].sort();
-
   const filteredExperiences = experiences.filter((exp) => {
-    const expCountry = exp.location && exp.location.split(", ")[1];
+    const expCountry = exp.location;
     const expCategoryName = exp.category;
 
     const matchesCategory =
@@ -153,7 +148,7 @@ export default function HomePage() {
               onChange={handleCountryChange}
             >
               <option value="">All Countries</option>
-              {countries.map(
+              {countriesForFilter.map(
                 (country) =>
                   country && (
                     <option key={country} value={country}>
