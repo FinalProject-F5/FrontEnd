@@ -57,6 +57,9 @@ export default function HeaderLogged() {
             <li>
           <Link to="/AddExperience">Add Experience</Link>
             </li>
+             <li>
+          <Link to="/MyExperiences">My Experiences</Link>
+            </li>
             <li>
              <button onClick={onClick}>Logout</button>
             </li>
