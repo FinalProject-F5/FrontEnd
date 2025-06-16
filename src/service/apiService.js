@@ -3,6 +3,7 @@ import axios from "axios";
 export class Experiences {
   baseUrl = "http://localhost:8080/api/experiences";
   categoriesUrl = "http://localhost:8080/api/categories/all";
+  countriesUrl = "http://localhost:8080/api/countries/all";
 
   getRequestOptions() {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -83,6 +84,17 @@ getCategories() {
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error fetching categories:", error);
+        throw error;
+      });
+  }
+
+  getCountries() {
+    console.log("Fetching all Countries from:", this.countriesUrl);
+    return axios
+      .get(this.countriesUrl, this.getRequestOptions())
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error fetching countries:", error);
         throw error;
       });
   }

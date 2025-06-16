@@ -12,6 +12,10 @@ export default function FormAddExperience() {
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [categoriesError, setCategoriesError] = useState(null);
 
+  const [countries, setCountries] = useState([]);
+  const [loadingCountries, setLoadingCountries] = useState(true);
+  const [countriesError, setCountriesError] = useState(null);
+
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -42,21 +46,33 @@ export default function FormAddExperience() {
   });
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchInitialData = async () => {
       try {
         setLoadingCategories(true);
         setCategoriesError(null);
-        const data = await experiencesService.getCategories();
-        setCategories(data);
+        const categoriesData = await experiencesService.getCategories();
+        setCategories(categoriesData);
       } catch (error) {
         console.error("Error fetching categories:", error);
         setCategoriesError("Failed to load categories. Please try again later.");
       } finally {
         setLoadingCategories(false);
       }
+
+      try {
+        setLoadingCountries(true);
+        setCountriesError(null);
+        const countriesData = await experiencesService.getCountries();
+        setCountries(countriesData);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        setCountriesError("Failed to load countries. Please try again later.");
+      } finally {
+        setLoadingCountries(false);
+      }
     };
 
-    fetchCategories();
+    fetchInitialData();
   }, []);
 
   const validateStep1 = (data) => {
@@ -70,10 +86,7 @@ export default function FormAddExperience() {
       valid = false;
     }
     if (!data.location) {
-      setError("location", { type: "manual", message: "Location is required." });
-      valid = false;
-    } else if (data.location.length > 100) {
-      setError("location", { type: "manual", message: "Location must be at most 100 characters." });
+      setError("location", { type: "manual", message: "Country is required." });
       valid = false;
     }
     if (!data.category) {
@@ -252,13 +265,13 @@ export default function FormAddExperience() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             {currentStep === 1 && (
-              <div className="flex flex-col items-center  ">
+              <div className="flex flex-col items-center">
                 <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Experience Details
                 </h3>
                 <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label ">
-                    <span className="label-text font-semibold   ">
+                  <label className="label">
+                    <span className="label-text font-semibold">
                       Experience Name <span className="text-error">*</span>
                     </span>
                   </label>
@@ -278,15 +291,31 @@ export default function FormAddExperience() {
                 <div className="form-control w-full max-w-md mb-4 text-left">
                   <label className="label">
                     <span className="label-text font-semibold">
-                      Location (Country) <span className="text-error">*</span>
+                      Country <span className="text-error">*</span>
                     </span>
                   </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Kyoto, Japan"
-                    className="input input-bordered w-full"
+                  <select
+                    className="select select-bordered w-full"
                     {...register("location")}
-                  />
+                  >
+                    <option value="" disabled>
+                      Select a country
+                    </option>
+                    {loadingCountries ? (
+                      <option>Loading countries...</option>
+                    ) : countriesError ? (
+                      <option className="text-error">{countriesError}</option>
+                    ) : (
+                      countries.map((country) => (
+                        <option
+                          key={country.code}
+                          value={country.name}
+                        >
+                          {country.name}
+                        </option>
+                      ))
+                    )}
+                  </select>
                   {errors.location && (
                     <span className="text-error text-sm mt-1">
                       {errors.location.message}
@@ -382,7 +411,7 @@ export default function FormAddExperience() {
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g., 3 hours"
+                    placeholder="e.g., 3"
                     className="input input-bordered w-full"
                     {...register("duration")}
                   />
