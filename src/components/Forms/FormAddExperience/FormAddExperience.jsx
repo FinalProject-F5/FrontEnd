@@ -424,7 +424,7 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold">
+                    <span className="label-text font-semibold"> 
                       Price EUR
                     </span>
                   </label>

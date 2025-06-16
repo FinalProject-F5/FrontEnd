@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Experiences } from "../../service/apiService";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
@@ -15,7 +16,6 @@ export default function HomePage() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countriesForFilter, setCountriesForFilter] = useState([]);
 
-
   useEffect(() => {
     const fetchAllData = async () => {
       try {
@@ -26,7 +26,9 @@ export default function HomePage() {
         setCategoriesData(categoriesResponse);
 
         const countriesResponse = await experiencesService.getCountries();
-        setCountriesForFilter(countriesResponse.map(country => country.name));
+       
+        const sortedCountries = countriesResponse.map(country => country.name).sort();
+        setCountriesForFilter(sortedCountries);
 
       } catch (error) {
         console.error("Error fetching data:", error);
