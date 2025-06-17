@@ -1,9 +1,16 @@
 import React from "react";
+import FormEditExperience from "../../components/Forms/FormEditExperience/FormEditExperience";
+import HeaderLogged from "../../components/headerLogged/HeaderLogged";
+import Footer from "../../components/Footer/Footer";
 
-export default function NamePage() {
+export default function EditExperience() {
   return (
-    <div>
-      {/* Content goes here */}
-    </div>
+    <>
+      <HeaderLogged />
+      <div>
+        <FormEditExperience />
+      </div>
+      <Footer />
+    </>
   );
 }
