@@ -4,6 +4,7 @@ import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 import Footer from "../../components/Footer/Footer";
 import { Experiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
+import FormDeleteExperience from "../../components/Forms/FormDeleteExperience/FormDeleteExperience";
 
 export default function ExperienceDetails() {
   const { id } = useParams();
@@ -137,11 +138,8 @@ export default function ExperienceDetails() {
                       <button className="btn btn-primary text-primary-content w-full">Edit this Experience</button>
                     </div>
                   </div>
-                  <div className="">
-                    <div className="card-body p-0 flex items-center justify-center">
-                      <button className="btn btn-neutral text-error-content w-full">Delete this Experience</button>
-                    </div>
-                  </div>
+                  <FormDeleteExperience
+                    id_experience={experience.id} />
                 </div>
               )}
             </div>
