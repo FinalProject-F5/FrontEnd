@@ -14,6 +14,8 @@ export default function MyExperiences() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [myExperiences, setMyExperiences] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 12;
 
   useEffect(() => {
     if (!loading && !user) {
@@ -25,11 +27,10 @@ export default function MyExperiences() {
     const fetchMyExperiences = async () => {
       try {
         const allExperiences = await experiencesService.getAllExperiences();
-        const mine = allExperiences.filter(
-          (exp) => exp.userId === user?.id
-        );
+        const mine = allExperiences.filter((exp) => exp.userId === user?.id);
         setMyExperiences(mine);
       } catch (error) {
+        console.error("Error fetching experiences:", error);
       }
     };
     if (user) {
@@ -40,6 +41,24 @@ export default function MyExperiences() {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  // Calcular las tarjetas visibles para la página actual
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = myExperiences.slice(indexOfFirstCard, indexOfLastCard);
+
+  // Funciones para manejar los botones de paginación
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(myExperiences.length / cardsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <>
@@ -55,15 +74,13 @@ export default function MyExperiences() {
         <div className="hero-overlay"></div>
         <div className="hero-content text-neutral-content justify-start w-full">
           <div className="max-w-md text-left">
-            <h1 className="mb-5 text-5xl font-bold">
-              My Experiences Created
-            </h1>
+            <h1 className="mb-5 text-5xl font-bold">My Experiences Created</h1>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]" >
-        {myExperiences.map((exp) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
+        {currentCards.map((exp) => (
           <Cards
             key={exp.id}
             id={exp.id}
@@ -78,10 +95,24 @@ export default function MyExperiences() {
           />
         ))}
       </div>
+
       <div className="flex justify-center gap-4 my-8">
-        <Buttons color="btn-secondary">{"< Prev"}</Buttons>
-        <Buttons color="btn-secondary">{"Next >"}</Buttons>
+        <Buttons
+          color="btn-secondary"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          {"< Prev"}
+        </Buttons>
+        <Buttons
+          color="btn-secondary"
+          onClick={handleNextPage}
+          disabled={currentPage === Math.ceil(myExperiences.length / cardsPerPage)}
+        >
+          {"Next >"}
+        </Buttons>
       </div>
+
       <Footer />
     </>
   );
