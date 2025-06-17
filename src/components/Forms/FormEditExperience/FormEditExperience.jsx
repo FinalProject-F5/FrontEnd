@@ -1,101 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
 import { Experiences } from "../../../service/apiService";
-import { useNavigate, useParams } from "react-router-dom";
 
 const experiencesService = new Experiences();
 
-export default function FormEditExperience() {
-  const navigate = useNavigate();
-  const { id } = useParams(); 
+const getCurrentUser = () => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
 
+export default function FormEditExperience() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [experience, setExperience] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [countries, setCountries] = useState([]);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   const {
     register,
     handleSubmit,
     setValue,
-    reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchExperience = async () => {
+      const user = getCurrentUser();
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
       try {
-        const [exp, cats, cts] = await Promise.all([
-          experiencesService.getExperienceById(id),
-          experiencesService.getCategories(),
-          experiencesService.getCountries()
-        ]);
+        const data = await experiencesService.getExperienceById(id); 
+        const currentUserEmail = user.email;
 
-        setExperience(exp);
-        setCategories(cats);
-        setCountries(cts.sort((a, b) => a.name.localeCompare(b.name)));
+        if (data.email !== currentUserEmail) {
+          setUnauthorized(true);
+          return;
+        }
 
-      
-        reset({
-          title: exp.title || "",
-          location: exp.location || "",
-          category: exp.category || "",
-          description: exp.description || "",
-          duration: exp.duration || "",
-          price: exp.price || 0,
-          itinerary: exp.itinerary || "",
-          observation: exp.observation || "",
-          host: exp.host || "",
-          email: exp.email || "",
-          mobile: exp.mobile || "",
-          addInfo: exp.addInfo || ""
+        setExperience(data);
+     
+        Object.keys(data).forEach((key) => {
+          if (key !== "images") {
+            setValue(key, data[key]);
+          }
         });
 
+      } catch (err) {
+        console.error("Error fetching experience:", err);
+      } finally {
         setLoading(false);
-      } catch (error) {
-        console.error("Error loading experience:", error);
-        alert("Error loading experience.");
-        navigate("/");
       }
     };
 
-    fetchData();
-  }, [id, navigate, reset]);
+    fetchExperience();
+  }, [id, navigate, setValue]);
 
   const onSubmit = async (formData) => {
     try {
-      const data = new FormData();
-
-      data.append("title", formData.title);
-      data.append("location", formData.location);
-      data.append("category", formData.category);
-      data.append("description", formData.description);
-      data.append("duration", formData.duration);
-      data.append("price", formData.price);
-      data.append("itinerary", formData.itinerary);
-      data.append("observation", formData.observation);
-      data.append("host", formData.host);
-      data.append("email", formData.email);
-      data.append("mobile", formData.mobile);
-      data.append("addInfo", formData.addInfo);
-
-      if (formData.images && formData.images.length > 0) {
-        for (let i = 0; i < formData.images.length; i++) {
-          data.append("images", formData.images[i]);
-        }
-      }
-
-      await experiencesService.updateExperiences(id, data); 
-
+      await experiencesService.updateExperience(id, formData);
       alert("Experience updated successfully!");
       navigate("/");
     } catch (error) {
-      console.error("Update error:", error);
+      console.error("Update failed:", error);
       alert("Failed to update experience.");
     }
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
+  if (loading) return <div className="text-center mt-10">Loading...</div>;
+  
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg">
@@ -187,4 +163,5 @@ export default function FormEditExperience() {
       </form>
     </div>
   );
+
 }
