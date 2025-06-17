@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Experiences } from "../../../service/apiService";
@@ -63,7 +64,12 @@ export default function FormAddExperience() {
         setLoadingCountries(true);
         setCountriesError(null);
         const countriesData = await experiencesService.getCountries();
-        setCountries(countriesData);
+        
+        const sortedCountries = [...countriesData].sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+        setCountries(sortedCountries);
+
       } catch (error) {
         console.error("Error fetching countries:", error);
         setCountriesError("Failed to load countries. Please try again later.");
@@ -73,7 +79,7 @@ export default function FormAddExperience() {
     };
 
     fetchInitialData();
-  }, []);
+  }, []); 
 
   const validateStep1 = (data) => {
     let valid = true;
@@ -123,7 +129,7 @@ export default function FormAddExperience() {
       setError("duration", { type: "manual", message: "Duration is required." });
       valid = false;
     }
-    if (!data.price && data.price !== 0) {
+    if (!data.price && data.price !== 0) { 
       setError("price", { type: "manual", message: "Price is required." });
       valid = false;
     } else if (Number(data.price) < 0) {
@@ -132,6 +138,7 @@ export default function FormAddExperience() {
     }
     return valid;
   };
+  
 
   const validateStep4 = (data) => {
     let valid = true;
@@ -150,13 +157,11 @@ export default function FormAddExperience() {
       setError("mobile", { type: "manual", message: "Phone must be at most 20 characters." });
       valid = false;
     }
-    if (!data.email) {
-      setError("email", { type: "manual", message: "Email is required." });
-      valid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+   
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       setError("email", { type: "manual", message: "Invalid email format." });
       valid = false;
-    } else if (data.email.length > 100) {
+    } else if (data.email && data.email.length > 100) {
       setError("email", { type: "manual", message: "Email must be at most 100 characters." });
       valid = false;
     }
@@ -165,9 +170,11 @@ export default function FormAddExperience() {
 
   const onNext = (data) => {
     let isValid = false;
+
     if (currentStep === 1) isValid = validateStep1(data);
     else if (currentStep === 2) isValid = validateStep2(data);
-    else if (currentStep === 3) isValid = true;
+    else if (currentStep === 3) isValid = true; 
+   
     if (isValid) setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
 
@@ -191,11 +198,19 @@ export default function FormAddExperience() {
   };
 
   const onSubmit = async (data) => {
-    if (!validateStep4(data)) return;
+    if (!validateStep4(data)) {
+       
+        setCurrentStep(4);
+        return;
+    }
+
     const payload = {
       ...data,
-      price: data.price || 0,
-      addInfo: data.addInfo || "",
+      price: data.price === "" ? 0 : Number(data.price),  
+      addInfo: data.addInfo || "", 
+     
+      itinerary: data.itinerary || "",
+      observations: data.observations || ""
     };
 
     try {
@@ -218,15 +233,16 @@ export default function FormAddExperience() {
       reset();
       setCurrentStep(1);
     } catch (error) {
-      if (error.response && error.response.status === 400 && error.response.data.message.includes('category')) {
+      console.error("Error creating experience:", error);  
+      if (error.response && error.response.status === 400 && error.response.data.message) {
         alert("Error: " + error.response.data.message);
       } else {
-        alert("Error: " + (error.response?.data?.message || "Could not create experience"));
+        alert("Error: Could not create experience. Please try again.");
       }
     }
   };
 
-  const images = watch("images");
+  const images = watch("images");  
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
@@ -308,8 +324,8 @@ export default function FormAddExperience() {
                     ) : (
                       countries.map((country) => (
                         <option
-                          key={country.code}
-                          value={country.name}
+                          key={country.code}  
+                          value={country.name}  
                         >
                           {country.name}
                         </option>
@@ -424,16 +440,22 @@ export default function FormAddExperience() {
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
-                    <span className="label-text font-semibold"> 
+                    <span className="label-text font-semibold">
                       Price EUR
                     </span>
                   </label>
                   <input
-                    type="number"
+                    type="number"  
                     placeholder="e.g., 150"
                     className="input input-bordered w-full"
-                    {...register("price")}
+                    {...register("price", { valueAsNumber: true })}  
                   />
+                 
+                  {errors.price && (
+                    <span className="text-error text-sm mt-1">
+                      {errors.price.message}
+                    </span>
+                  )}
                 </div>
               </div>
             )}
