@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 import Footer from "../../components/Footer/Footer";
 import { Experiences } from "../../service/apiService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ExperienceDetails() {
   const { id } = useParams();
   const [experience, setExperience] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const experiencesService = new Experiences();
@@ -128,18 +130,20 @@ export default function ExperienceDetails() {
                 <div className="text-xl font-bold text-neutral-content mb-2">Average Price</div>
                 <div className="text-3xl font-extrabold text-neutral-content">EUR {experience.price}</div>
               </div>
-              <div className="flex flex-col gap-3">
-                <div className="">
-                  <div className="card-body p-0 flex items-center justify-center">
-                    <button className="btn btn-primary text-primary-content w-full">Edit this Experience</button>
+              {user && (
+                <div className="flex flex-col gap-3">
+                  <div className="">
+                    <div className="card-body p-0 flex items-center justify-center">
+                      <button className="btn btn-primary text-primary-content w-full">Edit this Experience</button>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="card-body p-0 flex items-center justify-center">
+                      <button className="btn btn-neutral text-error-content w-full">Delete this Experience</button>
+                    </div>
                   </div>
                 </div>
-                <div className="">
-                  <div className="card-body p-0 flex items-center justify-center">
-                    <button className="btn btn-neutral text-error-content w-full">Delete this Experience</button>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
