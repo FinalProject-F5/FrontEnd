@@ -1,9 +1,8 @@
-
 import React from "react";
 
 import { Link } from "react-router-dom";
 
-export default function Cards({ title, category, location, img }) {
+export default function Cards({ title, category, location, img, id }) {
   return (
    
     <div className="card bg-base-100 w-full shadow-sm">
@@ -17,7 +16,7 @@ export default function Cards({ title, category, location, img }) {
        
         <p className="text-primary font-semibold text-sm mt-2">{location}</p> 
         <div className="card-actions justify-end mt-4"> 
-           <Link to={"/ExperienceDetails"} className="btn btn-primary">
+           <Link to={`/ExperienceDetails/${id}`} className="btn btn-primary">
             read more
           </Link>
         
