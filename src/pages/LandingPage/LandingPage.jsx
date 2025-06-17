@@ -152,6 +152,34 @@ export default function LandingPage() {
           {"Next >"}
         </Buttons> */}
            </div>
+           <div className="flex justify-center gap-4 my-8">
+  <div className="hero bg-base-200 py-8 px-4 rounded-lg shadow-lg text-center max-w-4xl mx-auto">
+    <div className="hero-content flex-col">
+      <h2 className="text-4xl font-bold text-primary mb-4">
+        ¿Quieres explorar más experiencias?
+      </h2>
+      <p className="text-lg text-neutral mb-6">
+  Regístrate ahora y desbloquea acceso a todas las increíbles experiencias
+  curadas por locales.<br />
+  ¿Ya tienes una cuenta? ¡Inicia sesión!
+</p>
+      <div className="flex justify-center gap-4">
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/register")}
+        >
+          Regístrate Ahora
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate("/login")}
+        >
+          Iniciar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</div>   
 
       <Footer />
     </>
