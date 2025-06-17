@@ -39,6 +39,7 @@ export default function FormAddExperience() {
       description: "",
       duration: "",
       price: "",
+      observation: "",
       host: "",
       email: "",
       mobile: "",
@@ -210,7 +211,7 @@ export default function FormAddExperience() {
       addInfo: data.addInfo || "", 
      
       itinerary: data.itinerary || "",
-      observations: data.observations || ""
+      observation: data.observation || ""
     };
 
     try {
@@ -487,7 +488,7 @@ export default function FormAddExperience() {
                   <textarea
                     className="textarea textarea-bordered h-24 w-full"
                     placeholder="Any additional notes or observations."
-                    {...register("observations")}
+                    {...register("observation")}
                   ></textarea>
                 </div>
               </div>
