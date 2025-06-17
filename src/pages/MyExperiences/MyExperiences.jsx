@@ -49,7 +49,7 @@ export default function MyExperiences() {
         className="hero min-h-[45vh]"
         style={{
           backgroundImage:
-            "url(https://media.istockphoto.com/id/624183176/es/foto/arroz-campo-terraplenado-en-mu-cang-chai-vietnam.jpg?s=1024x1024&w=is&k=20&c=avWIfgrGKtPaskn1YY3sGjMTw2H8OjP0GQlRzaPeHPY=)",
+            "url(https://media.istockphoto.com/id/1469869566/photo/cappadocia-turkey-during-sunrise-couple-on-vacation-in-the-hills-of-goreme-capadocia-turkey.jpg?s=1024x1024&w=is&k=20&c=LiHAqe-xjT0SQitOEBY2eKUnbs9XMvHAIxOodT2rVKs=)",
         }}
       >
         <div className="hero-overlay"></div>

@@ -5,7 +5,7 @@ data.append("category", formData.category);
 data.append("description", formData.description);
 data.append("duration", formData.duration);
 data.append("price", formData.price);
-//data.append("itinerary", formData.itinerary);
+data.append("itinerary", formData.itinerary);
 data.append("observation", formData.observation);
 data.append("host", formData.host);
 data.append("email", formData.email);

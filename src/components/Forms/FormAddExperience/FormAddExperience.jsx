@@ -39,6 +39,7 @@ export default function FormAddExperience() {
       description: "",
       duration: "",
       price: "",
+      itinerary: "",
       observation: "",
       host: "",
       email: "",
