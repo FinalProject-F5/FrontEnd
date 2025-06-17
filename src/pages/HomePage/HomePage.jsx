@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Experiences } from "../../service/apiService";
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
@@ -167,6 +166,7 @@ export default function HomePage() {
         {filteredExperiences.map((exp) => (
           <Cards
             key={exp.id}
+            id={exp.id}
             title={exp.title}
             category={exp.category}
             location={exp.location}

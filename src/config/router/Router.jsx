@@ -17,7 +17,7 @@ export default function Router() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
-          <Route path="/ExperienceDetails" element={<ExperienceDetails />} />
+          <Route path="/ExperienceDetails/:id" element={<ExperienceDetails />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/HomePage" element={<HomePage />} />
             <Route path="/MyExperiences" element={<MyExperiences />} />

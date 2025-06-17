@@ -66,6 +66,7 @@ export default function MyExperiences() {
         {myExperiences.map((exp) => (
           <Cards
             key={exp.id}
+            id={exp.id}
             title={exp.title}
             category={exp.category}
             location={exp.location}
