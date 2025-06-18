@@ -94,7 +94,17 @@ export default function ExperienceDetails() {
               <p className="text-base text-base-content leading-relaxed mb-6 ml-5">
                 {experience.description}
               </p>
-              {experience.itinerary && (
+              <div className="bg-base-200  pb-10 pt-4">
+                <h3 className="text-2xl font-semibold text-secondary ml-5 mb-4">
+                  What to Expect
+                </h3>
+                <p className="text-md text-secondary font-semibold text-neutral-content ml-5 mb-6">
+                  Duration: {experience.duration} in hours
+                </p>
+                <div className="text-base text-base-content leading-relaxed space-y-4 ml-5">
+                  {/* Optionally add more details here if available */}
+                </div>
+                {experience.itinerary && (
                 <div className="mb-6 ml-5">
                   <h4 className="text-lg font-semibold text-primary mb-2">Itinerary</h4>
                   <p className="text-base text-base-content leading-relaxed">{experience.itinerary}</p>
@@ -106,16 +116,6 @@ export default function ExperienceDetails() {
                   <p className="text-base text-base-content leading-relaxed">{experience.observation}</p>
                 </div>
               )}
-              <div className="bg-base-200  pb-10 pt-4">
-                <h3 className="text-2xl font-semibold text-secondary ml-5 mb-4">
-                  What to Expect
-                </h3>
-                <p className="text-md text-secondary font-semibold text-neutral-content ml-5 mb-6">
-                  Duration: {experience.duration}
-                </p>
-                <div className="text-base text-base-content leading-relaxed space-y-4 ml-5">
-                  {/* Optionally add more details here if available */}
-                </div>
               </div>
               <div className="bg-base-300 pt-8 pb-6 [filter:sepia(40%)]">
                 <h3 className="text-2xl font-semibold text-primary mb-4 ml-5">
