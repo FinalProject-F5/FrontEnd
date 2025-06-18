@@ -14,6 +14,8 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [countriesForFilter, setCountriesForFilter] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 12;
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -25,10 +27,8 @@ export default function HomePage() {
         setCategoriesData(categoriesResponse);
 
         const countriesResponse = await experiencesService.getCountries();
-       
-        const sortedCountries = countriesResponse.map(country => country.name).sort();
+        const sortedCountries = countriesResponse.map((country) => country.name).sort();
         setCountriesForFilter(sortedCountries);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -52,12 +52,32 @@ export default function HomePage() {
     return matchesCategory && matchesCountry;
   });
 
+  // Calcular las tarjetas visibles para la página actual
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = filteredExperiences.slice(indexOfFirstCard, indexOfLastCard);
+
+  // Funciones para manejar los botones de paginación
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(filteredExperiences.length / cardsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
+    setCurrentPage(1); // Reiniciar a la primera página al cambiar el filtro
   };
 
   const handleCountryChange = (e) => {
     setSelectedCountry(e.target.value);
+    setCurrentPage(1); // Reiniciar a la primera página al cambiar el filtro
   };
 
   return (
@@ -163,7 +183,7 @@ export default function HomePage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
-        {filteredExperiences.map((exp) => (
+        {currentCards.map((exp) => (
           <Cards
             key={exp.id}
             id={exp.id}
@@ -178,10 +198,24 @@ export default function HomePage() {
           />
         ))}
       </div>
+
       <div className="flex justify-center gap-4 my-8">
-        <Buttons color="btn-secondary">{"< Prev"}</Buttons>
-        <Buttons color="btn-secondary">{"Next >"}</Buttons>
+        <Buttons
+          color="btn-secondary"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          {"< Prev"}
+        </Buttons>
+        <Buttons
+          color="btn-secondary"
+          onClick={handleNextPage}
+          disabled={currentPage === Math.ceil(filteredExperiences.length / cardsPerPage)}
+        >
+          {"Next >"}
+        </Buttons>
       </div>
+
       <Footer />
     </>
   );
