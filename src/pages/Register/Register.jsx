@@ -155,6 +155,10 @@ export default function Register() {
                       value: 120,
                       message: "Password must be at most 120 characters long",
                     },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&^()_+=-]).{8,}$/,
+                      message: "Password must include uppercase, lowercase, number, and special character",
+                    },
                   })}
                   placeholder="Password"
                   className="input input-bordered w-full"

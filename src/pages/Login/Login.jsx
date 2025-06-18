@@ -104,6 +104,14 @@ export default function Login() {
                       value: 8,
                       message: "Password must be at least 8 characters long",
                     },
+                    maxLength: {
+                      value: 120,
+                      message: "Password must be at most 120 characters long",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&^()_+=-]).{8,}$/,
+                      message: "Password must include uppercase, lowercase, number, and special character",
+                    },
                   })}
                 />
                 {errors.password && (
