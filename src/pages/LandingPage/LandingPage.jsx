@@ -33,7 +33,9 @@ export default function LandingPage() {
       try {
         const data = await experiencesService.getAllExperiences();
         // Ordenar las experiencias por fecha (o algún criterio relevante) y limitar a las últimas 6
-        const sortedExperiences = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const sortedExperiences = data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
         setExperiences(sortedExperiences.slice(0, 6));
       } catch (error) {
         console.error("Error fetching experiences:", error);
@@ -136,50 +138,36 @@ export default function LandingPage() {
         ))}
       </div>
 
+      <div className="flex justify-center gap-4 my-8"></div>
       <div className="flex justify-center gap-4 my-8">
-        {/* <Buttons
-          color="btn-secondary"
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-        >
-          {"< Prev"}
-        </Buttons>
-        <Buttons
-          color="btn-secondary"
-          onClick={handleNextPage}
-          disabled={currentPage === Math.ceil(experiences.length / cardsPerPage)}
-        >
-          {"Next >"}
-        </Buttons> */}
-           </div>
-           <div className="flex justify-center gap-4 my-8">
-  <div className="hero bg-base-200 py-8 px-4 rounded-lg shadow-lg text-center max-w-4xl mx-auto">
-    <div className="hero-content flex-col">
-      <h2 className="text-4xl font-bold text-primary mb-4">
-        ¿Quieres explorar más experiencias?
-      </h2>
-      <p className="text-lg text-neutral mb-6">
-  Regístrate ahora y desbloquea acceso a todas las increíbles experiencias
-  curadas por locales.<br />
-  ¿Ya tienes una cuenta? ¡Inicia sesión!
-</p>
-      <div className="flex justify-center gap-4">
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("/register")}
-        >
-          Regístrate Ahora
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => navigate("/login")}
-        >
-          Iniciar Sesión
-        </button>
+        <div className="hero bg-base-200 py-8 px-4 rounded-lg shadow-lg text-center max-w-4xl mx-auto">
+          <div className="hero-content flex-col">
+            <h2 className="text-4xl font-bold text-primary mb-4">
+              Want to explore more experiences?
+            </h2>
+            <p className="text-lg text-neutral mb-6">
+              Sign up now and unlock access to all the amazing experiences
+              curated by locals.
+              <br />
+              Already have an account? Log in!
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>   
 
       <Footer />
     </>
