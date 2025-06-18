@@ -94,6 +94,18 @@ export default function ExperienceDetails() {
               <p className="text-base text-base-content leading-relaxed mb-6 ml-5">
                 {experience.description}
               </p>
+              {experience.itinerary && (
+                <div className="mb-6 ml-5">
+                  <h4 className="text-lg font-semibold text-primary mb-2">Itinerary</h4>
+                  <p className="text-base text-base-content leading-relaxed">{experience.itinerary}</p>
+                </div>
+              )}
+              {experience.observation && (
+                <div className="mb-6 ml-5">
+                  <h4 className="text-lg font-semibold text-primary mb-2">Observations</h4>
+                  <p className="text-base text-base-content leading-relaxed">{experience.observation}</p>
+                </div>
+              )}
               <div className="bg-base-200  pb-10 pt-4">
                 <h3 className="text-2xl font-semibold text-secondary ml-5 mb-4">
                   What to Expect
