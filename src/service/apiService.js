@@ -28,6 +28,20 @@ export class Experiences {
       });
   }
 
+
+  searchExperiences(searchTerm) {
+    return axios
+      .get(`${this.baseUrl}/search`, {
+        ...this.getRequestOptions(),
+        params: { title: searchTerm.trim()},
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error searching Experiences:", error);
+        throw error;
+      });
+  }
+
   getExperiencesById(id) {
     const url = `${this.baseUrl}/${id}`;
     return axios
@@ -68,8 +82,15 @@ export class Experiences {
   deleteExperiences(id) {
     const url = `${this.baseUrl}/${id}`;
     return axios
-      .delete(url, this.getExperiences())
-      .then((response) => response.data)
+      .delete(url,this.getRequestOptions())
+      .then((response) => {
+        if (response.status === 204) {
+          console.log(`Experiencia con ID ${id} eliminada exitosamente.`);
+          return true; 
+        } else {
+          throw new Error(`Respuesta inesperada: ${response.status}`);
+        }
+      })
       .catch((error) => {
         console.error(`Error deleting Experiences with ID ${id}:`, error);
         throw error;

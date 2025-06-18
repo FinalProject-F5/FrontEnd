@@ -166,7 +166,7 @@ export default function Register() {
                 )}
               </div>
 
-              <div className="form-control w-full max-w-xs mb-4">
+              {/* <div className="form-control w-full max-w-xs mb-4">
                 <label className="label">
                   <span className="label-text">Country Code</span>
                 </label>
@@ -187,7 +187,7 @@ export default function Register() {
                     {errors.countryCode.message}
                   </span>
                 )}
-              </div>
+              </div> */}
 
               <button
                 type="submit"

@@ -1,14 +1,145 @@
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "../../context/AuthContext";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
+import { Experiences } from "../../service/apiService";
 
 export default function HeaderLogged() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-   const onClick=  () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [experiences, setExperiences] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const experiencesService = new Experiences();
+
+  const fetchExperiences = useCallback(
+    async (currentSearchTerm) => {
+      if (!currentSearchTerm || currentSearchTerm.trim().length < 2) {
+        setExperiences([]);
+        setMessage(
+          currentSearchTerm.trim().length > 0
+            ? "Type at least 3 characters"
+            : ""
+        );
+        setLoading(false);
+        setError(null);
+        setDropdownOpen(false);
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+      setMessage("");
+      setDropdownOpen(true);
+
+      try {
+        const response = await experiencesService.searchExperiences(
+          currentSearchTerm
+        );
+
+        if (response && response.length > 0) {
+          setExperiences(response);
+          setMessage("");
+        } else {
+          setExperiences([]);
+          setMessage(`No experiences found for "${currentSearchTerm}".`);
+        }
+      } catch (err) {
+        if (err.response && err.response.status === 204) {
+          setExperiences([]);
+          setMessage(`No experiences found for "${currentSearchTerm}".`);
+        } else if (
+          err.response &&
+          err.response.data &&
+          err.response.data.message
+        ) {
+          setError(`Error: ${err.response.data.message}`);
+        } else {
+          setError("An unexpected error occurred while searching experiences.");
+          console.error("Fetch error:", err);
+        }
+        setExperiences([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [experiencesService]
+  );
+
+  const debouncedFetchExperiences = useRef(
+    debounce((nextSearchTerm) => {
+      fetchExperiences(nextSearchTerm);
+    }, 500)
+  ).current;
+
+  useEffect(() => {
+    debouncedFetchExperiences(searchTerm);
+
+    return () => {
+      debouncedFetchExperiences.cancel();
+    };
+  }, [searchTerm, debouncedFetchExperiences]);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+    if (event.target.value.trim().length > 0) {
+      setDropdownOpen(true);
+    } else {
+      setDropdownOpen(false);
+      setExperiences([]);
+      setMessage("");
+      setError(null);
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        inputRef.current &&
+        !inputRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleInputFocus = () => {
+    if (
+      searchTerm.trim().length >= 2 ||
+      (searchTerm.trim().length > 0 && (message || experiences.length > 0))
+    ) {
+      setDropdownOpen(true);
+    } else if (searchTerm.trim().length === 0) {
+      setDropdownOpen(false);
+    }
+  };
+
+  const handleResultClick = (experience) => {
+    setDropdownOpen(false);
+    setSearchTerm(experience.title);
+    navigate(`/ExperienceDetails/${experience.id}`);
+  };
+
+  const onClick = () => {
     logout();
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -52,23 +183,25 @@ export default function HeaderLogged() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow min-w-max"
           >
             <li>
-             <Link to="/HomePage">Home</Link>
+              <Link to="/HomePage">Home</Link>
             </li>
             <li>
-          <Link to="/AddExperience">Add Experience</Link>
-            </li>
-             <li>
-          <Link to="/MyExperiences">My Experiences</Link>
+              <Link to="/AddExperience">Add Experience</Link>
             </li>
             <li>
-             <button onClick={onClick}>Logout</button>
+              <Link to="/MyExperiences">My Experiences</Link>
             </li>
-           
+            <li>
+              <button onClick={onClick}>Logout</button>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div className="flex items-center mx-4 flex-grow w-full my-2 md:w-auto md:my-0 md:order-none [filter:sepia(40%)]">
+      <div
+        className="flex items-center mx-4 my-2 flex-grow w-full md:w-auto md:my-0 md:order-none [filter:sepia(40%)] relative"
+        ref={dropdownRef}
+      >
         <label className="input input-bordered flex-grow border-r-0">
           <svg
             className="h-5 w-5 opacity-50"
@@ -87,13 +220,50 @@ export default function HeaderLogged() {
             </g>
           </svg>
           <input
+            ref={inputRef}
             type="search"
             required
-            placeholder="Search experiences..."
+            value={searchTerm}
+            placeholder="Search experiences...  |  type at least 3 characters"
             className="w-full"
+            onChange={handleSearchChange}
+            onFocus={handleInputFocus}
           />
         </label>
-       
+
+        {dropdownOpen && (
+          <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full absolute top-full left-0 mt-1">
+            {loading && searchTerm.trim().length >= 2 && (
+              <li>
+                <span className="text-info">Searching...</span>
+              </li>
+            )}
+            {!loading && error && searchTerm.trim().length >= 2 && (
+              <li>
+                <span className="text-error">{error}</span>
+              </li>
+            )}
+            {!loading && message && searchTerm.trim().length >= 2 && (
+              <li>
+                <span className="text-error">{message}</span>
+              </li>
+            )}
+            {experiences.length > 0 && !loading && !error && !message && (
+              <>
+                {experiences.map((experience) => (
+                  <li key={experience.id}>
+                    <a onClick={() => handleResultClick(experience)}>
+                      {experience.title}
+                      <span className="text-xs text-gray-500 ml-2 truncate">
+                        {experience.description}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </>
+            )}
+          </ul>
+        )}
       </div>
     </div>
   );

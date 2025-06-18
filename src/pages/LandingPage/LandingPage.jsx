@@ -2,6 +2,7 @@ import Header from "../../components/header/header";
 import imageTemporal from "../../assets/imageTemporal.png";
 import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
+import Buttons from "../../components/Buttons/Buttons";
 import React, { useEffect, useState } from "react";
 import { Experiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
@@ -13,6 +14,8 @@ export default function LandingPage() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [experiences, setExperiences] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 6;
 
   // Redirige a homepage si el usuario ya está autenticado
   useEffect(() => {
@@ -29,9 +32,13 @@ export default function LandingPage() {
     const fetchExperiences = async () => {
       try {
         const data = await experiencesService.getAllExperiences();
-        setExperiences(data);
+        // Ordenar las experiencias por fecha (o algún criterio relevante) y limitar a las últimas 6
+        const sortedExperiences = data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        setExperiences(sortedExperiences.slice(0, 6));
       } catch (error) {
-        // Puedes mostrar un mensaje de error si quieres
+        console.error("Error fetching experiences:", error);
       }
     };
     fetchExperiences();
@@ -40,6 +47,24 @@ export default function LandingPage() {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  // Calcular las tarjetas visibles para la página actual
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = experiences.slice(indexOfFirstCard, indexOfLastCard);
+
+  // Funciones para manejar los botones de paginación
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(experiences.length / cardsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <>
@@ -97,9 +122,10 @@ export default function LandingPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto py-8 px-4 [filter:sepia(40%)]">
-        {experiences.map((exp) => (
+        {currentCards.map((exp) => (
           <Cards
             key={exp.id}
+            id={exp.id}
             title={exp.title}
             category={exp.category}
             location={exp.location}
@@ -110,6 +136,37 @@ export default function LandingPage() {
             }
           />
         ))}
+      </div>
+
+      <div className="flex justify-center gap-4 my-8"></div>
+      <div className="flex justify-center gap-4 my-8">
+        <div className="hero bg-base-200 py-8 px-4 rounded-lg shadow-lg text-center max-w-4xl mx-auto">
+          <div className="hero-content flex-col">
+            <h2 className="text-4xl font-bold text-primary mb-4">
+              Want to explore more experiences?
+            </h2>
+            <p className="text-lg text-neutral mb-6">
+              Sign up now and unlock access to all the amazing experiences
+              curated by locals.
+              <br />
+              Already have an account? Log in!
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Footer />
