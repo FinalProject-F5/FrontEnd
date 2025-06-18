@@ -55,7 +55,6 @@ export default function HomePage() {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredExperiences.slice(indexOfFirstCard, indexOfLastCard);
 
-  // Funciones para manejar los botones de paginación
   const handleNextPage = () => {
     if (currentPage < Math.ceil(filteredExperiences.length / cardsPerPage)) {
       setCurrentPage(currentPage + 1);
@@ -80,8 +79,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Ya NO pongas <HeaderLogged /> ni <Footer /> aquí */}
-      {/* Solo el contenido principal */}
       <div
         className="hero min-h-screen"
         style={{

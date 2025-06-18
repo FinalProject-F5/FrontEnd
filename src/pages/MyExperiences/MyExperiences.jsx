@@ -40,12 +40,10 @@ export default function MyExperiences() {
     return <div>Loading...</div>;
   }
 
-  // Calcular las tarjetas visibles para la página actual
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = myExperiences.slice(indexOfFirstCard, indexOfLastCard);
 
-  // Funciones para manejar los botones de paginación
   const handleNextPage = () => {
     if (currentPage < Math.ceil(myExperiences.length / cardsPerPage)) {
       setCurrentPage(currentPage + 1);
@@ -60,8 +58,6 @@ export default function MyExperiences() {
 
   return (
     <>
-      {/* Ya NO pongas <HeaderLogged /> ni <Footer /> aquí */}
-      {/* Solo el contenido principal */}
       <div
         className="hero min-h-[45vh]"
         style={{

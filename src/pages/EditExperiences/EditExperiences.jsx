@@ -6,11 +6,8 @@ import Footer from "../../components/Footer/Footer";
 export default function EditExperiences() {
   return (
     <>
-      <HeaderLogged />
-      <div>
         <FormEditExperience />
-      </div>
-      <Footer />
+
     </>
   );
 }
