@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
-import Footer from "../../components/Footer/Footer";
 import { Experiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
 import FormDeleteExperience from "../../components/Forms/FormDeleteExperience/FormDeleteExperience";
@@ -31,25 +29,17 @@ export default function ExperienceDetails() {
 
   if (loading) {
     return (
-      <>
-        <HeaderLogged />
-        <div className="flex justify-center items-center min-h-screen">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-        <Footer />
-      </>
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <>
-        <HeaderLogged />
-        <div className="flex justify-center items-center min-h-screen">
-          <span className="text-error">{error}</span>
-        </div>
-        <Footer />
-      </>
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="text-error">{error}</span>
+      </div>
     );
   }
 
@@ -57,8 +47,7 @@ export default function ExperienceDetails() {
 
   return (
     <>
-      <HeaderLogged />
-      <div className="card bg-base-100 shadow-xl rounded-lg overflow-hidden">
+      <div className="card bg-base-100 shadow-xl rounded-lg ">
         <div className="card-body p-0">
           <div className="p-6 md:p-8">
             <p className="text-lg text-accent-content font-medium mb-2">
@@ -158,7 +147,6 @@ export default function ExperienceDetails() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

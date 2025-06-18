@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Experiences } from "../../service/apiService";
-import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
-import Footer from "../../components/Footer/Footer";
 import imageTemporal from "../../assets/imageTemporal.png";
 
 const experiencesService = new Experiences();
@@ -82,8 +80,8 @@ export default function HomePage() {
 
   return (
     <>
-      <HeaderLogged />
-
+      {/* Ya NO pongas <HeaderLogged /> ni <Footer /> aquí */}
+      {/* Solo el contenido principal */}
       <div
         className="hero min-h-screen"
         style={{
@@ -215,8 +213,6 @@ export default function HomePage() {
           {"Next >"}
         </Buttons>
       </div>
-
-      <Footer />
     </>
   );
 }

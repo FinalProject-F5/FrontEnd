@@ -180,7 +180,7 @@ export default function HeaderLogged() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow min-w-max"
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[50] mt-3 p-2 shadow min-w-max"
           >
             <li>
               <Link to="/HomePage">Home</Link>

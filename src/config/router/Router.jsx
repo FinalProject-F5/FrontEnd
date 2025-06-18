@@ -9,6 +9,7 @@ import ExperienceDetails from "../../pages/ExperienceDetails/ExperienceDetails";
 import EditExperiences from "../../pages/EditExperiences/EditExperiences";
 import { AuthProvider } from "../../context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+import PrivateLayout from "../../components/Layout/PrivateLayout";
 
 export default function Router() {
   return (
@@ -18,12 +19,47 @@ export default function Router() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
-          <Route path="/ExperienceDetails/:id" element={<ExperienceDetails />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/HomePage" element={<HomePage />} />
-            <Route path="/MyExperiences" element={<MyExperiences />} />
-            <Route path="/AddExperience" element={<AddExperience />} />
-            <Route path="/EditExperiences/:id" element={<EditExperiences />} />
+            <Route
+              path="/HomePage"
+              element={
+                <PrivateLayout>
+                  <HomePage />
+                </PrivateLayout>
+              }
+            />
+            <Route
+              path="/MyExperiences"
+              element={
+                <PrivateLayout>
+                  <MyExperiences />
+                </PrivateLayout>
+              }
+            />
+            <Route
+              path="/AddExperience"
+              element={
+                <PrivateLayout>
+                  <AddExperience />
+                </PrivateLayout>
+              }
+            />
+            <Route
+              path="/EditExperiences/:id"
+              element={
+                <PrivateLayout>
+                  <EditExperiences />
+                </PrivateLayout>
+              }
+            />
+            <Route
+              path="/ExperienceDetails/:id"
+              element={
+                <PrivateLayout>
+                  <ExperienceDetails />
+                </PrivateLayout>
+              }
+            />
           </Route>
         </Routes>
       </AuthProvider>

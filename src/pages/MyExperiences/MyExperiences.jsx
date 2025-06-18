@@ -1,10 +1,8 @@
-import imageTemporal from "../../assets/imageTemporal.png";
-import Footer from "../../components/Footer/Footer";
+import React, { useEffect, useState } from "react";
+import { Experiences } from "../../service/apiService";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
-import React, { useEffect, useState } from "react";
-import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
-import { Experiences } from "../../service/apiService";
+import imageTemporal from "../../assets/imageTemporal.png";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -62,8 +60,8 @@ export default function MyExperiences() {
 
   return (
     <>
-      <HeaderLogged />
-
+      {/* Ya NO pongas <HeaderLogged /> ni <Footer /> aquí */}
+      {/* Solo el contenido principal */}
       <div
         className="hero min-h-[45vh]"
         style={{
@@ -112,8 +110,6 @@ export default function MyExperiences() {
           {"Next >"}
         </Buttons>
       </div>
-
-      <Footer />
     </>
   );
 }
