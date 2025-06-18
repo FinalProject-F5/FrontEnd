@@ -1,5 +1,7 @@
 import { describe, beforeEach, afterEach, test, expect, vi } from "vitest";
 import { Experiences } from "./apiService";
+import { Experiences } from "../src/service/apiService";
+
 import axios from "axios";
 
 vi.mock("axios");
@@ -36,6 +38,4 @@ describe("Experiences service (unit)", () => {
     );
     expect(result).toEqual({ success: true });
   });
-
-
 });

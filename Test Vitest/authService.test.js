@@ -1,5 +1,6 @@
 import { describe, beforeEach, afterEach, test, expect, vi } from "vitest";
-import { AuthService } from "./authService";
+import { AuthService } from "../src/service/AuthService";
+
 import axios from "axios";
 
 export class AuthService {
@@ -30,7 +31,6 @@ export class AuthService {
   }
 }
 
-
 vi.mock("axios");
 
 describe("AuthService (unit)", () => {
@@ -57,7 +57,9 @@ describe("AuthService (unit)", () => {
       "http://localhost:8080/api/auth/login",
       credentials
     );
-    expect(localStorage.getItem("user")).toEqual(JSON.stringify(mockResponse.data));
+    expect(localStorage.getItem("user")).toEqual(
+      JSON.stringify(mockResponse.data)
+    );
     expect(result).toEqual(mockResponse.data);
   });
 
@@ -73,7 +75,11 @@ describe("AuthService (unit)", () => {
   });
 
   test("register posts user data and returns response", async () => {
-    const userData = { name: "Test", email: "test@test.com", password: "12345678" };
+    const userData = {
+      name: "Test",
+      email: "test@test.com",
+      password: "12345678",
+    };
     const mockResponse = { data: { success: true } };
     axios.post.mockResolvedValueOnce(mockResponse);
 
@@ -85,7 +91,7 @@ describe("AuthService (unit)", () => {
         name: "Test",
         email: "test@test.com",
         password: "12345678",
-        countryCode: "ES"
+        countryCode: "ES",
       })
     );
     expect(result).toEqual({ success: true });

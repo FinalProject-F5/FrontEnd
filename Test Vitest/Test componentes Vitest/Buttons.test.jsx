@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Buttons from './Buttons';
+import Buttons from '../../src/components/Buttons/Buttons';
 
 test('renders button with text', () => {
   render(<Buttons>Click me</Buttons>);
