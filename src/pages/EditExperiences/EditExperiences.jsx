@@ -3,7 +3,7 @@ import FormEditExperience from "../../components/Forms/FormEditExperience/FormEd
 import HeaderLogged from "../../components/headerLogged/HeaderLogged";
 import Footer from "../../components/Footer/Footer";
 
-export default function EditExperience() {
+export default function EditExperiences() {
   return (
     <>
       <HeaderLogged />
