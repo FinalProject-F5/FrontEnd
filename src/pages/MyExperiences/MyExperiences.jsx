@@ -3,7 +3,7 @@ import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import React, { useEffect, useState } from "react";
-import HeaderLogged from "../../components/headerLogged/HeaderLogged";
+import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
 import { Experiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";

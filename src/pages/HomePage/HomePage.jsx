@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Experiences } from "../../service/apiService";
-import HeaderLogged from "../../components/headerLogged/HeaderLogged";
+import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import Footer from "../../components/Footer/Footer";

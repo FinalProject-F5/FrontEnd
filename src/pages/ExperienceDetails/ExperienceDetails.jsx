@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import HeaderLogged from "../../components/headerLogged/HeaderLogged";
+import { useParams, useNavigate } from "react-router-dom";
+import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
 import Footer from "../../components/Footer/Footer";
 import { Experiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
@@ -8,6 +8,7 @@ import FormDeleteExperience from "../../components/Forms/FormDeleteExperience/Fo
 
 export default function ExperienceDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [experience, setExperience] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -147,7 +148,7 @@ export default function ExperienceDetails() {
                 <div className="flex flex-col gap-3">
                   <div className="">
                     <div className="card-body p-0 flex items-center justify-center">
-                      <button className="btn btn-primary text-primary-content w-full">Edit this Experience</button>
+                      <button className="btn btn-primary text-primary-content w-full" onClick={() => navigate(`/EditExperiences/${experience.id}`)}>Edit this Experience</button>
                     </div>
                   </div>
                   <FormDeleteExperience

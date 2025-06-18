@@ -4,7 +4,7 @@ import LandingPage from "../../pages/LandingPage/LandingPage";
 import Login from "../../pages/Login/Login";
 import Register from "../../pages/Register/Register";
 import MyExperiences from "../../pages/MyExperiences/MyExperiences";
-import AddExperience from "../../pages/addExperience/AddExperience";
+import AddExperience from "../../pages/AddExperience/AddExperience";
 import ExperienceDetails from "../../pages/ExperienceDetails/ExperienceDetails";
 import EditExperiences from "../../pages/EditExperiences/EditExperiences";
 import { AuthProvider } from "../../context/AuthContext";
