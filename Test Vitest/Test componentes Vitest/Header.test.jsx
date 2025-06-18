@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import Header from "./header";
+import Header from "../Header/Header";
 
 describe("Header integration", () => {
   test("renders the app name/logo", () => {

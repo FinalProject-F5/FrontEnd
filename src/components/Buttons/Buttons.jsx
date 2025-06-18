@@ -13,7 +13,6 @@ export default function Buttons({
   const content = children || text;
 
   if (to) {
-    // Si hay prop 'to', renderiza un Link con estilos de botón :)
     return (
       <Link
         to={to}
@@ -25,7 +24,6 @@ export default function Buttons({
     );
   }
 
-  // Si no, renderiza un botón normal 
   return (
     <button
       className={`btn ${color} ${className}`}
