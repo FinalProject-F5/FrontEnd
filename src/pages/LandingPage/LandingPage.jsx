@@ -17,7 +17,7 @@ export default function LandingPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
 
-  // Redirige a homepage si el usuario ya está autenticado
+
   useEffect(() => {
     if (loading) {
       return;
@@ -27,12 +27,12 @@ export default function LandingPage() {
     }
   }, [user, loading, navigate]);
 
-  // Trae experiencias reales del backend
+  
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
         const data = await experiencesService.getAllExperiences();
-        // Ordenar las experiencias por fecha (o algún criterio relevante) y limitar a las últimas 6
+        
         const sortedExperiences = data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
         );
@@ -48,12 +48,12 @@ export default function LandingPage() {
     return <div>Loading...</div>;
   }
 
-  // Calcular las tarjetas visibles para la página actual
+ 
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = experiences.slice(indexOfFirstCard, indexOfLastCard);
 
-  // Funciones para manejar los botones de paginación
+
   const handleNextPage = () => {
     if (currentPage < Math.ceil(experiences.length / cardsPerPage)) {
       setCurrentPage(currentPage + 1);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../service/authService";
-import Header from "../../components/header/header";
+import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
 export default function Register() {
@@ -165,29 +165,6 @@ export default function Register() {
                   </span>
                 )}
               </div>
-
-              {/* <div className="form-control w-full max-w-xs mb-4">
-                <label className="label">
-                  <span className="label-text">Country Code</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("countryCode", {
-                    required: "Country code is required",
-                    maxLength: {
-                      value: 20,
-                      message: "Country code must be at most 20 characters long",
-                    },
-                  })}
-                  placeholder="Country Code"
-                  className="input input-bordered w-full"
-                />
-                {errors.countryCode && (
-                  <span className="text-error text-sm mt-1 ">
-                    {errors.countryCode.message}
-                  </span>
-                )}
-              </div> */}
 
               <button
                 type="submit"

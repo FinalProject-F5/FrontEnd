@@ -52,7 +52,7 @@ export default function HomePage() {
     return matchesCategory && matchesCountry;
   });
 
-  // Calcular las tarjetas visibles para la página actual
+ 
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredExperiences.slice(indexOfFirstCard, indexOfLastCard);
@@ -72,12 +72,12 @@ export default function HomePage() {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
-    setCurrentPage(1); // Reiniciar a la primera página al cambiar el filtro
+    setCurrentPage(1); 
   };
 
   const handleCountryChange = (e) => {
     setSelectedCountry(e.target.value);
-    setCurrentPage(1); // Reiniciar a la primera página al cambiar el filtro
+    setCurrentPage(1);
   };
 
   return (
