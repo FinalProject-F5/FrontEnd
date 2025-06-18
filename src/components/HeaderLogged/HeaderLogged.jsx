@@ -153,7 +153,7 @@ export default function HeaderLogged() {
         </Link>
       </div>
 
-      <div className="flex-none flex items-center md:order-last [filter:sepia(40%)]">
+      <div className="flex-none flex items-center md:order-last">
         <div className="flex items-center mr-4">
           <div className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
@@ -162,8 +162,13 @@ export default function HeaderLogged() {
           </div>
         </div>
 
-        <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-square btn-ghost">
+        <div className="dropdown dropdown-end relative">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-square btn-ghost"
+            onClick={() => setDropdownOpen((open) => !open)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="inline-block h-5 w-5 stroke-current"
@@ -178,28 +183,29 @@ export default function HeaderLogged() {
               />
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[50] mt-3 p-2 shadow min-w-max"
-          >
-            <li>
-              <Link to="/HomePage">Home</Link>
-            </li>
-            <li>
-              <Link to="/AddExperience">Add Experience</Link>
-            </li>
-            <li>
-              <Link to="/MyExperiences">My Experiences</Link>
-            </li>
-            <li>
-              <button onClick={onClick}>Logout</button>
-            </li>
-          </ul>
+          {true && (
+            <ul
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[2000] mt-3 p-2 shadow min-w-max absolute right-0"
+            >
+              <li>
+                <Link to="/HomePage">Home</Link>
+              </li>
+              <li>
+                <Link to="/AddExperience">Add Experience</Link>
+              </li>
+              <li>
+                <Link to="/MyExperiences">My Experiences</Link>
+              </li>
+              <li>
+                <button onClick={onClick}>Logout</button>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
 
       <div
-        className="flex items-center mx-4 my-2 flex-grow w-full md:w-auto md:my-0 md:order-none [filter:sepia(40%)] relative"
+        className="flex items-center mx-4 my-2 flex-grow w-full md:w-auto md:my-0 md:order-none relative"
         ref={dropdownRef}
       >
         <label className="input input-bordered flex-grow border-r-0">
