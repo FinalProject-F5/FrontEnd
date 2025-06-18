@@ -144,15 +144,14 @@ export default function ExperienceDetails() {
                 <div className="text-xl font-bold text-neutral-content mb-2">Average Price</div>
                 <div className="text-3xl font-extrabold text-neutral-content">EUR {experience.price}</div>
               </div>
-              {user && (
+              {user && experience.userId === user.id && (
                 <div className="flex flex-col gap-3">
                   <div className="">
                     <div className="card-body p-0 flex items-center justify-center">
                       <button className="btn btn-primary text-primary-content w-full" onClick={() => navigate(`/EditExperiences/${experience.id}`)}>Edit this Experience</button>
                     </div>
                   </div>
-                  <FormDeleteExperience
-                    id_experience={experience.id} />
+                  <FormDeleteExperience id_experience={experience.id} />
                 </div>
               )}
             </div>
