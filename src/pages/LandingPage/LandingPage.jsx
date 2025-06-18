@@ -1,4 +1,4 @@
-import Header from "../../components/header/header";
+import Header from "../../components/Header/Header";
 import imageTemporal from "../../assets/imageTemporal.png";
 import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
