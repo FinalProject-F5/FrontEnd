@@ -12,6 +12,26 @@ export default function ExperienceBasicInfo({
 }) {
   return (
     <>
+
+       {/* Título */}
+       <div className="form-control w-full max-w-md mb-4 text-left">
+        <label className="label">
+          <span className="label-text font-semibold">
+            Experience Name <span className="text-error">*</span>
+          </span>
+        </label>
+        <input
+          type="text"
+          className="input input-bordered w-full"
+          {...register("title", { required: "Experience Name is required." })}
+        />
+        {errors.title && (
+          <span className="text-error text-sm mt-1"> 
+            {errors.title.message}
+          </span>
+        )}
+      </div>
+
       {/* País */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
@@ -74,25 +94,6 @@ export default function ExperienceBasicInfo({
         {errors.category && (
           <span className="text-error text-sm mt-1">
             {errors.category.message}
-          </span>
-        )}
-      </div>
-
-      {/* Título */}
-      <div className="form-control w-full max-w-md mb-4 text-left">
-        <label className="label">
-          <span className="label-text font-semibold">
-            Title <span className="text-error">*</span>
-          </span>
-        </label>
-        <input
-          type="text"
-          className="input input-bordered w-full"
-          {...register("title", { required: "Title is required." })}
-        />
-        {errors.title && (
-          <span className="text-error text-sm mt-1">
-            {errors.title.message}
           </span>
         )}
       </div>
