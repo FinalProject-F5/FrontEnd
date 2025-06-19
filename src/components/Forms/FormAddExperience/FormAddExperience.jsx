@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { createExperiences, getCategories, getCountries } from "../../../service/apiService";
 import { useNavigate } from "react-router-dom";
+import ExperienceBasicInfo from "./ExperienceBasicInfo";
+import ExperienceAdditionalInfo from "./ExperienceAdditionalInfo";
+import ExperiencePlanningContact from "./ExperiencePlanningContact";
+import ExperienceFormActions from "./ExperienceFormActions";
+import ExperienceSuccessModal from "./ExperienceSuccessModal";
 
 export default function FormAddExperience() {
   const navigate = useNavigate();
@@ -28,6 +33,7 @@ export default function FormAddExperience() {
     formState: { errors },
     getValues,
     reset,
+    isSubmitting,
   } = useForm({
     defaultValues: {
       title: "",
@@ -284,94 +290,16 @@ export default function FormAddExperience() {
                 <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
                   Experience Details
                 </h3>
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Experience Name <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Guided Hiking Tour in the Alps"
-                    className="input input-bordered w-full"
-                    {...register("title")}
-                  />
-                  {errors.title && (
-                    <span className="text-error text-sm mt-1">
-                      {errors.title.message}
-                    </span>
-                  )}
-                </div>
-
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Country <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <select
-                    className="select select-bordered w-full"
-                    {...register("location")}
-                  >
-                    <option value="" disabled>
-                      Select a country
-                    </option>
-                    {loadingCountries ? (
-                      <option>Loading countries...</option>
-                    ) : countriesError ? (
-                      <option className="text-error">{countriesError}</option>
-                    ) : (
-                      countries.map((country) => (
-                        <option
-                          key={country.code}  
-                          value={country.name}  
-                        >
-                          {country.name}
-                        </option>
-                      ))
-                    )}
-                  </select>
-                  {errors.location && (
-                    <span className="text-error text-sm mt-1">
-                      {errors.location.message}
-                    </span>
-                  )}
-                </div>
-
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Category <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <select
-                    className="select select-bordered w-full"
-                    {...register("category")}
-                  >
-                    <option value="" disabled>
-                      Select a category
-                    </option>
-                    {loadingCategories ? (
-                      <option>Loading categories...</option>
-                    ) : categoriesError ? (
-                      <option className="text-error">{categoriesError}</option>
-                    ) : (
-                      categories.map((category) => (
-                        <option
-                          key={category.id || category.name}
-                          value={category.name}
-                        >
-                          {category.name}
-                        </option>
-                      ))
-                    )}
-                  </select>
-                  {errors.category && (
-                    <span className="text-error text-sm mt-1">
-                      {errors.category.message}
-                    </span>
-                  )}
-                </div>
+                <ExperienceBasicInfo
+                  register={register}
+                  errors={errors}
+                  countries={countries}
+                  categories={categories}
+                  loadingCountries={loadingCountries}
+                  countriesError={countriesError}
+                  loadingCategories={loadingCategories}
+                  categoriesError={categoriesError}
+                />
 
                 <div className="form-control w-full max-w-md mb-6 text-left">
                   <label className="label">
@@ -400,62 +328,7 @@ export default function FormAddExperience() {
                 <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">
                   Additional Information
                 </h3>
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Description of the Experience (min. 100 characters) <span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <textarea
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Provide a detailed description of the experience..."
-                    {...register("description")}
-                  ></textarea>
-                  {errors.description && (
-                    <span className="text-error text-sm mt-1">
-                      {errors.description.message}
-                    </span>
-                  )}
-                </div>
-
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Duration in Hours<span className="text-error">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., 3"
-                    className="input input-bordered w-full"
-                    {...register("duration")}
-                  />
-                  {errors.duration && (
-                    <span className="text-error text-sm mt-1">
-                      {errors.duration.message}
-                    </span>
-                  )}
-                </div>
-
-                <div className="form-control w-full max-w-md mb-6 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Price EUR
-                    </span>
-                  </label>
-                  <input
-                    type="number"  
-                    placeholder="e.g., 150"
-                    className="input input-bordered w-full"
-                    {...register("price", { valueAsNumber: true })}  
-                  />
-                 
-                  {errors.price && (
-                    <span className="text-error text-sm mt-1">
-                      {errors.price.message}
-                    </span>
-                  )}
-                </div>
+                <ExperienceAdditionalInfo register={register} errors={errors} />
               </div>
             )}
 
@@ -464,31 +337,7 @@ export default function FormAddExperience() {
                 <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">
                   Planning & Scheduling
                 </h3>
-                <div className="form-control w-full max-w-md mb-4 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Itinerary (optional)
-                    </span>
-                  </label>
-                  <textarea
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Outline the daily itinerary, if applicable."
-                    {...register("itinerary")}
-                  ></textarea>
-                </div>
-
-                <div className="form-control w-full max-w-md mb-6 text-left">
-                  <label className="label">
-                    <span className="label-text font-semibold">
-                      Observations (optional)
-                    </span>
-                  </label>
-                  <textarea
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Any additional notes or observations."
-                    {...register("observation")}
-                  ></textarea>
-                </div>
+                <ExperiencePlanningContact register={register} errors={errors} />
               </div>
             )}
 
@@ -556,34 +405,7 @@ export default function FormAddExperience() {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md mt-6 mx-auto">
-              {currentStep > 1 && (
-                <button
-                  type="button"
-                  onClick={() => onPrevious()}
-                  className="btn btn-secondary w-full sm:w-auto flex-grow"
-                >
-                  Previous
-                </button>
-              )}
-              {currentStep < totalSteps && (
-                <button
-                  type="button"
-                  onClick={handleSubmit(onNext)}
-                  className="btn btn-primary w-full sm:w-auto flex-grow"
-                >
-                  Next
-                </button>
-              )}
-              {currentStep === totalSteps && (
-                <button
-                  type="submit"
-                  className="btn btn-primary w-full sm:w-auto flex-grow"
-                >
-                  Create Experience
-                </button>
-              )}
-            </div>
+            <ExperienceFormActions isSubmitting={isSubmitting} />
           </form>
         </div>
       </div>
