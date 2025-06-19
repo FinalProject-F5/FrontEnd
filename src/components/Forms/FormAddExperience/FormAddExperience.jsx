@@ -12,7 +12,7 @@ import { useAddExperienceForm } from "../../../hooks/useAddExperienceForm";
 export default function FormAddExperience() {
   const navigate = useNavigate();
 
-  const { register, handleSubmit: formHandleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit: formHandleSubmit, formState: { errors }, reset, setError, clearErrors } = useForm();
   const {
     countries, categories,
     loadingCountries, loadingCategories,
@@ -61,10 +61,18 @@ export default function FormAddExperience() {
 
   const onNext = (data) => {
     let isValid = false;
-    if (currentStep === 1) isValid = validateStep1(data);
-    else if (currentStep === 2) isValid = validateStep2(data);
-    else if (currentStep === 3) isValid = validateStep3(data);
-    else isValid = true;
+    if (currentStep === 1) {
+      if (!data.images || data.images.length < 3) {
+        setError("images", { type: "manual", message: "At least 3 images are required." });
+        isValid = false;
+      } else {
+        clearErrors("images");
+        isValid = validateStep1(data);
+      }
+    }
+    if (currentStep === 2) isValid = validateStep2(data);
+    if (currentStep === 3) isValid = validateStep3(data);
+    if (currentStep > 3) isValid = true;
     if (isValid) setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
 

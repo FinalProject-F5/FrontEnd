@@ -3,7 +3,6 @@ import React from "react";
 export default function ExperiencePlanningContact({ register, errors }) {
   return (
     <>
-      {/* Itinerario */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">Itinerary</span>
@@ -15,7 +14,6 @@ export default function ExperiencePlanningContact({ register, errors }) {
         ></textarea>
       </div>
 
-      {/* Observaciones */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">Observations</span>
@@ -27,7 +25,6 @@ export default function ExperiencePlanningContact({ register, errors }) {
         ></textarea>
       </div>
 
-      {/* Host */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">Host Name <span className="text-error">*</span></span>
@@ -42,7 +39,6 @@ export default function ExperiencePlanningContact({ register, errors }) {
         )}
       </div>
 
-      {/* Email */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">Email <span className="text-error">*</span></span>
@@ -63,7 +59,6 @@ export default function ExperiencePlanningContact({ register, errors }) {
         )}
       </div>
 
-      {/* Móvil */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">Mobile/WhatsApp <span className="text-error">*</span></span>
