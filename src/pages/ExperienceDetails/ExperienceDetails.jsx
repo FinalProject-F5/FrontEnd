@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Experiences } from "../../service/apiService";
+import { getExperiencesById } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
 import FormDeleteExperience from "../../components/Forms/FormDeleteExperience/FormDeleteExperience";
 
@@ -13,10 +13,8 @@ export default function ExperienceDetails() {
   const { user } = useAuth();
 
   useEffect(() => {
-    const experiencesService = new Experiences();
     setLoading(true);
-    experiencesService
-      .getExperiencesById(id)
+    getExperiencesById(id)
       .then((data) => {
         setExperience(data);
         setLoading(false);

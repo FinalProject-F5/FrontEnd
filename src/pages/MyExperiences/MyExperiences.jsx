@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Experiences } from "../../service/apiService";
+import { getAllExperiences } from "../../service/apiService";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import imageTemporal from "../../assets/imageTemporal.png";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
-const experiencesService = new Experiences();
 
 export default function MyExperiences() {
   const { user, loading } = useAuth();
@@ -24,7 +22,7 @@ export default function MyExperiences() {
   useEffect(() => {
     const fetchMyExperiences = async () => {
       try {
-        const allExperiences = await experiencesService.getAllExperiences();
+        const allExperiences = await getAllExperiences();
         const mine = allExperiences.filter((exp) => exp.userId === user?.id);
         setMyExperiences(mine);
       } catch (error) {

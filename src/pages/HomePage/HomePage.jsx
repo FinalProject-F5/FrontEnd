@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Experiences } from "../../service/apiService";
+import { getAllExperiences, getCategories, getCountries } from "../../service/apiService";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import imageTemporal from "../../assets/imageTemporal.png";
-
-const experiencesService = new Experiences();
 
 export default function HomePage() {
   const [experiences, setExperiences] = useState([]);
@@ -18,13 +16,13 @@ export default function HomePage() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const experiencesData = await experiencesService.getAllExperiences();
+        const experiencesData = await getAllExperiences();
         setExperiences(experiencesData);
 
-        const categoriesResponse = await experiencesService.getCategories();
+        const categoriesResponse = await getCategories();
         setCategoriesData(categoriesResponse);
 
-        const countriesResponse = await experiencesService.getCountries();
+        const countriesResponse = await getCountries();
         const sortedCountries = countriesResponse.map((country) => country.name).sort();
         setCountriesForFilter(sortedCountries);
       } catch (error) {

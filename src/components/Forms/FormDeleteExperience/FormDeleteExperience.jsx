@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Experiences } from "../../../service/apiService";
+import { deleteExperiences } from "../../../service/apiService";
 import { useNavigate } from "react-router-dom";
-
-const experiencesService = new Experiences();
 
 export default function FormDeleteExperience({id_experience}) {
     const navigate = useNavigate();
@@ -10,7 +8,7 @@ export default function FormDeleteExperience({id_experience}) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleDeleteExperience = async () => {
-        const result = await experiencesService.deleteExperiences(id_experience)
+        const result = await deleteExperiences(id_experience)
         if (result) {
             setShowDeleteModal(false);
             navigate("/");

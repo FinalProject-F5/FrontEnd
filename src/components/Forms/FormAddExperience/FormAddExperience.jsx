@@ -1,10 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Experiences } from "../../../service/apiService";
+import { createExperiences, getCategories, getCountries } from "../../../service/apiService";
 import { useNavigate } from "react-router-dom";
-
-const experiencesService = new Experiences();
 
 export default function FormAddExperience() {
   const navigate = useNavigate();
@@ -53,7 +50,7 @@ export default function FormAddExperience() {
       try {
         setLoadingCategories(true);
         setCategoriesError(null);
-        const categoriesData = await experiencesService.getCategories();
+        const categoriesData = await getCategories();
         setCategories(categoriesData);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -65,7 +62,7 @@ export default function FormAddExperience() {
       try {
         setLoadingCountries(true);
         setCountriesError(null);
-        const countriesData = await experiencesService.getCountries();
+        const countriesData = await getCountries();
         
         const sortedCountries = [...countriesData].sort((a, b) => {
           return a.name.localeCompare(b.name);
@@ -230,7 +227,7 @@ export default function FormAddExperience() {
         payload.images.push(imageObject);
       }
 
-      await experiencesService.createExperiences(payload);
+      await createExperiences(payload);
       setShowSuccessModal(true);
       reset();
       setCurrentStep(1);

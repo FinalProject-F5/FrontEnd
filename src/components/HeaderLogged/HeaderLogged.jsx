@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
-import { Experiences } from "../../service/apiService";
+import { searchExperiences } from "../../service/apiService";
 
 export default function HeaderLogged() {
   const { user, logout } = useAuth();
@@ -18,8 +18,6 @@ export default function HeaderLogged() {
 
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
-
-  const experiencesService = new Experiences();
 
   const fetchExperiences = useCallback(
     async (currentSearchTerm) => {
@@ -42,10 +40,7 @@ export default function HeaderLogged() {
       setDropdownOpen(true);
 
       try {
-        const response = await experiencesService.searchExperiences(
-          currentSearchTerm
-        );
-
+        const response = await searchExperiences(currentSearchTerm);
         if (response && response.length > 0) {
           setExperiences(response);
           setMessage("");
@@ -72,7 +67,7 @@ export default function HeaderLogged() {
         setLoading(false);
       }
     },
-    [experiencesService]
+    []
   );
 
   const debouncedFetchExperiences = useRef(

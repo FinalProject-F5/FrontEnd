@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../service/authService";
+import { register as registerUser } from "../../service/authService";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
@@ -14,11 +14,10 @@ export default function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const authService = new AuthService();
 
   const onSubmit = async (data) => {
     try {
-      await authService.register(data);
+      await registerUser(data);
       setSuccess("Registration successful!");
       setTimeout(() => {
         navigate("/login");

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import { Experiences } from "../../../service/apiService";
-
-const experiencesService = new Experiences();
+import { getExperiencesById, getCategories, getCountries, updateExperiences } from "../../../service/apiService";
 
 const getCurrentUser = () => {
   const user = localStorage.getItem("user");
@@ -62,7 +60,7 @@ export default function FormEditExperience() {
       }
 
       try {
-        const experienceData = await experiencesService.getExperiencesById(id);
+        const experienceData = await getExperiencesById(id);
         console.log("Experience data received from API:", experienceData);
 
         console.log("Experience Creator ID (API):", experienceData.userId);
@@ -90,7 +88,7 @@ export default function FormEditExperience() {
         setLoadingCategories(true);
         setCategoriesError(null);
         try {
-          const fetchedCategories = await experiencesService.getCategories();
+          const fetchedCategories = await getCategories();
           setCategories(fetchedCategories);
         } catch (error) {
           console.error("Error fetching categories:", error);
@@ -102,7 +100,7 @@ export default function FormEditExperience() {
         setLoadingCountries(true);
         setCountriesError(null);
         try {
-          const fetchedCountries = await experiencesService.getCountries();
+          const fetchedCountries = await getCountries();
           const sortedCountries = [...fetchedCountries].sort((a, b) => a.name.localeCompare(b.name));
           setCountries(sortedCountries);
         } catch (error) {
@@ -163,7 +161,7 @@ export default function FormEditExperience() {
         images: undefined
       };
 
-      await experiencesService.updateExperiences(id, payload);
+      await updateExperiences(id, payload);
       setShowSuccessModal(true);
     } catch (error) {
       console.error("Error updating experience:", error);

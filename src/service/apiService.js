@@ -1,123 +1,116 @@
 import axios from "axios";
 
-export class Experiences {
-  baseUrl = "http://localhost:8080/api/experiences";
-  categoriesUrl = "http://localhost:8080/api/categories/all";
-  countriesUrl = "http://localhost:8080/api/countries/all";
+const baseUrl = "http://localhost:8080/api/experiences";
+const categoriesUrl = "http://localhost:8080/api/categories/all";
+const countriesUrl = "http://localhost:8080/api/countries/all";
 
-  getRequestOptions() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    return {
+function getRequestOptions() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return {
+    headers: {
+      ...(user && user.token ? { Authorization: `Bearer ${user.token}` } : {}),
+      ...(user && user.id ? { "X-User-ID": user.id } : {}),
+    },
+  };
+}
+
+export function getAllExperiences() {
+  console.log("Fetching all Experiences...");
+  return axios
+    .get(baseUrl, getRequestOptions())
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error fetching Experiences:", error);
+      throw error;
+    });
+}
+
+export function searchExperiences(searchTerm) {
+  return axios
+    .get(`${baseUrl}/search`, {
+      ...getRequestOptions(),
+      params: { title: searchTerm.trim() },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error searching Experiences:", error);
+      throw error;
+    });
+}
+
+export function getExperiencesById(id) {
+  const url = `${baseUrl}/${id}`;
+  return axios
+    .get(url, getRequestOptions())
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error(`Error fetching Experiences with ID ${id}:`, error);
+      throw error;
+    });
+}
+
+export function createExperiences(experienceData) {
+  return axios
+    .post(baseUrl, experienceData, {
       headers: {
-        ...(user && user.token
-          ? { Authorization: `Bearer ${user.token}` }
-          : {}),
-        ...(user && user.id ? { "X-User-ID": user.id } : {}),
+        ...getRequestOptions().headers,
+        "Content-Type": "application/json",
       },
-    };
-  }
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error creating Experiences:", error);
+      throw error;
+    });
+}
 
-  getAllExperiences() {
-    console.log("Fetching all Experiences...");
-    return axios
-      .get(this.baseUrl, this.getRequestOptions())
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error("Error fetching Experiences:", error);
-        throw error;
-      });
-  }
+export function updateExperiences(id, updatedExperiences) {
+  const url = `${baseUrl}/${id}`;
+  return axios
+    .put(url, updatedExperiences, getRequestOptions())
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error(`Error updating Experiences with ID ${id}:`, error);
+      throw error;
+    });
+}
 
+export function deleteExperiences(id) {
+  const url = `${baseUrl}/${id}`;
+  return axios
+    .delete(url, getRequestOptions())
+    .then((response) => {
+      if (response.status === 204) {
+        console.log(`Experiencia con ID ${id} eliminada exitosamente.`);
+        return true;
+      } else {
+        throw new Error(`Respuesta inesperada: ${response.status}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Error deleting Experiences with ID ${id}:`, error);
+      throw error;
+    });
+}
 
-  searchExperiences(searchTerm) {
-    return axios
-      .get(`${this.baseUrl}/search`, {
-        ...this.getRequestOptions(),
-        params: { title: searchTerm.trim()},
-      })
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error("Error searching Experiences:", error);
-        throw error;
-      });
-  }
+export function getCategories() {
+  console.log("Fetching all Categories from:", categoriesUrl);
+  return axios
+    .get(categoriesUrl, getRequestOptions())
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error fetching categories:", error);
+      throw error;
+    });
+}
 
-  getExperiencesById(id) {
-    const url = `${this.baseUrl}/${id}`;
-    return axios
-      .get(url, this.getRequestOptions())
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error(`Error fetching Experiences with ID ${id}:`, error);
-        throw error;
-      });
-  }
-
-  createExperiences(experienceData) {
-    return axios
-      .post(this.baseUrl, experienceData, {
-        headers: {
-          ...this.getRequestOptions().headers,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error("Error creating Experiences:", error);
-        throw error;
-      });
-  }
-
-  updateExperiences(id, updatedExperiences) {
-    const url = `${this.baseUrl}/${id}`;
-    return axios
-      .put(url, updatedExperiences, this.getRequestOptions())
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error(`Error updating Experiences with ID ${id}:`, error);
-        throw error;
-      });
-  }
-
-  deleteExperiences(id) {
-    const url = `${this.baseUrl}/${id}`;
-    return axios
-      .delete(url,this.getRequestOptions())
-      .then((response) => {
-        if (response.status === 204) {
-          console.log(`Experiencia con ID ${id} eliminada exitosamente.`);
-          return true; 
-        } else {
-          throw new Error(`Respuesta inesperada: ${response.status}`);
-        }
-      })
-      .catch((error) => {
-        console.error(`Error deleting Experiences with ID ${id}:`, error);
-        throw error;
-      });
-  }
-
-getCategories() {
-    console.log("Fetching all Categories from:", this.categoriesUrl);
-    
-    return axios
-      .get(this.categoriesUrl, this.getRequestOptions())
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-        throw error;
-      });
-  }
-
-  getCountries() {
-    console.log("Fetching all Countries from:", this.countriesUrl);
-    return axios
-      .get(this.countriesUrl, this.getRequestOptions())
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error("Error fetching countries:", error);
-        throw error;
-      });
-  }
-
+export function getCountries() {
+  console.log("Fetching all Countries from:", countriesUrl);
+  return axios
+    .get(countriesUrl, getRequestOptions())
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error fetching countries:", error);
+      throw error;
+    });
 }

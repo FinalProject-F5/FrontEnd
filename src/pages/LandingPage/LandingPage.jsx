@@ -4,11 +4,9 @@ import Footer from "../../components/Footer/Footer";
 import Cards from "../../components/Cards/Cards";
 import Buttons from "../../components/Buttons/Buttons";
 import React, { useEffect, useState } from "react";
-import { Experiences } from "../../service/apiService";
+import { getAllExperiences } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
-const experiencesService = new Experiences();
 
 export default function LandingPage() {
   const { user, loading } = useAuth();
@@ -31,8 +29,7 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const data = await experiencesService.getAllExperiences();
-        
+        const data = await getAllExperiences();
         const sortedExperiences = data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
         );
