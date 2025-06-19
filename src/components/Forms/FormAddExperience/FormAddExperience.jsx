@@ -7,6 +7,7 @@ import ExperienceAdditionalInfo from "./ExperienceAdditionalInfo";
 import ExperiencePlanningContact from "./ExperiencePlanningContact";
 import ExperienceSuccessModal from "./ExperienceSuccessModal";
 import ExperienceErrorModal from "./ExperienceErrorModal";
+import ExperienceHostContact from "./ExperienceHostContact";
 import { useAddExperienceForm } from "../../../hooks/useAddExperienceForm";
 import { buildExperiencePayload } from "./experiencePayloadBuilder";
 
@@ -53,6 +54,10 @@ export default function FormAddExperience() {
   };
 
   const validateStep3 = (data) => {
+    return true;
+  };
+
+  const validateStep4 = (data) => {
     let valid = true;
     if (!data.host) valid = false;
     if (!data.mobile) valid = false;
@@ -73,7 +78,8 @@ export default function FormAddExperience() {
     }
     if (currentStep === 2) isValid = validateStep2(data);
     if (currentStep === 3) isValid = validateStep3(data);
-    if (currentStep > 3) isValid = true;
+    if (currentStep === 4) isValid = validateStep4(data);
+    if (currentStep > 4) isValid = true;
     if (isValid) setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
 
@@ -114,7 +120,7 @@ export default function FormAddExperience() {
             <li className={`step ${currentStep >= 1 ? "step-primary" : ""}`}>Experience Details</li>
             <li className={`step ${currentStep >= 2 ? "step-primary" : ""}`}>Additional Information</li>
             <li className={`step ${currentStep >= 3 ? "step-primary" : ""}`}>Planning & Scheduling</li>
-            <li className={`step ${currentStep >= 4 ? "step-primary" : ""}`}>Confirmation</li>
+            <li className={`step ${currentStep >= 4 ? "step-primary" : ""}`}>Host Contact</li>
           </ul>
 
           <form onSubmit={formHandleSubmit(currentStep === totalSteps ? onSubmit : onNext)} className="w-full">
@@ -167,7 +173,8 @@ export default function FormAddExperience() {
 
             {currentStep === 4 && (
               <div className="flex flex-col items-center">
-                <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">Confirmation</h3>
+                <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">Host Contact</h3>
+                <ExperienceHostContact register={register} errors={errors} />
                 <p className="mb-4">Review your information and click <b>Add Experience</b> to submit.</p>
               </div>
             )}
