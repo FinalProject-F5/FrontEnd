@@ -27,7 +27,11 @@ export function useAddExperienceForm(onSuccess) {
 
   const handleSubmit = async (data, reset) => {
     try {
-      await createExperiences(data);
+      const payload = {
+        ...data,
+        images: Array.isArray(data.images) ? data.images : []
+      };
+      await createExperiences(payload);
       setShowSuccessModal(true);
       reset();
       if (onSuccess) onSuccess();
