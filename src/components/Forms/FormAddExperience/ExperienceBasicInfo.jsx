@@ -10,6 +10,8 @@ export default function ExperienceBasicInfo({
   loadingCategories,
   categoriesError,
 }) {
+  const sortedCountries = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <>
 
@@ -49,7 +51,7 @@ export default function ExperienceBasicInfo({
           ) : countriesError ? (
             <option className="text-error">{countriesError}</option>
           ) : (
-            countries.map((country) => (
+            sortedCountries.map((country) => (
               <option key={country.code} value={country.name}>
                 {country.name}
               </option>
