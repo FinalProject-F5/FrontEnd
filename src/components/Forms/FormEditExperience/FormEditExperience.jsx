@@ -134,9 +134,21 @@ export default function FormEditExperience() {
     fetchExperienceAndAuxData();
   }, [id, navigate, setValue, loading]);
 
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
   const onSubmit = async (formData) => {
     try {
-      if (!formData.title || !formData.location || !formData.category || !formData.description || !formData.duration || formData.price === null || formData.price === undefined || formData.price < 0 || !formData.host || !formData.mobile) {
+      if (!formData.title || !formData.location || !formData.category || !formData.description || !formData.duration || formData.price === null || formData.price === undefined || formData.price < 0 || !formData.host || !formData.mobile || !formData.email) {
         setErrorMessage("Please fill in all required fields correctly.");
         setShowErrorModal(true);
         return;
@@ -158,8 +170,20 @@ export default function FormEditExperience() {
         itinerary: formData.itinerary || "",
         observation: formData.observation || "",
         addInfo: formData.addInfo || "",
-        images: undefined
       };
+
+      if (formData.images && formData.images.length > 0) {
+        payload.images = await Promise.all(
+          Array.from(formData.images).map(async (file) => ({
+            base64: await convertFileToBase64(file),
+            name: file.name,
+            type: file.type,
+            size: file.size,
+          }))
+        );
+      } else {
+        payload.images = [];
+      }
 
       await updateExperiences(id, payload);
       setShowSuccessModal(true);
