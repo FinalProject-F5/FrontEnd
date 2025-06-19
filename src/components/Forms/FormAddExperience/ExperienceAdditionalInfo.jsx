@@ -3,7 +3,6 @@ import React from "react";
 export default function ExperienceAdditionalInfo({ register, errors }) {
   return (
     <>
-      {/* Descripción */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">
@@ -25,7 +24,6 @@ export default function ExperienceAdditionalInfo({ register, errors }) {
         )}
       </div>
 
-      {/* Duración */}
       <div className="form-control w-full max-w-md mb-4 text-left">
         <label className="label">
           <span className="label-text font-semibold">
@@ -33,10 +31,12 @@ export default function ExperienceAdditionalInfo({ register, errors }) {
           </span>
         </label>
         <input
-          type="text"
+          type="number"
           placeholder="e.g., 3"
           className="input input-bordered w-full"
-          {...register("duration", { required: "Duration is required." })}
+          min="0"
+          step="1"
+          {...register("duration", { required: "Duration is required.", valueAsNumber: true, min: { value: 0, message: "Duration must be 0 or greater." } })}
         />
         {errors.duration && (
           <span className="text-error text-sm mt-1">
@@ -45,7 +45,6 @@ export default function ExperienceAdditionalInfo({ register, errors }) {
         )}
       </div>
 
-      {/* Precio */}
       <div className="form-control w-full max-w-md mb-6 text-left">
         <label className="label">
           <span className="label-text font-semibold">

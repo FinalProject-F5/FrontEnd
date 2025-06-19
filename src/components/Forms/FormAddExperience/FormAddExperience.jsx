@@ -12,7 +12,6 @@ import { useAddExperienceForm } from "../../../hooks/useAddExperienceForm";
 export default function FormAddExperience() {
   const navigate = useNavigate();
 
-  // Renombrar para evitar conflicto
   const { register, handleSubmit: formHandleSubmit, formState: { errors }, reset } = useForm();
   const {
     countries, categories,
@@ -26,7 +25,6 @@ export default function FormAddExperience() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
-  // Validaciones por paso
   const validateStep1 = (data) => {
     let valid = true;
     if (!data.title) valid = false;
@@ -77,7 +75,6 @@ export default function FormAddExperience() {
     navigate("/");
   };
 
-  // Submit final
   const onSubmit = async (data) => {
     try {
       const payload = {
@@ -166,22 +163,29 @@ export default function FormAddExperience() {
               <div className="flex flex-col items-center">
                 <h3 className="text-2xl font-semibold text-secondary mb-5 w-full text-center">Confirmation</h3>
                 <p className="mb-4">Review your information and click <b>Add Experience</b> to submit.</p>
-                {/* Aquí podrías mostrar un resumen de los datos si lo deseas */}
               </div>
             )}
 
-            <div className="flex gap-4 mt-6">
+            <div className="form-control w-full max-w-md mb-6 flex gap-4 mt-6 mx-auto">
               {currentStep > 1 && (
-                <button type="button" onClick={onPrevious} className="btn btn-secondary">
+                <button
+                  type="button"
+                  onClick={onPrevious}
+                  className="btn btn-secondary flex-1"
+                >
                   Back
                 </button>
               )}
               {currentStep < totalSteps ? (
-                <button type="button" onClick={formHandleSubmit(onNext)} className="btn btn-primary">
+                <button
+                  type="button"
+                  onClick={formHandleSubmit(onNext)}
+                  className="btn btn-primary flex-1"
+                >
                   Next
                 </button>
               ) : (
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary flex-1">
                   Add Experience
                 </button>
               )}
