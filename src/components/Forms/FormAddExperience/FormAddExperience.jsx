@@ -7,111 +7,51 @@ import ExperienceAdditionalInfo from "./ExperienceAdditionalInfo";
 import ExperiencePlanningContact from "./ExperiencePlanningContact";
 import ExperienceFormActions from "./ExperienceFormActions";
 import ExperienceSuccessModal from "./ExperienceSuccessModal";
+import ExperienceErrorModal from "./ExperienceErrorModal";
+import { useAddExperienceForm } from "../../../hooks/useAddExperienceForm";
 
 export default function FormAddExperience() {
   const navigate = useNavigate();
 
-  const [categories, setCategories] = useState([]);
-  const [loadingCategories, setLoadingCategories] = useState(true);
-  const [categoriesError, setCategoriesError] = useState(null);
-
-  const [countries, setCountries] = useState([]);
-  const [loadingCountries, setLoadingCountries] = useState(true);
-  const [countriesError, setCountriesError] = useState(null);
-
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    countries, categories,
+    loadingCountries, loadingCategories,
+    countriesError, categoriesError,
+    showSuccessModal, setShowSuccessModal,
+    showErrorModal, setShowErrorModal,
+    errorMessage, setErrorMessage,
+    handleSubmit: onSubmit
+  } = useAddExperienceForm();
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setError,
-    clearErrors,
-    formState: { errors },
-    getValues,
-    reset,
-    isSubmitting,
-  } = useForm({
-    defaultValues: {
-      title: "",
-      location: "",
-      category: "",
-      description: "",
-      duration: "",
-      price: "",
-      itinerary: "",
-      observation: "",
-      host: "",
-      email: "",
-      mobile: "",
-      addInfo: "",
-    },
-  });
-
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        setLoadingCategories(true);
-        setCategoriesError(null);
-        const categoriesData = await getCategories();
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        setCategoriesError("Failed to load categories. Please try again later.");
-      } finally {
-        setLoadingCategories(false);
-      }
-
-      try {
-        setLoadingCountries(true);
-        setCountriesError(null);
-        const countriesData = await getCountries();
-        
-        const sortedCountries = [...countriesData].sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
-        setCountries(sortedCountries);
-
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-        setCountriesError("Failed to load countries. Please try again later.");
-      } finally {
-        setLoadingCountries(false);
-      }
-    };
-
-    fetchInitialData();
-  }, []); 
-
   const validateStep1 = (data) => {
     let valid = true;
-    clearErrors();
     if (!data.title) {
-      setError("title", { type: "manual", message: "Experience Name is required." });
+      errors.title = { type: "manual", message: "Experience Name is required." };
       valid = false;
     } else if (data.title.length > 100) {
-      setError("title", { type: "manual", message: "Title must be at most 100 characters." });
+      errors.title = { type: "manual", message: "Title must be at most 100 characters." };
       valid = false;
     }
     if (!data.location) {
-      setError("location", { type: "manual", message: "Country is required." });
+      errors.location = { type: "manual", message: "Country is required." };
       valid = false;
     }
     if (!data.category) {
-      setError("category", { type: "manual", message: "Category is required." });
+      errors.category = { type: "manual", message: "Category is required." };
       valid = false;
     }
     const files = data.images;
     if (!files || files.length < 3) {
-      setError("images", { type: "manual", message: "At least 3 images are required." });
+      errors.images = { type: "manual", message: "At least 3 images are required." };
       valid = false;
     } else {
       for (let i = 0; i < files.length; i++) {
         if (files[i].type !== "image/png" && files[i].type !== "image/jpeg") {
-          setError("images", { type: "manual", message: "Only PNG or JPG image formats are allowed." });
+          errors.images = { type: "manual", message: "Only PNG or JPG image formats are allowed." };
           valid = false;
           break;
         }
@@ -122,23 +62,22 @@ export default function FormAddExperience() {
 
   const validateStep2 = (data) => {
     let valid = true;
-    clearErrors();
     if (!data.description) {
-      setError("description", { type: "manual", message: "Description is required." });
+      errors.description = { type: "manual", message: "Description is required." };
       valid = false;
     } else if (data.description.length < 100) {
-      setError("description", { type: "manual", message: "Description must be at least 100 characters long." });
+      errors.description = { type: "manual", message: "Description must be at least 100 characters long." };
       valid = false;
     }
     if (!data.duration) {
-      setError("duration", { type: "manual", message: "Duration is required." });
+      errors.duration = { type: "manual", message: "Duration is required." };
       valid = false;
     }
     if (!data.price && data.price !== 0) { 
-      setError("price", { type: "manual", message: "Price is required." });
+      errors.price = { type: "manual", message: "Price is required." };
       valid = false;
     } else if (Number(data.price) < 0) {
-      setError("price", { type: "manual", message: "Price must be 0 or greater." });
+      errors.price = { type: "manual", message: "Price must be 0 or greater." };
       valid = false;
     }
     return valid;
@@ -147,27 +86,26 @@ export default function FormAddExperience() {
 
   const validateStep4 = (data) => {
     let valid = true;
-    clearErrors();
     if (!data.host) {
-      setError("host", { type: "manual", message: "Host Name is required." });
+      errors.host = { type: "manual", message: "Host Name is required." };
       valid = false;
     } else if (data.host.length > 100) {
-      setError("host", { type: "manual", message: "Host name must be at most 100 characters." });
+      errors.host = { type: "manual", message: "Host name must be at most 100 characters." };
       valid = false;
     }
     if (!data.mobile) {
-      setError("mobile", { type: "manual", message: "Phone is required." });
+      errors.mobile = { type: "manual", message: "Phone is required." };
       valid = false;
     } else if (data.mobile.length > 20) {
-      setError("mobile", { type: "manual", message: "Phone must be at most 20 characters." });
+      errors.mobile = { type: "manual", message: "Phone must be at most 20 characters." };
       valid = false;
     }
    
     if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-      setError("email", { type: "manual", message: "Invalid email format." });
+      errors.email = { type: "manual", message: "Invalid email format." };
       valid = false;
     } else if (data.email && data.email.length > 100) {
-      setError("email", { type: "manual", message: "Email must be at most 100 characters." });
+      errors.email = { type: "manual", message: "Email must be at most 100 characters." };
       valid = false;
     }
     return valid;
@@ -202,58 +140,12 @@ export default function FormAddExperience() {
     });
   };
 
-  const onSubmit = async (data) => {
-    if (!validateStep4(data)) {
-       
-        setCurrentStep(4);
-        return;
-    }
-
-    const payload = {
-      ...data,
-      price: data.price === "" ? 0 : Number(data.price),  
-      addInfo: data.addInfo || "", 
-     
-      itinerary: data.itinerary || "",
-      observation: data.observation || ""
-    };
-
-    try {
-      const filesTemp = data.images;
-      payload.images = [];
-
-      for (const file of filesTemp) {
-        const base64 = await convertFileToBase64(file);
-        const imageObject = {
-          base64: base64,
-          name: file.name,
-          type: file.type,
-          size: file.size
-        };
-        payload.images.push(imageObject);
-      }
-
-      await createExperiences(payload);
-      setShowSuccessModal(true);
-      reset();
-      setCurrentStep(1);
-    } catch (error) {
-      console.error("Error creating experience:", error);  
-      if (error.response && error.response.status === 400 && error.response.data.message) {
-        alert("Error: " + error.response.data.message);
-      } else {
-        alert("Error: Could not create experience. Please try again.");
-      }
-    }
-  };
-
-  const images = watch("images");  
+  const images = register("images");  
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
     navigate("/");
   };
-
 
   return (
     <div
@@ -284,7 +176,7 @@ export default function FormAddExperience() {
             </li>
           </ul>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <form onSubmit={handleSubmit((data) => onSubmit(data, reset))} className="w-full">
             {currentStep === 1 && (
               <div className="flex flex-col items-center">
                 <h3 className="text-3xl font-bold text-secondary mb-5 w-full text-center">
@@ -405,25 +297,13 @@ export default function FormAddExperience() {
               </div>
             )}
 
-            <ExperienceFormActions isSubmitting={isSubmitting} />
+            <ExperienceFormActions isSubmitting={false} />
           </form>
         </div>
       </div>
 
-      <dialog id="success_modal" className={`modal ${showSuccessModal ? 'modal-open' : ''}`}>
-        <div className="modal-box bg-warning text-black text-center p-8 rounded-lg shadow-lg">
-          <h3 className="font-bold text-2xl">Experience Created Successfully!</h3>
-          <p className="py-4 text-lg">Your experience has been created successfully.</p>
-          <div className="modal-action">
-            <button
-              className="btn btn-success text-white px-6 py-2 rounded-lg"
-              onClick={handleCloseSuccessModal}
-            >
-              Go to Homepage
-            </button>
-          </div>
-        </div>
-      </dialog>
+      <ExperienceSuccessModal show={showSuccessModal} onClose={handleCloseSuccessModal} />
+      <ExperienceErrorModal show={showErrorModal} errorMessage={errorMessage} onClose={() => setShowErrorModal(false)} />
     </div>
   );
 }
