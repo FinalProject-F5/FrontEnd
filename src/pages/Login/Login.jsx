@@ -1,7 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../service/authService";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import Header from "../../components/Header/Header";
