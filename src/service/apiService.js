@@ -50,11 +50,12 @@ export function getExperiencesById(id) {
 }
 
 export function createExperiences(experienceData) {
+  const isFormData = experienceData instanceof FormData;
   return axios
     .post(baseUrl, experienceData, {
       headers: {
         ...getRequestOptions().headers,
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
       },
     })
     .then((response) => response.data)
