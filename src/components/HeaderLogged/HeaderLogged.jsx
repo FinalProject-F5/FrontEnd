@@ -25,7 +25,7 @@ export default function HeaderLogged() {
         setExperiences([]);
         setMessage(
           currentSearchTerm.trim().length > 0
-            ? "Type at least 3 characters"
+            ? "Type at least 2 characters"
             : ""
         );
         setLoading(false);
@@ -152,7 +152,7 @@ export default function HeaderLogged() {
         <div className="flex items-center mr-4">
           <div className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img alt="User Avatar" src="src/assets/avatar_placeholder.png" />
+              <img alt="User Avatar" src="https://cdn-icons-png.flaticon.com/512/147/147137.png"  />
             </div>
           </div>
         </div>

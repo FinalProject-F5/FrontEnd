@@ -16,14 +16,14 @@ export default function LandingPage() {
   const cardsPerPage = 6;
 
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (user) {
-      navigate("/homepage");
-    }
-  }, [user, loading, navigate]);
+  // useEffect(() => {
+  //   if (loading) {
+  //     return;
+  //   }
+  //   if (user) {
+  //     navigate("/homepage");
+  //   }
+  // }, [user, loading, navigate]);
 
   
   useEffect(() => {

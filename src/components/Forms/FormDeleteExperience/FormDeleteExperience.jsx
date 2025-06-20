@@ -11,7 +11,7 @@ export default function FormDeleteExperience({id_experience}) {
         const result = await deleteExperiences(id_experience)
         if (result) {
             setShowDeleteModal(false);
-            navigate("/");
+            navigate("/HomePage");
         } else {
             alert("Failed to delete experience");
         }
