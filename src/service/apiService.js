@@ -20,7 +20,7 @@ export function getAllExperiences() {
     .get(baseUrl, getRequestOptions())
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching Experiences:", error);
+      // console.error("Error fetching Experiences:", error);
       throw error;
     });
 }
@@ -44,7 +44,7 @@ export function getExperiencesById(id) {
     .get(url, getRequestOptions())
     .then((response) => response.data)
     .catch((error) => {
-      console.error(`Error fetching Experiences with ID ${id}:`, error);
+      // console.error(`Error fetching Experiences with ID ${id}:`, error);
       throw error;
     });
 }
@@ -60,7 +60,7 @@ export function createExperiences(experienceData) {
     })
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error creating Experiences:", error);
+      // console.error("Error creating Experiences:", error);
       throw error;
     });
 }
@@ -71,7 +71,7 @@ export function updateExperiences(id, updatedExperiences) {
     .put(url, updatedExperiences, getRequestOptions())
     .then((response) => response.data)
     .catch((error) => {
-      console.error(`Error updating Experiences with ID ${id}:`, error);
+      // console.error(`Error updating Experiences with ID ${id}:`, error);
       throw error;
     });
 }
@@ -89,7 +89,7 @@ export function deleteExperiences(id) {
       }
     })
     .catch((error) => {
-      console.error(`Error deleting Experiences with ID ${id}:`, error);
+      // console.error(`Error deleting Experiences with ID ${id}:`, error);
       throw error;
     });
 }
@@ -99,7 +99,7 @@ export function getCategories() {
     .get(categoriesUrl, getRequestOptions())
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching categories:", error);
+      // console.error("Error fetching categories:", error);
       throw error;
     });
 }
@@ -109,7 +109,7 @@ export function getCountries() {
     .get(countriesUrl, getRequestOptions())
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching countries:", error);
+      // console.error("Error fetching countries:", error);
       throw error;
     });
 }

@@ -21,7 +21,7 @@ describe("Header integration", () => {
     const menuButton = screen.getByRole("button");
     fireEvent.click(menuButton);
 
-    // Ahora los enlaces "Login" y "Register" deben estar visibles en el menú desplegable
+    
     expect(screen.getAllByText(/Login/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Register/i).length).toBeGreaterThanOrEqual(1);
   });
