@@ -14,17 +14,17 @@ export default function Login() {
   } = useForm();
 
   const [error, setError] = useState("");
-  const navigate   = useNavigate();
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const onSubmit = async (data) => {
     try {
       await login(data);
-      navigate('/homepage');
+      navigate("/homepage");
     } catch (error) {
       setError(
-        error.response?.data?.message || 
-        "Login failed. Please check your credentials."
+        error.response?.data?.message ||
+          "Login failed. Please check your credentials."
       );
     }
   };
@@ -39,9 +39,7 @@ export default function Login() {
             "url(https://media.istockphoto.com/id/1705694439/es/foto/mujeres-vietnamitas-vendiendo-frutas-en-el-mercado-flotante-delta-del-r%C3%ADo-mekong-vietnam.jpg?s=2048x2048&w=is&k=20&c=mQQPY7t7R8Jhdjoj8wwgZByXY73kYI0yglYieGrJWJ4=",
         }}
       >
-       
         <div className="card w-96 bg-base-100 shadow-xl p-4">
-          
           <div className="card-body items-center text-left">
             <h2 className="card-title text-4xl font-bold text-primary mb-6">
               Login
@@ -101,15 +99,16 @@ export default function Login() {
                     required: "Password is required",
                     minLength: {
                       value: 8,
-                      message: "Password must be at least 8 characters long",
+                      message: "Password isn't valid",
                     },
                     maxLength: {
                       value: 120,
-                      message: "Password must be at most 120 characters long",
+                      message: "Password isn't valid",
                     },
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&^()_+=-]).{8,}$/,
-                      message: "Password must include uppercase, lowercase, number, and special character",
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&^()_+=-]).{8,}$/,
+                      message: "Password isn't valid",
                     },
                   })}
                 />
@@ -136,7 +135,6 @@ export default function Login() {
                   Sign up here
                 </a>
               </p>
-             
             </div>
           </div>
         </div>
