@@ -26,7 +26,6 @@ export default function HomePage() {
         const sortedCountries = countriesResponse.map((country) => country.name).sort();
         setCountriesForFilter(sortedCountries);
       } catch (error) {
-        console.error("Error fetching data:", error);
       }
     };
     fetchAllData();

@@ -32,7 +32,6 @@ export function searchExperiences(searchTerm) {
     })
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error searching Experiences:", error);
       throw error;
     });
 }

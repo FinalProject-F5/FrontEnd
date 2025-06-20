@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       }
       return null;
     } catch (error) {
-      console.error("Error during login:", error);
       throw error;
     }
   }
