@@ -60,12 +60,18 @@ export default function ExperienceDetails() {
           {experience.imageUrls && experience.imageUrls.length > 0 && (
             <div className="carousel w-full mb-8 relative [filter:sepia(40%)]">
               {experience.imageUrls.map((url, idx) => (
-                <div key={idx} id={`slide${idx + 1}`} className="carousel-item w-full">
+                <div key={idx} id={`slide${idx + 1}`} className="carousel-item relative w-full">
                   <img
                     src={url}
                     className="w-full object-cover h-auto"
                     alt={`Experience Image ${idx + 1}`}
                   />
+                  <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                    <a href={`#slide${idx === 0 ? experience.imageUrls.length : idx}`} 
+                       className="btn btn-circle btn-ghost bg-base-200 bg-opacity-50 hover:bg-opacity-75">❮</a>
+                    <a href={`#slide${idx === experience.imageUrls.length - 1 ? 1 : idx + 2}`} 
+                       className="btn btn-circle btn-ghost bg-base-200 bg-opacity-50 hover:bg-opacity-75">❯</a>
+                  </div>
                 </div>
               ))}
             </div>
