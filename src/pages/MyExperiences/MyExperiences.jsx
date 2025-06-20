@@ -26,7 +26,6 @@ export default function MyExperiences() {
         const mine = allExperiences.filter((exp) => exp.userId === user?.id);
         setMyExperiences(mine);
       } catch (error) {
-        // console.error("Error fetching experiences:", error);
       }
     };
     if (user) {

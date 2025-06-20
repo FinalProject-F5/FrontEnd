@@ -60,7 +60,6 @@ export default function HeaderLogged() {
           setError(`Error: ${err.response.data.message}`);
         } else {
           setError("An unexpected error occurred while searching experiences.");
-          // console.error("Fetch error:", err);
         }
         setExperiences([]);
       } finally {

@@ -15,16 +15,6 @@ export default function LandingPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
 
-
-  // useEffect(() => {
-  //   if (loading) {
-  //     return;
-  //   }
-  //   if (user) {
-  //     navigate("/homepage");
-  //   }
-  // }, [user, loading, navigate]);
-
   
   useEffect(() => {
     const fetchExperiences = async () => {
@@ -35,7 +25,6 @@ export default function LandingPage() {
         );
         setExperiences(sortedExperiences.slice(0, 6));
       } catch (error) {
-        // console.error("Error fetching experiences:", error);
       }
     };
     fetchExperiences();
