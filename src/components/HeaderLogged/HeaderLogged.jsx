@@ -60,7 +60,7 @@ export default function HeaderLogged() {
           setError(`Error: ${err.response.data.message}`);
         } else {
           setError("An unexpected error occurred while searching experiences.");
-          console.error("Fetch error:", err);
+          // console.error("Fetch error:", err);
         }
         setExperiences([]);
       } finally {
@@ -210,9 +210,9 @@ export default function HeaderLogged() {
             viewBox="0 0 24 24"
           >
             <g
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              stroke-width="2.5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
               fill="none"
               stroke="currentColor"
             >

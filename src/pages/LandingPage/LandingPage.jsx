@@ -35,7 +35,7 @@ export default function LandingPage() {
         );
         setExperiences(sortedExperiences.slice(0, 6));
       } catch (error) {
-        console.error("Error fetching experiences:", error);
+        // console.error("Error fetching experiences:", error);
       }
     };
     fetchExperiences();

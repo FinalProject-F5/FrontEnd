@@ -2,6 +2,9 @@
 
 Travel4Real is a web application dedicated to connecting travelers with authentic local experiences. Our platform enables locals to share and manage their unique cultural experiences while allowing travelers to discover genuine, off-the-beaten-path adventures.
 
+![Project Overview](src/assets/overview_readme.png "A general overview of the project's interface")
+
+
 ## 🌟 Features
 
 - **User Authentication**

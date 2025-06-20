@@ -52,7 +52,7 @@ export default function FormEditExperience() {
   useEffect(() => {
     const fetchExperienceAndAuxData = async () => {
       const user = getCurrentUser();
-      console.log("Logged-in user:", user);
+     
 
       if (!user) {
         navigate("/login");
@@ -61,10 +61,9 @@ export default function FormEditExperience() {
 
       try {
         const experienceData = await getExperiencesById(id);
-        console.log("Experience data received from API:", experienceData);
+        
 
-        console.log("Experience Creator ID (API):", experienceData.userId);
-        console.log("Logged-in User ID (localStorage):", user.id);
+       
 
         if (!experienceData.userId || !user.id || experienceData.userId !== user.id) {
           setUnauthorized(true);
@@ -91,7 +90,7 @@ export default function FormEditExperience() {
           const fetchedCategories = await getCategories();
           setCategories(fetchedCategories);
         } catch (error) {
-          console.error("Error fetching categories:", error);
+          // console.error("Error fetching categories:", error);
           setCategoriesError("Failed to load categories. Please try again.");
         } finally {
           setLoadingCategories(false);
@@ -104,14 +103,14 @@ export default function FormEditExperience() {
           const sortedCountries = [...fetchedCountries].sort((a, b) => a.name.localeCompare(b.name));
           setCountries(sortedCountries);
         } catch (error) {
-          console.error("Error fetching countries:", error);
+          // console.error("Error fetching countries:", error);
           setCountriesError("Failed to load countries. Please try again.");
         } finally {
           setLoadingCountries(false);
         }
 
       } catch (err) {
-        console.error("Error loading experience or auxiliary data:", err);
+        // console.error("Error loading experience or auxiliary data:", err);
         setLoading(false);
 
         if (err.response) {
@@ -188,7 +187,7 @@ export default function FormEditExperience() {
       await updateExperiences(id, payload);
       setShowSuccessModal(true);
     } catch (error) {
-      console.error("Error updating experience:", error);
+      // console.error("Error updating experience:", error);
       if (error.response && error.response.data && error.response.data.message) {
         setErrorMessage("Error: " + error.response.data.message);
       } else {
