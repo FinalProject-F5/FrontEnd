@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import FormDeleteExperience from "../../components/Forms/FormDeleteExperience/FormDeleteExperience";
 import Header from "../../components/Header/Header";
 import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
+import Footer from "../../components/Footer/Footer";
 
 export default function ExperienceDetails() {
   const { id } = useParams();
@@ -148,6 +149,7 @@ export default function ExperienceDetails() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }
