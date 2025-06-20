@@ -87,7 +87,7 @@ export default function FormAddExperience() {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    navigate("/");
+    navigate("/HomePage");
   };
 
   const onSubmit = async (data) => {

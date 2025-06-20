@@ -199,7 +199,7 @@ export default function FormEditExperience() {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    navigate("/");
+    navigate("/HomePage");
   };
 
   const handleCloseErrorModal = () => {
