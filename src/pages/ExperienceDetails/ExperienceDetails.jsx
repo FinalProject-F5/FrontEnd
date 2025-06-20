@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getExperiencesById } from "../../service/apiService";
 import { useAuth } from "../../context/AuthContext";
 import FormDeleteExperience from "../../components/Forms/FormDeleteExperience/FormDeleteExperience";
+import Header from "../../components/Header/Header";
+import HeaderLogged from "../../components/HeaderLogged/HeaderLogged";
 
 export default function ExperienceDetails() {
   const { id } = useParams();
@@ -45,6 +47,7 @@ export default function ExperienceDetails() {
 
   return (
     <>
+     {user ? <HeaderLogged /> : <Header />} 
       <div className="card bg-base-100 shadow-xl rounded-lg ">
         <div className="card-body p-0">
           <div className="p-6 md:p-8">

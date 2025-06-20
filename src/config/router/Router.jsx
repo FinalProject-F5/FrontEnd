@@ -19,6 +19,7 @@ export default function Router() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/ExperienceDetails/:id"  element= {<ExperienceDetails />} />
           <Route element={<ProtectedRoute />}>
             <Route
               path="/HomePage"
@@ -52,14 +53,14 @@ export default function Router() {
                 </PrivateLayout>
               }
             />
-            <Route
+            {/* <Route
               path="/ExperienceDetails/:id"
               element={
                 <PrivateLayout>
                   <ExperienceDetails />
                 </PrivateLayout>
               }
-            />
+            /> */}
           </Route>
         </Routes>
       </AuthProvider>
