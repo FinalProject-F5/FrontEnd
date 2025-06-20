@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, test, expect, vi } from "vitest";
-import { login, register, logout } from "../src/service/AuthService";
+import { login, register, logout } from "../../src/service/AuthService";
 import axios from "axios";
 
 vi.mock("axios");

@@ -9,7 +9,7 @@ import {
   deleteExperiences,
   getCategories,
   getCountries,
-} from "../src/service/apiService";
+} from "../../src/service/apiService";
 
 vi.mock("axios");
 
