@@ -52,7 +52,7 @@ export default function FormEditExperience() {
   useEffect(() => {
     const fetchExperienceAndAuxData = async () => {
       const user = getCurrentUser();
-      console.log("Logged-in user:", user);
+     
 
       if (!user) {
         navigate("/login");
@@ -61,10 +61,9 @@ export default function FormEditExperience() {
 
       try {
         const experienceData = await getExperiencesById(id);
-        console.log("Experience data received from API:", experienceData);
+        
 
-        console.log("Experience Creator ID (API):", experienceData.userId);
-        console.log("Logged-in User ID (localStorage):", user.id);
+       
 
         if (!experienceData.userId || !user.id || experienceData.userId !== user.id) {
           setUnauthorized(true);

@@ -15,7 +15,7 @@ function getRequestOptions() {
 }
 
 export function getAllExperiences() {
-  console.log("Fetching all Experiences...");
+  
   return axios
     .get(baseUrl, getRequestOptions())
     .then((response) => response.data)
@@ -82,7 +82,7 @@ export function deleteExperiences(id) {
     .delete(url, getRequestOptions())
     .then((response) => {
       if (response.status === 204) {
-        console.log(`Experiencia con ID ${id} eliminada exitosamente.`);
+        
         return true;
       } else {
         throw new Error(`Respuesta inesperada: ${response.status}`);
@@ -95,7 +95,6 @@ export function deleteExperiences(id) {
 }
 
 export function getCategories() {
-  console.log("Fetching all Categories from:", categoriesUrl);
   return axios
     .get(categoriesUrl, getRequestOptions())
     .then((response) => response.data)
@@ -106,7 +105,6 @@ export function getCategories() {
 }
 
 export function getCountries() {
-  console.log("Fetching all Countries from:", countriesUrl);
   return axios
     .get(countriesUrl, getRequestOptions())
     .then((response) => response.data)
